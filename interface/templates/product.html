@@ -1,0 +1,726 @@
+{% load static %}
+{# 加载静态文件的相对路径 #}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+    <title>产品线 | 测试平台</title>
+
+    <link href="{% static 'xadmin/vendor/bootstrap/css/bootstrap.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    {# href="{% 静态文件夹名称 '要引用的文件路径与名称' %}" #}
+    <link rel="stylesheet" type="text/css" id="site-theme"
+          href="{% static 'xadmin/css/themes/bootstrap-xadmin.css' %}"/>
+    <link href="{% static 'xadmin/vendor/font-awesome/css/font-awesome.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.main.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.plugins.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.responsive.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.widget.editable.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.form.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/vendor/bootstrap-datepicker/css/datepicker.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.plugins.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+
+    <script type="text/javascript"
+            src="{% static 'xadmin/vendor/jquery/jquery.js' %}"></script>
+
+    <style type="text/css">
+        .btn-toolbar {
+            margin-top: 0;
+        }
+
+        #content-block.full-content {
+            margin-left: 0;
+        }
+    </style>
+
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body class="change-list">
+
+<div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">测试平台</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <strong>欢迎你～{{ user }}</strong>
+                </a>
+            </li>
+            <li>
+                <a href="/logout/">
+                    <i class="show-sm fa fa-sign-out"></i>
+                    <span class="hide-sm">退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="body-content" class="clearfix row">
+    <div id="left-side" class="col-sm-1 col-md-2">
+        <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-1">
+                            <i class="fa-fw fa fa-money"></i>
+                            接口管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-1" class="list-group panel-collapse collapse in">
+                    <a href="/product/" class="list-group-item active">
+                        <i class="fa-fw fa fa-cloud"></i>
+                        产品线列表
+                    </a>
+                    <a href="/module/" class="list-group-item">
+                        <i class="fa-fw fa fa-truck"></i>
+                        模块列表
+                    </a>
+                    <a href="/case_group/" class="list-group-item">
+                        <i class="fa-fw fa fa-globe"></i>
+                        用例组列表
+                    </a>
+                    <a href="/interface/" class="list-group-item">
+                        <i class="fa-fw fa fa-fire"></i>
+                        用例列表
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <ul class="well nav nav-list nav-sitemenu show-sm">
+            <li class="app_menu">
+                <a href="/home/">
+                    <i class="icon fa-fw fa fa-home"></i>
+                </a>
+                <hr/>
+            </li>
+            <li class="app_menu dropdown-submenu  active">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-money"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li class="active">
+                        <a href="/product/">
+                            <i class="fa-fw fa fa-cloud"></i>
+                            产品线列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/module/">
+                            <i class="fa-fw fa fa-truck"></i>
+                            模块列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/case_group/">
+                            <i class="fa-fw fa fa-globe"></i>
+                            用例组列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/interface/">
+                            <i class="fa-fw fa fa-fire"></i>
+                            用例列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+        <ul class="breadcrumb">
+            <li>
+                <a href="/home/">首页</a>
+            </li>
+            <li>
+                产品线列表
+            </li>
+        </ul>
+
+        <div class="navbar content-navbar navbar-default navbar-xs">
+            <div class="navbar-collapse collapse">
+
+                <form class="navbar-form navbar-left" method="get">
+                    {% csrf_token %}
+                    <div class="input-group search-group">
+                        <input id="searchbar" class="form-control"
+                               type="search" name="form_product_name_s"
+                               placeholder="产品线名称" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search">搜索产品线</i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+
+                <div class="navbar-btn pull-right hide-xs">
+                    <a class="btn btn-primary" data-toggle="modal" href="#addProduct">
+                        <!-- 点击会触发增加产品线模态框 -->
+                        <i class="fa fa-plus"></i>
+                        增加产品线
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="results table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="sortable sorted ascending">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                ID
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                产品线名称
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                产品描述
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                产品经理
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                开发人员
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                测试人员
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <span style="color: red">模块总数</span>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                创建时间
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                修改时间
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <span style="color: green">修改</span>
+                    </th>
+                    <th scope="col">
+                        <span style="color: blue">删除</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for p in p_list %}
+                    <tr class="grid-item">
+                        <td id="product_id_t">{{ p.id }}</td>
+                        <td id="product_name_t">{{ p.product_name }}</td>
+                        <td id="product_describe_t">{{ p.product_describe }}</td>
+                        <td id="product_manager_t">{{ p.product_manager }}</td>
+                        <td id="developer_t">{{ p.developer }}</td>
+                        <td id="tester_t">{{ p.tester }}</td>
+                        <td>
+                            <span style="color: red">
+                            {{ p.products.all.count }}
+                                {# 反向统计所包含的外键的总数 #}
+                            </span>
+                        </td>
+                        <td class="nowrap">{{ p.create_time }}</td>
+                        <td class="nowrap">{{ p.update_time }}</td>
+                        <td>
+                            <a class="icon fa fa-edit"
+                               style="color: green"
+                               data-toggle="modal"
+                               href="#updateProduct"
+                               onclick="updateProduct(this)">
+                                <!-- 点击会触发修改产品线模态框 -->
+                                修改
+                            </a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-times"
+                               style="color: blue"
+                               data-toggle="modal"
+                               href="#deleteProduct"
+                               onclick="getProductId({{ p.id }},'{{ p.product_name }}')">
+                                <!-- 点击会触发删除产品线模态框 -->
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination">
+            <li>
+                <span>
+                    共<span class="text-success">{{ p_count }}</span>产品线
+                </span>
+            </li>
+            <li class="step-links">
+                {% if p_list.has_previous %}
+                    <a href="?page=1">首页</a>
+                    <a href="?page={{ p_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    第{{ p_list.number }}页 共{{ p_list.paginator.num_pages }}页
+                </span>
+
+                {% if p_list.has_next %}
+                    <a href="?page={{ p_list.next_page_number }}">下一页</a>
+                    <a href="?page={{ p_list.paginator.num_pages }}">尾页</a>
+                {% endif %}
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<!-- 增加产品线模态框 -->
+<div class="modal fade" id="addProduct"
+     tabindex="-1" role="dialog"
+     aria-labelledby="addProductLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addProductLabel">增加产品线</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="exform" action="/product_add/" method="post" id="productinfo_form">
+                    {% csrf_token %}
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">产品信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_product_name"
+                                         class="form-group">
+                                        <label for="id_product_name"
+                                               class="control-label  requiredField">
+                                            产品线名称
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_product_name_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="32"
+                                                   required id="id_product_name">
+                                            <p id="hint_id_product_name"
+                                               class="help-block">
+                                                请输入产品线名称
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_product_describe"
+                                         class="form-group">
+                                        <label for="id_product_describe"
+                                               class="control-label ">
+                                            产品描述
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_product_describe_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_product_describe"></textarea>
+                                            <p id="hint_id_product_describe"
+                                               class="help-block">
+                                                请输入产品描述
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">人员部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_product_manager"
+                                         class="form-group">
+                                        <label for="id_product_manager"
+                                               class="control-label  requiredField">
+                                            产品经理
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_product_manager_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   required id="id_product_manager">
+                                            <p id="hint_id_product_manager"
+                                               class="help-block">
+                                                请输入产品经理
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_developer" class="form-group">
+                                        <label for="id_developer"
+                                               class="control-label ">
+                                            开发人员
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_developer_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   id="id_developer">
+                                            <p id="hint_id_developer"
+                                               class="help-block">
+                                                请输入开发人员
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_tester" class="form-group">
+                                        <label for="id_tester"
+                                               class="control-label ">
+                                            测试人员
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_tester_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   id="id_tester">
+                                            <p id="hint_id_tester" class="help-block">
+                                                请输入测试人员
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-save"></i>
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改产品线模态框 -->
+<div class="modal fade" id="updateProduct" tabindex="-1" role="dialog" aria-labelledby="updateProductLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="updateProductLabel">修改产品线</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/product_update/"
+                      method="post" id="productinfo_form">
+                    {% csrf_token %}
+                    <input type='hidden' id='product_id_u'
+                           name="form_product_id_u" value=''/>
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">产品信息部分</h3></div>
+                                <div class="panel-body ">
+                                    <div id="div_id_product_name" class="form-group">
+                                        <label for="id_product_name"
+                                               class="control-label  requiredField">
+                                            产品线名称
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_product_name_u"
+                                                   value=""
+                                                   class="text-field admintextinputwidget form-control" maxlength="32"
+                                                   required id="product_name_u">
+                                            <p id="hint_id_product_name" class="help-block">
+                                                请输入产品线名称
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_product_describe" class="form-group">
+                                        <label for="id_product_describe" class="control-label ">产品描述
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_product_describe_u" cols="40"
+                                                      rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="product_describe_u">
+                                            </textarea>
+                                            <p id="hint_id_product_describe" class="help-block">
+                                                请输入产品描述
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">人员部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_product_manager" class="form-group">
+                                        <label for="id_product_manager"
+                                               class="control-label  requiredField">
+                                            产品经理
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_product_manager_u" value=""
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   required id="product_manager_u">
+                                            <p id="hint_id_product_manager" class="help-block">
+                                                请输入产品经理
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_developer" class="form-group">
+                                        <label for="id_developer"
+                                               class="control-label ">
+                                            开发人员
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_developer_u"
+                                                   value=""
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   id="developer_u">
+                                            <p id="hint_id_developer" class="help-block">
+                                                请输入开发人员
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_tester" class="form-group">
+                                        <label for="id_tester"
+                                               class="control-label ">
+                                            测试人员
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_tester_u"
+                                                   value=""
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   id="tester_u">
+                                            <p id="hint_id_tester" class="help-block">
+                                                请输入测试人员
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions well well-sm clearfix">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">
+                                <i class="fa fa-undo"></i>
+                                取消
+                            </button>
+                            <button type="submit" class="default btn btn-primary hide-xs">
+                                <i class="fa fa-file-text"></i>
+                                修改
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除产品线模态框 -->
+<div class="modal fade" id="deleteProduct"
+     tabindex="-1" role="dialog"
+     aria-labelledby="deleteProductLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteProductLabel">删除产品线</h4>
+            </div>
+            <div class="modal-body">
+
+                <form action="/product_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="product_id_d"
+                           name="form_product_id_d"
+                           value=""/>
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的产品线吗？它所包含的模块也将被删除！
+                    </div>
+                    <div class="alert alert-danger" id="product_name_d">
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>测试部门</p>
+    </footer>
+</div>
+
+<script>
+    function updateProduct(obj) {
+        var tr = $(obj).parent().parent();
+        var id = tr.children("td#product_id_t").text();
+        var name = tr.children("td#product_name_t").text();
+        var describe = tr.children("td#product_describe_t").text();
+        var manager = tr.children("td#product_manager_t").text();
+        var developer = tr.children("td#developer_t").text();
+        var tester = tr.children("td#tester_t").text();
+        //取值
+        $('#product_id_u').val(id);
+        $('#product_name_u').val(name);
+        $('#product_describe_u').val(describe);
+        $('#product_manager_u').val(manager);
+        $('#developer_u').val(developer);
+        $('#tester_u').val(tester);
+        //赋值
+        console.log(id);
+        console.log(name);
+        console.log(describe);
+        console.log(manager);
+        console.log(developer);
+        console.log(tester);
+        //打印日志
+    }
+</script>
+
+<script>
+    function getProductId(ID, NAME) {
+        $('#product_id_d').val(ID);
+        $('#product_name_d').html(NAME);
+        console.log(ID);
+        console.log(NAME);
+    }
+
+    //向删除模态框传递产品线id与产品线名称
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#addProduct .btn-primary').on('click',
+            function () {
+                alert('嘿，确认增加产品线吗？');
+            });
+        $('#addProduct .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#updateProduct .btn-primary').on('click',
+            function () {
+                alert('嘿，确认修改产品线吗？');
+            });
+        $('#updateProduct .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#deleteProduct .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除产品线吗？');
+            });
+        $('#deleteProduct .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
+
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.formset.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+
+</body>
+</html>

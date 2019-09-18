@@ -1,0 +1,125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+    <title>首页 | 测试平台</title>
+
+    <link href="{% static 'xadmin/vendor/bootstrap/css/bootstrap.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" id="site-theme"
+          href="{% static 'xadmin/css/themes/bootstrap-xadmin.css' %}"/>
+    <link href="{% static 'xadmin/vendor/font-awesome/css/font-awesome.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.main.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.plugins.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.responsive.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.page.dashboard.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+
+    <script type="text/javascript"
+            src="{% static 'xadmin/vendor/jquery/jquery.js' %}"></script>
+
+</head>
+
+<body class="dashboard">
+
+<div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">测试平台</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <strong>欢迎你～{{ user }}</strong></a>
+            </li>
+            <li>
+                <a href="/logout/">
+                    <i class="show-sm fa fa-sign-out"></i>
+                    <span class="hide-sm">退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="body-content" class="clearfix row">
+
+    <div id="left-side" class="col-sm-1 col-md-2">
+        <ul class="well nav nav-pills nav-stacked nav-sitemenu hide-sm">
+            <div class="panel-heading">
+                <h6 class="panel-title">
+                    <i class="fa-fw fa fa-money"></i>
+                    接口管理
+                </h6>
+            </div>
+            <li>
+                <a href="/product/">
+                    <i class="fa-fw fa fa-cloud"></i>
+                    产品线列表</a>
+            </li>
+            <li>
+                <a href="/module/">
+                    <i class="fa-fw fa fa-truck"></i>
+                    模块列表
+                </a>
+            </li>
+            <li>
+                <a href="/case_group/">
+                    <i class="fa-fw fa fa-globe"></i>
+                    用例组列表
+                </a>
+            </li>
+            <li>
+                <a href="/interface/">
+                    <i class="fa-fw fa fa-fire"></i>
+                    用例列表
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>测试部门</p>
+    </footer>
+</div>
+
+
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.core.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.widget.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.mouse.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.sortable.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.main.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.responsive.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.effect.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.page.dashboard.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.plugin.portal.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.plugin.themes.js' %}"></script>
+
+</body>
+</html>

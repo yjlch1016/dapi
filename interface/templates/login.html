@@ -1,0 +1,127 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+    <title>登录 | 测试平台</title>
+
+    <link href="{% static 'xadmin/vendor/bootstrap/css/bootstrap.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" id="site-theme"
+          href="{% static 'xadmin/css/themes/bootstrap-xadmin.css' %}"/>
+    <link href="{% static 'xadmin/vendor/font-awesome/css/font-awesome.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.main.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.plugins.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+    <link href="{% static 'xadmin/css/xadmin.responsive.css' %}"
+          type="text/css" media="screen" rel="stylesheet">
+
+    <script type="text/javascript"
+            src="{% static 'xadmin/vendor/jquery/jquery.js' %}"></script>
+
+    <style type="text/css">
+        #panel-login {
+            max-width: 350px;
+        }
+
+        #panel-login .controls {
+            padding: 0px 15px 15px !important;
+        }
+
+        #panel-login .alert-block {
+            padding: 0px;
+        }
+
+        #panel-login .alert-block ul {
+            margin: 10px 15px;
+            padding-left: 0px;
+        }
+
+        #panel-login .alert-block ul li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body class="login">
+
+<div class="container">
+    <form action="/login/" method="post" id="login-form">
+        {% csrf_token %}
+        {# 登录表单 #}
+        {# 防止csrf跨站请求伪造 #}
+
+        <div class="panel panel-default panel-single" id="panel-login">
+            <div class="panel-heading">
+                <h2 class="form-signin-heading" align="center">测试平台</h2>
+                <img src="/static/img/img_login.gif" align="center" alt="人生苦短，我用Python">
+            </div>
+            <div class="panel-body">
+
+                <div id="div_id_username" class="row">
+                    <div class="controls clearfix">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+                            <input class="form-control input-lg" id="id_username" maxlength="254" name="form_user_name"
+                                   type="text" placeholder="请输入用户名">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="div_id_password" class="row">
+                    <div class="controls clearfix">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
+                            <input class="form-control input-lg" id="id_password" name="form_password" type="password"
+                                   placeholder="请输入密码">
+                        </div>
+                    </div>
+                </div>
+                {{ error }}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>测试部门</p>
+    </footer>
+</div>
+
+<script type="text/javascript">
+    document.getElementById('id_username').focus()
+</script>
+
+
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.core.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.widget.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.mouse.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.sortable.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.main.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.responsive.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.effect.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'xadmin/js/xadmin.plugin.themes.js' %}"></script>
+
+</body>
+</html>

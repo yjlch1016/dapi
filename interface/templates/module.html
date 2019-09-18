@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+    <title>模块 | 测试平台</title>
+
+    <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" id="site-theme" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>
+    <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.widget.editable.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/selectize/selectize.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/selectize/selectize.bootstrap3.css" type="text/css" media="screen"
+          rel="stylesheet">
+
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+
+    <style type="text/css">
+        .btn-toolbar {
+            margin-top: 0;
+        }
+
+        #content-block.full-content {
+            margin-left: 0;
+        }
+    </style>
+
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body class="change-list">
+
+<div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">测试平台</a>
+    </div>
+    <div class="navbar-collapse collapse">
+
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <strong>欢迎你～{{ user }}</strong>
+                </a>
+            </li>
+            <li>
+                <a href="/logout/">
+                    <i class="show-sm fa fa-sign-out"></i>
+                    <span class="hide-sm">退出</span>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<div id="body-content" class="clearfix row">
+    <div id="left-side" class="col-sm-1 col-md-2">
+        <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle"
+                           data-toggle="collapse"
+                           data-parent="#nav-accordion"
+                           href="#nav-panel-1">
+                            <i class="fa-fw fa fa-money"></i>
+                            接口管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-1" class="list-group panel-collapse collapse in">
+
+                    <a href="/product/" class="list-group-item">
+                        <i class="fa-fw fa fa-cloud"></i>
+                        产品线列表</span>
+                    </a>
+                    <a href="/module/" class="list-group-item active">
+                        <i class="fa-fw fa fa-truck"></i>
+                        模块列表</span>
+                    </a>
+                    <a href="/case_group/" class="list-group-item">
+                        <i class="fa-fw fa fa-globe"></i>
+                        用例组列表</span>
+                    </a>
+                    <a href="/interface/" class="list-group-item">
+                        <i class="fa-fw fa fa-fire"></i>
+                        用例列表</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <ul class="well nav nav-list nav-sitemenu show-sm">
+            <li class="app_menu">
+                <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
+                <hr/>
+            </li>
+            <li class="app_menu dropdown-submenu  active">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-money"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/product/">
+                            <i class="fa-fw fa fa-cloud"></i>
+                            产品线列表</a>
+                    </li>
+                    <li class="active">
+                        <a href="/module/">
+                            <i class="fa-fw fa fa-truck"></i>
+                            模块列表</a>
+                    </li>
+                    <li>
+                        <a href="/case_group/">
+                            <i class="fa-fw fa fa-globe"></i>
+                            用例组列表</a>
+                    </li>
+                    <li>
+                        <a href="/interface/">
+                            <i class="fa-fw fa fa-fire"></i>
+                            用例列表</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+        <ul class="breadcrumb">
+            <li>
+                <a href="/home/">首页</a>
+            </li>
+            <li>
+                模块列表
+            </li>
+        </ul>
+
+        <div class="navbar content-navbar navbar-default navbar-xs">
+            <div class="navbar-collapse collapse">
+
+                <form class="navbar-form navbar-left" method="get">
+                    {% csrf_token %}
+                    <div class="input-group search-group">
+                        <input id="searchbar" class="form-control"
+                               type="search" name="form_module_name_s"
+                               placeholder="模块名称" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search">搜索模块</i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+
+                <div class="navbar-btn pull-right hide-xs">
+                    <a class="btn btn-primary" data-toggle="modal" href="#addModule">
+                        <!-- 点击会触发增加模块模态框 -->
+                        <i class="fa fa-plus"></i>
+                        增加模块
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="results table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="sortable sorted ascending">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                模块ID
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle" style="color: red">
+                                产品线
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                模块名称
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                模块描述
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                创建时间
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                修改时间
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <span style="color: green">修改</span>
+                    </th>
+                    <th scope="col">
+                        <span style="color: blue">删除</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for m in m_list %}
+                    <tr class="grid-item">
+                        <td id="module_id_t">{{ m.id }}</td>
+                        <td style="color: red">{{ m.module_group }}</td>
+                        <td id="module_name_t">{{ m.module_name }}</td>
+                        <td id="module_describe_t">{{ m.module_describe }}</td>
+                        <td class="nowrap">{{ m.create_time }}</td>
+                        <td class="nowrap">{{ m.update_time }}</td>
+                        <td>
+                            <a class="icon fa fa-edit"
+                               style="color: green"
+                               data-toggle="modal"
+                               href="#updateModule"
+                               onclick="updateModule(this)">
+                                <!-- 点击会触发修改模块模态框 -->
+                                修改
+                            </a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-times"
+                               style="color: blue"
+                               data-toggle="modal"
+                               href="#deleteModule"
+                               onclick="getModuleId({{ m.id }},'{{ m.module_name }}')">
+                                <!-- 点击会触发删除模块模态框 -->
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination">
+            <li>
+                <span>
+                    共<span class="text-success">{{ m_count }}</span>模块
+                </span>
+            </li>
+            <li class="step-links">
+                {% if m_list.has_previous %}
+                    <a href="?page=1">首页</a>
+                    <a href="?page={{ m_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    第{{ m_list.number }}页 共{{ m_list.paginator.num_pages }}页
+                </span>
+
+                {% if m_list.has_next %}
+                    <a href="?page={{ m_list.next_page_number }}">下一页</a>
+                    <a href="?page={{ m_list.paginator.num_pages }}">尾页</a>
+                {% endif %}
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<!-- 增加模块模态框-->
+<div class="modal fade" id="addModule"
+     tabindex="-1" role="dialog"
+     aria-labelledby="addModuleLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addModuleLabel">增加模块</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="exform" action="/module_add/" method="post" id="moduleinfo_form">
+                    {% csrf_token %}
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">模块信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_module_group" class="form-group">
+                                        <label for="id_module_group" class="control-label  requiredField">
+                                            产品线<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_module_group_wrap_container">
+                                                <select name="form_module_group_a"
+                                                        class="adminselectwidget form-control"
+                                                        required id="module_group_a">
+                                                    <option value="" selected>---------</option>
+                                                    {% for p in p_list %}
+                                                        <option value="{{ p.id }}">{{ p.product_name }}</option>
+                                                        {# 利用外键查询 #}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_module_group" class="help-block">请选择产品线</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_module_name" class="form-group">
+                                        <label for="id_module_name" class="control-label  requiredField">
+                                            模块名称<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_module_name_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="32"
+                                                   required id="module_name_a">
+                                            <p id="hint_id_module_name" class="help-block">请输入模块名称</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_module_describe" class="form-group">
+                                        <label for="id_module_describe" class="control-label ">
+                                            模块描述
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_module_describe_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="module_describe_a"></textarea>
+                                            <p id="hint_id_module_describe" class="help-block">请输入模块描述</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-save"></i>
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改模块模态框 -->
+<div class="modal fade" id="updateModule"
+     tabindex="-1" role="dialog"
+     aria-labelledby="updateModuleLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="updateModuleLabel">修改模块</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/module_update/" method="post" id="moduleinfo_form">
+                    {% csrf_token %}
+                    <input type='hidden'
+                           id='module_id_u'
+                           name="form_module_id_u"
+                           value=''/>
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">模块信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_module_group" class="form-group">
+                                        <label for="id_module_group"
+                                               class="control-label  requiredField">
+                                            产品线
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_module_group_wrap_container">
+                                                <select name="form_module_group_u"
+                                                        class="adminselectwidget form-control"
+                                                        required id="module_group_u">
+                                                    <option value="" selected>---------</option>
+                                                    {% for p in p_list %}
+                                                        <option value="{{ p.id }}">{{ p.product_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_module_group" class="help-block">请选择产品线</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_module_name" class="form-group"><label for="id_module_name"
+                                                                                           class="control-label  requiredField">
+                                        模块名称<span class="asteriskField">*</span> </label>
+                                        <div class="controls "><input type="text"
+                                                                      name="form_module_name_u" value=""
+                                                                      class="text-field admintextinputwidget form-control"
+                                                                      maxlength="32" required id="module_name_u">
+                                            <p id="hint_id_module_name" class="help-block">请输入模块名称</p></div>
+                                    </div>
+                                    <div id="div_id_module_describe" class="form-group"><label for="id_module_describe"
+                                                                                               class="control-label ">
+                                        模块描述
+                                    </label>
+                                        <div class="controls "><textarea name="form_module_describe_u" cols="40"
+                                                                         rows="10"
+                                                                         class="textarea-field admintextareawidget form-control"
+                                                                         id="module_describe_u"></textarea>
+                                            <p id="hint_id_module_describe" class="help-block">请输入模块描述</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-file-text"></i>
+                            修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除模块模态框 -->
+<div class="modal fade" id="deleteModule"
+     tabindex="-1" role="dialog"
+     aria-labelledby="deleteModuleLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteModuleLabel">删除模块</h4>
+            </div>
+            <div class="modal-body">
+
+                <form action="/module_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="module_id_d"
+                           name="form_module_id_d"
+                           value=""/>
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的模块吗？
+                    </div>
+                    <div class="alert alert-danger" id="module_name_d">
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateModule(obj) {
+        var tr = $(obj).parent().parent();
+        var id = tr.children("td#module_id_t").text();
+        var name = tr.children("td#module_name_t").text();
+        var describe = tr.children("td#module_describe_t").text();
+        //取值
+        $('#module_id_u').val(id);
+        $('#module_name_u').val(name);
+        $('#module_describe_u').val(describe);
+        //赋值
+        console.log(id);
+        console.log(name);
+        console.log(describe);
+        //打印日志
+    }
+</script>
+
+<script>
+    function getModuleId(ID, NAME) {
+        $('#module_id_d').val(ID);
+        $('#module_name_d').html(NAME);
+        console.log(ID);
+        console.log(NAME);
+    }
+
+    //向删除模态框传递模块id与模块名称
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#addModule .btn-primary').on('click',
+            function () {
+                alert('嘿，确认增加模块吗？');
+            });
+        $('#addModule .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#updateModule .btn-primary').on('click',
+            function () {
+                alert('嘿，确认修改模块吗？');
+            });
+        $('#updateModule .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#deleteModule .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除模块吗？');
+            });
+        $('#deleteModule .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
+
+
+<div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>测试部门</p>
+    </footer>
+</div>
+
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/selectize/selectize.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.quick-form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/select2/select2.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/select2/select2_locale_zh-hans.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.select.js"></script>
+
+</body>
+</html>
