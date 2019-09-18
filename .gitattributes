@@ -1,0 +1,4 @@
+*.js linguist-language=Python
+*.css linguist-language=Python
+*.html linguist-language=Python
+# 设置仓库显示的语言为Python
