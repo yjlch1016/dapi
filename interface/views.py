@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
+from django.utils.datetime_safe import datetime
 from django.views import View
 from rest_framework import viewsets
 
@@ -142,6 +143,7 @@ class UpdateProductView(LoginRequiredMixin, View):
             product_manager=p_manager,
             developer=developer,
             tester=tester,
+            update_time=datetime.now(),
         )
 
         return redirect('/product/')
@@ -220,6 +222,7 @@ class UpdateModuleView(LoginRequiredMixin, View):
             module_group_id=m_group,
             module_name=m_name,
             module_describe=m_describe,
+            update_time=datetime.now(),
         )
 
         return redirect('/module/')
@@ -294,6 +297,7 @@ class UpdateCaseGroupView(LoginRequiredMixin, View):
         CaseGroupInfo.objects.filter(id=c_id).update(
             case_group_name=c_name,
             case_group_describe=c_describe,
+            update_time=datetime.now(),
         )
 
         return redirect('/case_group/')
@@ -414,6 +418,7 @@ class UpdateInterfaceView(LoginRequiredMixin, View):
             regular_expression=regular_expression,
             regular_variable=regular_variable,
             regular_template=regular_template,
+            update_time=datetime.now(),
         )
 
         return redirect('/interface/')
