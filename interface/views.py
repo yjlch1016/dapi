@@ -344,3 +344,88 @@ class InterfaceListView(LoginRequiredMixin, View):
                 "i_count": interface_count,
             }
         )
+
+
+class AddInterfaceView(LoginRequiredMixin, View):
+    """增加用例"""
+
+    def post(self, request):
+        case_group = request.POST.get('form_case_group_a', '')
+        case_name = request.POST.get('form_case_name_a', '')
+        interface_url = request.POST.get('form_interface_url_a', '')
+        request_mode = request.POST.get('form_request_mode_a', '')
+        request_parameter = request.POST.get('form_request_parameter_a', '')
+        request_head = request.POST.get('form_request_head_a', '')
+        body_type = request.POST.get('form_body_type_a', '')
+        request_body = request.POST.get('form_request_body_a', '')
+        expected_result = request.POST.get('form_expected_result_a', '')
+        response_assert = request.POST.get('form_response_assert_a', '')
+        regular_expression = request.POST.get('form_regular_expression_a', '')
+        regular_variable = request.POST.get('form_regular_variable_a', '')
+        regular_template = request.POST.get('form_regular_template_a', '')
+        InterfaceInfo.objects.create(
+            case_group_id=case_group,
+            case_name=case_name,
+            interface_url=interface_url,
+            request_mode=request_mode,
+            request_parameter=request_parameter,
+            request_head=request_head,
+            body_type=body_type,
+            request_body=request_body,
+            expected_result=expected_result,
+            response_assert=response_assert,
+            regular_expression=regular_expression,
+            regular_variable=regular_variable,
+            regular_template=regular_template,
+        )
+
+        return redirect('/interface/')
+
+
+class UpdateInterfaceView(LoginRequiredMixin, View):
+    """修改用例"""
+
+    def post(self, request):
+        case_id = request.POST.get('form_case_id_u', '')
+        case_group = request.POST.get('form_case_group_u', '')
+        case_name = request.POST.get('form_case_name_u', '')
+        interface_url = request.POST.get('form_interface_url_u', '')
+        request_mode = request.POST.get('form_request_mode_u', '')
+        request_parameter = request.POST.get('form_request_parameter_u', '')
+        request_head = request.POST.get('form_request_head_u', '')
+        body_type = request.POST.get('form_body_type_u', '')
+        request_body = request.POST.get('form_request_body_u', '')
+        expected_result = request.POST.get('form_expected_result_u', '')
+        response_assert = request.POST.get('form_response_assert_u', '')
+        regular_expression = request.POST.get('form_regular_expression_u', '')
+        regular_variable = request.POST.get('form_regular_variable_u', '')
+        regular_template = request.POST.get('form_regular_template_u', '')
+        InterfaceInfo.objects.filter(id=case_id).update(
+            case_group_id=case_group,
+            case_name=case_name,
+            interface_url=interface_url,
+            request_mode=request_mode,
+            request_parameter=request_parameter,
+            request_head=request_head,
+            body_type=body_type,
+            request_body=request_body,
+            expected_result=expected_result,
+            response_assert=response_assert,
+            regular_expression=regular_expression,
+            regular_variable=regular_variable,
+            regular_template=regular_template,
+        )
+
+        return redirect('/interface/')
+
+
+class DeleteInterfaceView(LoginRequiredMixin, View):
+    """删除用例"""
+
+    def post(self, request):
+        case_id = request.POST.get('form_case_id_d', '')
+        InterfaceInfo.objects.filter(id=case_id).delete()
+
+        return redirect('/interface/')
+
+

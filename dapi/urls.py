@@ -21,7 +21,7 @@ from rest_framework import routers
 from interface import views
 from interface.views import ModuleListView, AddModuleView, UpdateModuleView, DeleteModuleView, CaseGroupListView, \
     InterfaceListView, AddCaseGroupView, DeleteCaseGroupView, UpdateCaseGroupView, ProductListView, AddProductView, \
-    UpdateProductView, DeleteProductView
+    UpdateProductView, DeleteProductView, AddInterfaceView, DeleteInterfaceView, UpdateInterfaceView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -56,4 +56,7 @@ urlpatterns = [
     path('case_group_delete/', DeleteCaseGroupView.as_view(), name='case_group_delete'),
 
     path('interface/', InterfaceListView.as_view(), name='interface'),
+    path('interface_add/', AddInterfaceView.as_view(), name='interface_add'),
+    path('interface_update/', UpdateInterfaceView.as_view(), name='interface_update'),
+    path('interface_delete/', DeleteInterfaceView.as_view(), name='interface_delete'),
 ]

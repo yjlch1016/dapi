@@ -37,6 +37,18 @@
             margin-left: 0;
         }
     </style>
+
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 
 <body class="change-list">
@@ -165,7 +177,8 @@
                 </form>
 
                 <div class="navbar-btn pull-right hide-xs">
-                    <a href="/interface_add/" class="btn btn-primary">
+                    <a class="btn btn-primary" data-toggle="modal" href="#addInterface">
+                        <!-- 点击会触发增加用例模态框 -->
                         <i class="fa fa-plus"></i>
                         增加用例
                     </a>
@@ -177,143 +190,143 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" class="sortable sorted ascending">
+                    <th scope="col" class="sortable sorted ascending" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 用例ID
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle" style="color: red">
                                 用例组
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 用例名称
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 接口地址
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 请求方式
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 请求参数
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 请求头
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 请求体类型
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 请求体
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 预期结果
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 响应断言方式
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 120px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 开启正则表达式
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 120px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 正则表达式变量名
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 120px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 正则表达式模板
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 响应代码
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 实际结果
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 是否通过
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 创建时间
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable">
+                    <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 修改时间
                             </a>
                         </div>
                     </th>
-                    <th scope="col">
+                    <th scope="col" style="width: 100px">
                         <span style="color: green">修改</span>
                     </th>
-                    <th scope="col">
+                    <th scope="col" style="width: 100px">
                         <span style="color: blue">删除</span>
                     </th>
                 </tr>
@@ -321,20 +334,20 @@
                 <tbody>
                 {% for i in i_list %}
                     <tr class="grid-item">
-                        <td>{{ i.id }}</td>
+                        <td id="case_id_t">{{ i.id }}</td>
                         <td style="color: red">{{ i.case_group }}</td>
-                        <td>{{ i.case_name }}</td>
-                        <td>{{ i.interface_url }}</td>
-                        <td>{{ i.request_mode }}</td>
-                        <td>{{ i.request_parameter }}</td>
-                        <td>{{ i.request_head }}</td>
-                        <td>{{ i.body_type }}</td>
-                        <td>{{ i.request_body }}</td>
-                        <td>{{ i.expected_result }}</td>
-                        <td>{{ i.response_assert }}</td>
-                        <td>{{ i.regular_expression }}</td>
-                        <td>{{ i.regular_variable }}</td>
-                        <td>{{ i.regular_template }}</td>
+                        <td id="case_name_t">{{ i.case_name }}</td>
+                        <td id="interface_url_t">{{ i.interface_url }}</td>
+                        <td id="request_mode_t">{{ i.request_mode }}</td>
+                        <td id="request_parameter_t">{{ i.request_parameter }}</td>
+                        <td id="request_head_t">{{ i.request_head }}</td>
+                        <td id="body_type_t">{{ i.body_type }}</td>
+                        <td id="request_body_t">{{ i.request_body }}</td>
+                        <td id="expected_result_t">{{ i.expected_result }}</td>
+                        <td id="response_assert_t">{{ i.response_assert }}</td>
+                        <td id="regular_expression_t">{{ i.regular_expression }}</td>
+                        <td id="regular_variable_t">{{ i.regular_variable }}</td>
+                        <td id="regular_template_t">{{ i.regular_template }}</td>
                         <td>{{ i.response_code }}</td>
                         <td>{{ i.actual_result }}</td>
                         <td>
@@ -344,12 +357,22 @@
                         <td class="nowrap">{{ i.create_time }}</td>
                         <td class="nowrap">{{ i.update_time }}</td>
                         <td>
-                            <a class="icon fa fa-edit" style="color: green" href="/interface_update/">
+                            <a class="icon fa fa-edit"
+                               style="color: green"
+                               data-toggle="modal"
+                               href="#updateInterface"
+                               onclick="updateInterface(this)">
+                                <!-- 点击会触发修改用例模态框 -->
                                 修改
                             </a>
                         </td>
                         <td>
-                            <a class="icon fa fa-times" style="color: blue" href="/interface_delete/">
+                            <a class="icon fa fa-times"
+                               style="color: blue"
+                               data-toggle="modal"
+                               href="#deleteInterface"
+                               onclick="getInterfaceId({{ i.id }},'{{ i.case_name }}')">
+                                <!-- 点击会触发删除用例模态框 -->
                                 删除
                             </a>
                         </td>
@@ -383,6 +406,626 @@
     </div>
 </div>
 
+<!-- 增加用例模态框 -->
+<div class="modal fade" id="addInterface" tabindex="-1" role="dialog" aria-labelledby="addInterfaceLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addInterfaceLabel">增加用例</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="exform" action="/interface_add/" method="post" id="interfaceinfo_form">
+                    {% csrf_token %}
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">用例信息部分</h3></div>
+                                <div class="panel-body ">
+                                    <div id="div_id_case_group" class="form-group">
+                                        <label for="id_case_group" class="control-label  requiredField">
+                                            用例组
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_case_group_wrap_container">
+                                                <select name="form_case_group_a" class="adminselectwidget form-control"
+                                                        required id="id_case_group">
+                                                    <option value="" selected>---------</option>
+                                                    {% for c in c_list %}
+                                                        <option value="{{ c.id }}">{{ c.case_group_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_case_group" class="help-block">
+                                                请选择用例组
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_case_name" class="form-group">
+                                        <label for="id_case_name" class="control-label  requiredField">
+                                            用例名称
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_case_name_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="32"
+                                                   required id="id_case_name">
+                                            <p id="hint_id_case_name" class="help-block">
+                                                请输入用例名称
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">接口信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_interface_url" class="form-group">
+                                        <label for="id_interface_url" class="control-label  requiredField">
+                                            接口地址
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_interface_url_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="255"
+                                                   required id="id_interface_url">
+                                            <p id="hint_id_interface_url" class="help-block">
+                                                请输入接口地址
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_mode" class="form-group">
+                                        <label for="id_request_mode" class="control-label  requiredField">
+                                            请求方式
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_request_mode_a"
+                                                    class="adminselectwidget form-control"
+                                                    id="id_request_mode">
+                                                <option value="GET" selected>GET</option>
+                                                <option value="POST">POST</option>
+                                                <option value="PUT">PUT</option>
+                                                <option value="DELETE">DELETE</option>
+                                                <option value="PATCH">PATCH</option>
+                                            </select>
+                                            <p id="hint_id_request_mode" class="help-block">
+                                                请选择请求方式
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_parameter" class="form-group">
+                                        <label for="id_request_parameter" class="control-label ">请求参数</label>
+                                        <div class="controls ">
+                                            <textarea name="form_request_parameter_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_request_parameter"></textarea>
+                                            <p id="hint_id_request_parameter" class="help-block">
+                                                请输入字典格式的请求参数
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_head" class="form-group">
+                                        <label for="id_request_head"
+                                               class="control-label  requiredField">请求头
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_request_head_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control" required
+                                                      id="id_request_head"></textarea>
+                                            <p id="hint_id_request_head" class="help-block">
+                                                请输入字典格式的请求头
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_body_type" class="form-group">
+                                        <label for="id_body_type"
+                                               class="control-label  requiredField">
+                                            请求体类型
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_body_type_a" class="adminselectwidget form-control"
+                                                    id="id_body_type">
+                                                <option value="x-www-form-urlencoded" selected>
+                                                    application/x-www-form-urlencoded
+                                                </option>
+                                                <option value="json">application/json</option>
+                                                <option value="form-data">multipart/form-data</option>
+                                                <option value="xml">text/xml</option>
+                                            </select>
+                                            <p id="hint_id_body_type" class="help-block">
+                                                请选择请求体类型
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_body" class="form-group">
+                                        <label for="id_request_body"
+                                               class="control-label ">请求体</label>
+                                        <div class="controls ">
+                                            <textarea name="form_request_body_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_request_body"></textarea>
+                                            <p id="hint_id_request_body" class="help-block">
+                                                请输入键值对、json、文件或xml格式的请求体
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_expected_result" class="form-group">
+                                        <label for="id_expected_result"
+                                               class="control-label ">预期结果</label>
+                                        <div class="controls ">
+                                            <textarea name="form_expected_result_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_expected_result"></textarea>
+                                            <p id="hint_id_expected_result" class="help-block">
+                                                请输入预期结果
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_response_assert" class="form-group">
+                                        <label for="id_response_assert"
+                                               class="control-label ">
+                                            响应断言方式
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_response_assert_a"
+                                                    class="adminselectwidget form-control"
+                                                    id="id_response_assert">
+                                                <option value="">---------</option>
+                                                <option value="包含" selected>包含</option>
+                                                <option value="相等">相等</option>
+                                            </select>
+                                            <p id="hint_id_response_assert" class="help-block">
+                                                请选择断言方式
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">正则表达式提取器</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_regular_expression" class="form-group">
+                                        <label for="id_regular_expression" class="control-label ">
+                                            开启正则表达式
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_regular_expression_a"
+                                                    class="adminselectwidget form-control"
+                                                    id="id_regular_expression">
+                                                <option value="">---------</option>
+                                                <option value="开启">开启</option>
+                                                <option value="不开启" selected>不开启</option>
+                                            </select>
+                                            <p id="hint_id_regular_expression" class="help-block">
+                                                请选择是否开启正则表达式
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_regular_variable" class="form-group">
+                                        <label for="id_regular_variable" class="control-label ">
+                                            正则表达式变量名
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_regular_variable_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   id="id_regular_variable">
+                                            <p id="hint_id_regular_variable" class="help-block">
+                                                请输入正则表达式变量名
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_regular_template" class="form-group">
+                                        <label for="id_regular_template" class="control-label ">
+                                            正则表达式模板
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_regular_template_a"
+                                                   class="text-field admintextinputwidget form-control" maxlength="255"
+                                                   id="id_regular_template">
+                                            <p id="hint_id_regular_template" class="help-block">
+                                                请输入正则表达式模板
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-save"></i>
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改用例模态框 -->
+<div class="modal fade" id="updateInterface" tabindex="-1" role="dialog" aria-labelledby="updateInterfaceLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="updateInterfaceLabel">修改用例</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="exform" action="/interface_update/" method="post" id="interfaceinfo_form">
+                    {% csrf_token %}
+                    <input type='hidden'
+                           id='case_id_u'
+                           name="form_case_id_u"
+                           value=''/>
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">用例信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_case_group" class="form-group">
+                                        <label for="id_case_group"
+                                               class="control-label  requiredField">
+                                            用例组<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_case_group_wrap_container">
+                                                <select name="form_case_group_u" class="adminselectwidget form-control"
+                                                        required id="id_case_group">
+                                                    <option value="">---------</option>
+                                                    {% for c in c_list %}
+                                                        <option value="{{ c.id }}">{{ c.case_group_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_case_group" class="help-block">请选择用例组</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_case_name" class="form-group">
+                                        <label for="id_case_name"
+                                               class="control-label  requiredField">
+                                            用例名称<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_case_name_u" value=""
+                                                   class="text-field admintextinputwidget form-control" maxlength="32"
+                                                   required id="case_name_u">
+                                            <p id="hint_id_case_name" class="help-block">请输入用例名称</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">接口信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_interface_url" class="form-group">
+                                        <label for="id_interface_url" class="control-label  requiredField">接口地址
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_interface_url_u" value=""
+                                                   class="text-field admintextinputwidget form-control" maxlength="255"
+                                                   required id="interface_url_u">
+                                            <p id="hint_id_interface_url" class="help-block">请输入接口地址</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_mode" class="form-group">
+                                        <label for="id_request_mode"
+                                               class="control-label  requiredField">
+                                            请求方式
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_request_mode_u"
+                                                    class="adminselectwidget form-control"
+                                                    id="id_request_mode">
+                                                <option value="GET" selected>GET</option>
+                                                <option value="POST">POST</option>
+                                                <option value="PUT">PUT</option>
+                                                <option value="DELETE">DELETE</option>
+                                                <option value="PATCH">PATCH</option>
+                                            </select>
+                                            <p id="hint_id_request_mode" class="help-block">请选择请求方式</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_parameter" class="form-group">
+                                        <label for="id_request_parameter" class="control-label ">请求参数
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_request_parameter_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="request_parameter_u"></textarea>
+                                            <p id="hint_id_request_parameter" class="help-block">请输入字典格式的请求参数</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_head" class="form-group">
+                                        <label for="id_request_head"
+                                               class="control-label  requiredField">
+                                            请求头<span class="asteriskField">*</span> </label>
+                                        <div class="controls ">
+                                            <textarea name="form_request_head_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control" required
+                                                      id="request_head_u"></textarea>
+                                            <p id="hint_id_request_head" class="help-block">请输入字典格式的请求头</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_body_type" class="form-group">
+                                        <label for="id_body_type"
+                                               class="control-label  requiredField">
+                                            请求体类型
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_body_type_u" class="adminselectwidget form-control"
+                                                    id="id_body_type">
+                                                <option value="x-www-form-urlencoded" selected>
+                                                    application/x-www-form-urlencoded
+                                                </option>
+                                                <option value="json">application/json</option>
+                                                <option value="form-data">multipart/form-data</option>
+                                                <option value="xml">text/xml</option>
+                                            </select>
+                                            <p id="hint_id_body_type" class="help-block">请选择请求体类型</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_body" class="form-group">
+                                        <label for="id_request_body"
+                                               class="control-label ">
+                                            请求体
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_request_body_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="request_body_u"></textarea>
+                                            <p id="hint_id_request_body" class="help-block">请输入键值对、json、文件或xml格式的请求体</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_expected_result" class="form-group">
+                                        <label for="id_expected_result"
+                                               class="control-label ">
+                                            预期结果
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_expected_result_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="expected_result_u"></textarea>
+                                            <p id="hint_id_expected_result" class="help-block">请输入预期结果</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_response_assert" class="form-group">
+                                        <label for="id_response_assert"
+                                               class="control-label ">
+                                            响应断言方式
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_response_assert_u"
+                                                    class="adminselectwidget form-control"
+                                                    id="id_response_assert">
+                                                <option value="">---------</option>
+                                                <option value="包含" selected>包含</option>
+                                                <option value="相等">相等</option>
+                                            </select>
+                                            <p id="hint_id_response_assert" class="help-block">请选择断言方式</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">正则表达式提取器</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_regular_expression" class="form-group">
+                                        <label for="id_regular_expression" class="control-label ">开启正则表达式
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_regular_expression_u"
+                                                    class="adminselectwidget form-control"
+                                                    id="id_regular_expression">
+                                                <option value="">---------</option>
+                                                <option value="开启">开启</option>
+                                                <option value="不开启" selected>不开启</option>
+                                            </select>
+                                            <p id="hint_id_regular_expression" class="help-block">请选择是否开启正则表达式</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_regular_variable" class="form-group">
+                                        <label for="id_regular_variable" class="control-label ">正则表达式变量名
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_regular_variable_u"
+                                                   class="text-field admintextinputwidget form-control" maxlength="11"
+                                                   value=""
+                                                   id="regular_variable_u">
+                                            <p id="hint_id_regular_variable" class="help-block">请输入正则表达式变量名</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_regular_template" class="form-group">
+                                        <label for="id_regular_template" class="control-label ">正则表达式模板
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_regular_template_u"
+                                                   class="text-field admintextinputwidget form-control" maxlength="255"
+                                                   value=""
+                                                   id="regular_template_u">
+                                            <p id="hint_id_regular_template" class="help-block">请输入正则表达式模板</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-file-text"></i>
+                            修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除用例模态框 -->
+<div class="modal fade" id="deleteInterface" tabindex="-1" role="dialog" aria-labelledby="deleteInterfaceLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteInterfaceLabel">删除用例</h4>
+            </div>
+            <div class="modal-body">
+
+                <form action="/interface_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="case_id_d"
+                           name="form_case_id_d"
+                           value="">
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的用例吗？
+                    </div>
+                    <div class="alert alert-danger" id="case_name_d">
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateInterface(obj) {
+        var tr = $(obj).parent().parent();
+        var case_id = tr.children("td#case_id_t").text();
+        var case_name = tr.children("td#case_name_t").text();
+        var interface_url = tr.children("td#interface_url_t").text();
+        var request_mode = tr.children("td#request_mode_t").text();
+        var request_parameter = tr.children("td#request_parameter_t").text();
+        var request_head = tr.children("td#request_head_t").text();
+        var body_type = tr.children("td#body_type_t").text();
+        var request_body = tr.children("td#request_body_t").text();
+        var expected_result = tr.children("td#expected_result_t").text();
+        var response_assert = tr.children("td#response_assert_t").text();
+        var regular_expression = tr.children("td#regular_expression_t").text();
+        var regular_variable = tr.children("td#regular_variable_t").text();
+        var regular_template = tr.children("td#regular_template_t").text();
+        //取值
+        $('#case_id_u').val(case_id);
+        $('#case_name_u').val(case_name);
+        $('#interface_url_u').val(interface_url);
+        $('#request_parameter_u').val(request_parameter);
+        $('#request_head_u').val(request_head);
+        $('#request_body_u').val(request_body);
+        $('#expected_result_u').val(expected_result);
+        $('#regular_variable_u').val(regular_variable);
+        $('#regular_template_u').val(regular_template);
+        //赋值
+        console.log(case_id);
+        console.log(case_name);
+        console.log(interface_url);
+        console.log(request_mode);
+        console.log(request_parameter);
+        console.log(request_head);
+        console.log(body_type);
+        console.log(request_body);
+        console.log(expected_result);
+        console.log(response_assert);
+        console.log(regular_expression);
+        console.log(regular_variable);
+        console.log(regular_template);
+        //打印日志
+    }
+</script>
+
+<script>
+    function getInterfaceId(ID, NAME) {
+        $('#case_id_d').val(ID);
+        $('#case_name_d').html(NAME);
+        console.log(ID);
+        console.log(NAME);
+    }
+
+    //向删除模态框传递用例id与用例名称
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#addInterface .btn-primary').on('click',
+            function () {
+                alert('嘿，确认增加用例吗？');
+            });
+        $('#addInterface .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#updateInterface .btn-primary').on('click',
+            function () {
+                alert('嘿，确认修改用例吗？');
+            });
+        $('#updateInterface .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#deleteInterface .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除用例吗？');
+            });
+        $('#deleteInterface .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
 
 <div id="footer">
     <hr/>
@@ -399,19 +1042,12 @@
 <script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/selectize/selectize.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.quick-form.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.editable.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.actions.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/select2/select2.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.datetime.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/select2/select2_locale_zh-hans.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.widget.select.js"></script>
 
