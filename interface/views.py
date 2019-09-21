@@ -1,7 +1,10 @@
+import demjson
+import requests
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.forms import model_to_dict
 from django.shortcuts import render, redirect
 from django.utils.datetime_safe import datetime
 from django.views import View
@@ -434,3 +437,62 @@ class DeleteInterfaceView(LoginRequiredMixin, View):
         return redirect('/interface/')
 
 
+class DebugInterfaceView(LoginRequiredMixin, View):
+    """运行用例"""
+
+    def update_interface_info(self, case_id, field, value):
+        # UPDATE interface_info SET field=value WHERE id=table_id;
+        field_value = {field: value}
+        InterfaceInfo.objects.filter(id=case_id).update(**field_value)
+
+    def post(self, request):
+        case_id = request.POST.get('form_case_id_b', '')
+        data_object = InterfaceInfo.objects.get(id=case_id)
+        data_dict = model_to_dict(data_object)
+        # 把QuerySet对象转换成字典
+        print(data_dict)
+
+        if data_dict["body_type"] == "x-www-form-urlencoded":
+            pass
+        elif data_dict["body_type"] == "json":
+            data_dict["request_body"] = demjson.decode(data_dict["request_body"])
+
+        response = requests.request(
+            data_dict["request_mode"],
+            data_dict["interface_url"],
+            data=data_dict["request_body"],
+            headers=demjson.decode(data_dict["request_head"]),
+            params=demjson.decode(data_dict["request_parameter"])
+        )
+
+        result_code = response.status_code
+        # 实际的响应代码
+        result_text = response.text
+        # 实际的响应文本
+        expect_error = "接口请求失败，请检查是否拼写错误！"
+
+        if result_code == 200:
+            if data_dict["response_assert"] == "包含":
+                self.update_interface_info(case_id, "response_code", result_code)
+                # 插入响应代码
+                self.update_interface_info(case_id, "actual_result", result_text)
+                # 插入实际结果
+                if data_dict["expected_result"] in result_text:
+                    self.update_interface_info(case_id, "pass_status", 1)
+                    # 插入通过状态
+                else:
+                    self.update_interface_info(case_id, "pass_status", 0)
+                    # 插入不通过状态
+            elif data_dict["response_assert"] == "相等":
+                self.update_interface_info(case_id, "response_code", result_code)
+                self.update_interface_info(case_id, "actual_result", result_text)
+                if data_dict["expected_result"] == result_text:
+                    self.update_interface_info(case_id, "pass_status", 1)
+                else:
+                    self.update_interface_info(case_id, "pass_status", 0)
+        else:
+            self.update_interface_info(case_id, "response_code", result_code)
+            self.update_interface_info(case_id, "actual_result", expect_error)
+            self.update_interface_info(case_id, "pass_status", 0)
+
+        return redirect('/interface/')

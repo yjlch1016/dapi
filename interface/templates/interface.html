@@ -324,6 +324,9 @@
                         </div>
                     </th>
                     <th scope="col" style="width: 100px">
+                        <span style="color: purple">运行</span>
+                    </th>
+                    <th scope="col" style="width: 100px">
                         <span style="color: green">修改</span>
                     </th>
                     <th scope="col" style="width: 100px">
@@ -335,7 +338,7 @@
                 {% for i in i_list %}
                     <tr class="grid-item">
                         <td id="case_id_t">{{ i.id }}</td>
-                        <td style="color: red">{{ i.case_group }}</td>
+                        <td id="case_group_t" style="color: red">{{ i.case_group }}</td>
                         <td id="case_name_t">{{ i.case_name }}</td>
                         <td id="interface_url_t">{{ i.interface_url }}</td>
                         <td id="request_mode_t">{{ i.request_mode }}</td>
@@ -348,14 +351,21 @@
                         <td id="regular_expression_t">{{ i.regular_expression }}</td>
                         <td id="regular_variable_t">{{ i.regular_variable }}</td>
                         <td id="regular_template_t">{{ i.regular_template }}</td>
-                        <td>{{ i.response_code }}</td>
-                        <td>{{ i.actual_result }}</td>
-                        <td>
-                            <i class="fa fa-question-circle muted"></i>
-                            {{ i.pass_status }}
-                        </td>
+                        <td id="response_code_t">{{ i.response_code }}</td>
+                        <td id="actual_result_t">{{ i.actual_result }}</td>
+                        <td id="pass_status_t">{% if i.pass_status == 1 %}<i class="fa fa-check-circle text-success"></i>{{ i.pass_status }}{% elif i.pass_status == 0 %}<i class="fa fa-times-circle text-error"></i>{{ i.pass_status }}{% else %}<i class="fa fa-question-circle muted"></i>{{ i.pass_status }}{% endif %}</td>
                         <td class="nowrap">{{ i.create_time }}</td>
                         <td class="nowrap">{{ i.update_time }}</td>
+                        <td>
+                            <a class="icon fa fa-bug"
+                               style="color: purple"
+                               data-toggle="modal"
+                               href="#debugInterface"
+                               onclick="debugInterface(this)">
+                                <!-- 点击会触发运行用例模态框 -->
+                                运行
+                            </a>
+                        </td>
                         <td>
                             <a class="icon fa fa-edit"
                                style="color: green"
@@ -940,6 +950,208 @@
     </div>
 </div>
 
+<!-- 运行用例模态框 -->
+<div class="modal fade" id="debugInterface" tabindex="-1" role="dialog" aria-labelledby="debugInterfaceLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="debugInterfaceLabel">调试用例</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/interface_debug/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="case_id_b"
+                           name="form_case_id_b"
+                           value="">
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="form-container row clearfix">
+                        <div id="column-0" class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset" id="box-0">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">用例信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_case_group" class="value form-group row">
+                                        <div class="control-label">
+                                            用例组
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="case_group_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_case_name" class="value form-group row">
+                                        <div class="control-label">
+                                            用例名称
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="case_name_b"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset" id="box-1">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">接口信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_interface_url" class="value form-group row">
+                                        <div class="control-label">
+                                            接口地址
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="interface_url_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_mode" class="value form-group row">
+                                        <div class="control-label">
+                                            请求方式
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="request_mode_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_parameter" class="value form-group row">
+                                        <div class="control-label">
+                                            请求参数
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="request_parameter_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_head" class="value form-group row">
+                                        <div class="control-label">
+                                            请求头
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="request_head_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_body_type" class="value form-group row">
+                                        <div class="control-label">
+                                            请求体类型
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="body_type_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_request_body" class="value form-group row">
+                                        <div class="control-label">
+                                            请求体
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="request_body_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_expected_result" class="value form-group row">
+                                        <div class="control-label">
+                                            预期结果
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="expected_result_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_response_assert" class="value form-group row">
+                                        <div class="control-label">
+                                            响应断言方式
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="response_assert_b"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset" id="box-2">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">正则表达式提取器</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_regular_expression" class="value form-group row">
+                                        <div class="control-label">
+                                            开启正则表达式
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="regular_expression_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_regular_variable" class="value form-group row">
+                                        <div class="control-label">
+                                            正则表达式变量名
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="regular_variable_b">
+                                                <span class="text-muted"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_regular_template" class="value form-group row">
+                                        <div class="control-label">
+                                            正则表达式模板
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="regular_template_b">
+                                                <span class="text-muted"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default fieldset" id="box-3">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">响应信息部分（只读）</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_response_code" class="value form-group row">
+                                        <div class="control-label">
+                                            响应代码
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="response_code_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_actual_result" class="value form-group row">
+                                        <div class="control-label">
+                                            实际结果
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="actual_result_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_pass_status" class="value form-group row">
+                                        <div class="control-label">
+                                            是否通过
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="pass_status_b"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-location-arrow"></i>
+                            运行
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function updateInterface(obj) {
         var tr = $(obj).parent().parent();
@@ -993,6 +1205,48 @@
     }
 
     //向删除模态框传递用例id与用例名称
+</script>
+
+<script>
+    function debugInterface(obj) {
+        var tr = $(obj).parent().parent();
+        var case_id = tr.children("td#case_id_t").text();
+        var case_group = tr.children("td#case_group_t").text();
+        var case_name = tr.children("td#case_name_t").text();
+        var interface_url = tr.children("td#interface_url_t").text();
+        var request_mode = tr.children("td#request_mode_t").text();
+        var request_parameter = tr.children("td#request_parameter_t").text();
+        var request_head = tr.children("td#request_head_t").text();
+        var body_type = tr.children("td#body_type_t").text();
+        var request_body = tr.children("td#request_body_t").text();
+        var expected_result = tr.children("td#expected_result_t").text();
+        var response_assert = tr.children("td#response_assert_t").text();
+        var regular_expression = tr.children("td#regular_expression_t").text();
+        var regular_variable = tr.children("td#regular_variable_t").text();
+        var regular_template = tr.children("td#regular_template_t").text();
+        var response_code = tr.children("td#response_code_t").text();
+        var actual_result = tr.children("td#actual_result_t").text();
+        var pass_status = tr.children("td#pass_status_t").text();
+        //取值
+        $('#case_id_b').val(case_id);
+        $('#case_group_b').html(case_group);
+        $('#case_name_b').html(case_name);
+        $('#interface_url_b').html(interface_url);
+        $('#request_mode_b').html(request_mode);
+        $('#request_parameter_b').html(request_parameter);
+        $('#request_head_b').html(request_head);
+        $('#body_type_b').html(body_type);
+        $('#request_body_b').html(request_body);
+        $('#expected_result_b').html(expected_result);
+        $('#response_assert_b').html(response_assert);
+        $('#regular_expression_b').html(regular_expression);
+        $('#regular_variable_b').html(regular_variable);
+        $('#regular_template_b').html(regular_template);
+        $('#response_code_b').html(response_code);
+        $('#actual_result_b').html(actual_result);
+        $('#pass_status_b').html(pass_status);
+        //赋值
+    }
 </script>
 
 <!-- 二次确认弹窗 -->
