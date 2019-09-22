@@ -450,7 +450,6 @@ class DebugInterfaceView(LoginRequiredMixin, View):
         data_object = InterfaceInfo.objects.get(id=case_id)
         data_dict = model_to_dict(data_object)
         # 把QuerySet对象转换成字典
-        print(data_dict)
 
         if data_dict["body_type"] == "x-www-form-urlencoded":
             pass
