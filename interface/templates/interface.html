@@ -1179,20 +1179,6 @@
         $('#regular_variable_u').val(regular_variable);
         $('#regular_template_u').val(regular_template);
         //赋值
-        console.log(case_id);
-        console.log(case_name);
-        console.log(interface_url);
-        console.log(request_mode);
-        console.log(request_parameter);
-        console.log(request_head);
-        console.log(body_type);
-        console.log(request_body);
-        console.log(expected_result);
-        console.log(response_assert);
-        console.log(regular_expression);
-        console.log(regular_variable);
-        console.log(regular_template);
-        //打印日志
     }
 </script>
 
@@ -1275,6 +1261,15 @@
                 alert('嘿，确认删除用例吗？');
             });
         $('#deleteInterface .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#debugInterface .btn-primary').on('click',
+            function () {
+                alert('嘿，确认运行用例吗？');
+            });
+        $('#debugInterface .btn-info').on('click',
             function () {
                 alert('嘿，确认取消吗？');
             });
