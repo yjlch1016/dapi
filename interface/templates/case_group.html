@@ -232,6 +232,9 @@
                         </div>
                     </th>
                     <th scope="col">
+                        <span style="color: purple">运行</span>
+                    </th>
+                    <th scope="col">
                         <span style="color: green">修改</span>
                     </th>
                     <th scope="col">
@@ -251,6 +254,16 @@
                         </td>
                         <td class="nowrap">{{ c.create_time }}</td>
                         <td class="nowrap">{{ c.update_time }}</td>
+                        <td>
+                            <a class="icon fa fa-bug"
+                               style="color: purple"
+                               data-toggle="modal"
+                               href="#debugCaseGroup"
+                               onclick="debugCaseGroupId({{ c.id }}, '{{ c.case_group_name }}', '{{ c.case_group_describe }}');run({{ c.id }})">
+                                <!-- 点击会触发运行用例组模态框，绑定两个点击事件 -->
+                                运行
+                            </a>
+                        </td>
                         <td>
                             <a class="icon fa fa-edit"
                                style="color: green"
@@ -482,6 +495,90 @@
     </div>
 </div>
 
+<!-- 运行用例组模态框 -->
+<div class="modal fade" id="debugCaseGroup" tabindex="-1" role="dialog" aria-labelledby="debugCaseGroupLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="debugCaseGroupLabel">运行用例组</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/case_group_debug/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="case_group_id_b"
+                           name="form_case_group_id_b"
+                           value="">
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="form-container row clearfix">
+                        <div id="column-0" class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset" id="box-0">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">用例组信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_case_group_name" class="value form-group row">
+                                        <div class="control-label">用例组名称</div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="case_group_name_b"></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_case_group_describe" class="value form-group row">
+                                        <div class="control-label">用例组描述
+                                        </div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="case_group_describe_b"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default formset fieldset  accordion" id="groups-group">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">用例列表</h3>
+                                </div>
+                                <div class="panel-body accordion formset-content panel-group"
+                                     id="groups-group-accordion" data-prefix="groups" data-style="accordion">
+                                    <div class="results table-responsive">
+                                        <table class="table table-bordered table-striped table-hover" id="case_data_r">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" class="sortable" style="width: 20%">用例ID</th>
+                                                <th scope="col" class="sortable" style="width: 80%">用例名称</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="grid-item" id="template">
+                                                <td id="case_id_r"></td>
+                                                <td id="case_name_r"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-location-arrow"></i>
+                            运行
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="footer">
     <hr/>
     <footer class="text-center">
@@ -518,6 +615,50 @@
     //向删除模态框传递用例组id与用例组名称
 </script>
 
+<script>
+    function debugCaseGroupId(ID, NAME, DESC) {
+        $('#case_group_id_b').val(ID);
+        $('#case_group_name_b').html(NAME);
+        $('#case_group_describe_b').html(DESC);
+        console.log(ID);
+        console.log(NAME);
+        console.log(DESC);
+    }
+
+    //向运行模态框传递用例组id、名称、描述
+</script>
+
+<script>
+    function run(ID) {
+        $.ajax({
+            url: '/get_case_ajax/',
+            cache: false,
+            type: 'post',
+            data: {
+                "i": ID,
+                "csrfmiddlewaretoken": $("[name='csrfmiddlewaretoken']").val(),
+                "timestamp": new Date().getTime()
+            },
+            dataType: 'json',
+            success: function (data) {
+                //alert("ajax请求成功！");
+
+                $.each(data, function (i, n) {
+                    var row = $("#template").clone();
+                    row.find("#case_id_r").text(n.id);
+                    row.find("#case_name_r").text(n.case_name);
+                    row.appendTo("#case_data_r");
+                });
+            },
+            error: function () {
+                alert("ajax请求失败！")
+            }
+        });
+    }
+
+    //获取用例组包含的用例信息
+</script>
+
 <!-- 二次确认弹窗 -->
 <script>
     $(function () {
@@ -544,6 +685,15 @@
                 alert('嘿，确认删除用例组吗？');
             });
         $('#deleteCaseGroup .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#debugCaseGroup .btn-primary').on('click',
+            function () {
+                alert('嘿，确认运行用例组吗？');
+            });
+        $('#debugCaseGroup .btn-info').on('click',
             function () {
                 alert('嘿，确认取消吗？');
             });
