@@ -1,5 +1,7 @@
-# dapi      
-基于Django的轻量级接口测试平台     
+# dapi        
+基于Django的轻量级接口测试平台    
+QQ群：529063263   
+dapi：即Django+API测试的缩写  
 
 
 ## PyCharm图片    
