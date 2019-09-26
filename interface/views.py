@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.forms import model_to_dict
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.datetime_safe import datetime
 from django.views import View
@@ -314,6 +315,30 @@ class DeleteCaseGroupView(LoginRequiredMixin, View):
         CaseGroupInfo.objects.filter(id=case_group_id).delete()
 
         return redirect('/case_group/')
+
+
+class DebugCaseGroupView(LoginRequiredMixin, View):
+    """运行用例组"""
+
+    def post(self, request):
+        return redirect('/case_group/')
+
+
+def get_case_ajax(request):
+    """用例组ajax获取用例信息"""
+
+    if request.method == 'POST':
+        i = request.POST.get('i')
+        print(i)
+        data_object = CaseGroupInfo.objects.get(id=i).groups.values(
+            "id", "case_name").order_by("id")
+        print(data_object)
+        # 反向查询用例组包含的用例
+        data_list = list(data_object)
+        print(data_list)
+        # 把QuerySet对象转换成列表
+        return JsonResponse(data_list, safe=False)
+        # JsonResponse在抛出列表的时候需要将safe设置为False
 
 
 class InterfaceListView(LoginRequiredMixin, View):
