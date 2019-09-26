@@ -21,7 +21,8 @@ from rest_framework import routers
 from interface import views
 from interface.views import ModuleListView, AddModuleView, UpdateModuleView, DeleteModuleView, CaseGroupListView, \
     InterfaceListView, AddCaseGroupView, DeleteCaseGroupView, UpdateCaseGroupView, ProductListView, AddProductView, \
-    UpdateProductView, DeleteProductView, AddInterfaceView, DeleteInterfaceView, UpdateInterfaceView, DebugInterfaceView
+    UpdateProductView, DeleteProductView, AddInterfaceView, DeleteInterfaceView, UpdateInterfaceView, \
+    DebugInterfaceView, DebugCaseGroupView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -31,33 +32,42 @@ router.register('interface_info', views.InterfaceInfoViewSet)
 
 urlpatterns = [
     path('admin/', xadmin.site.urls),
+    # 后台路由
 
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # API路由
 
     path('login/', views.login),
     path('', views.login),
     path('home/', views.home),
     path('logout/', views.logout),
+    # 登录、首页、退出路由
 
     path('product/', ProductListView.as_view(), name='product'),
     path('product_add/', AddProductView.as_view(), name='product_add'),
     path('product_update/', UpdateProductView.as_view(), name='product_update'),
     path('product_delete/', DeleteProductView.as_view(), name='product_delete'),
+    # 产品线路由
 
     path('module/', ModuleListView.as_view(), name='module'),
     path('module_add/', AddModuleView.as_view(), name='module_add'),
     path('module_update/', UpdateModuleView.as_view(), name='module_update'),
     path('module_delete/', DeleteModuleView.as_view(), name='module_delete'),
+    # 模块路由
 
     path('case_group/', CaseGroupListView.as_view(), name='case_group'),
     path('case_group_add/', AddCaseGroupView.as_view(), name='case_group_add'),
     path('case_group_update/', UpdateCaseGroupView.as_view(), name='case_group_update'),
     path('case_group_delete/', DeleteCaseGroupView.as_view(), name='case_group_delete'),
+    path('case_group_debug/', DebugCaseGroupView.as_view(), name='case_group_debug'),
+    path('get_case_ajax/', views.get_case_ajax),
+    # 用例组路由
 
     path('interface/', InterfaceListView.as_view(), name='interface'),
     path('interface_add/', AddInterfaceView.as_view(), name='interface_add'),
     path('interface_update/', UpdateInterfaceView.as_view(), name='interface_update'),
     path('interface_delete/', DeleteInterfaceView.as_view(), name='interface_delete'),
     path('interface_debug/', DebugInterfaceView.as_view(), name='interface_debug'),
+    # 用例路由
 ]
