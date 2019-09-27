@@ -329,13 +329,10 @@ def get_case_ajax(request):
 
     if request.method == 'POST':
         i = request.POST.get('i')
-        print(i)
         data_object = CaseGroupInfo.objects.get(id=i).groups.values(
             "id", "case_name").order_by("id")
-        print(data_object)
         # 反向查询用例组包含的用例
         data_list = list(data_object)
-        print(data_list)
         # 把QuerySet对象转换成列表
         return JsonResponse(data_list, safe=False)
         # JsonResponse在抛出列表的时候需要将safe设置为False
