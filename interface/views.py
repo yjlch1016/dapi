@@ -367,10 +367,8 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
 
             result_code = response.status_code
             # 实际的响应代码
-            print(result_code)
             result_text = response.text
             # 实际的响应文本
-            print(result_text)
             expect_error = "接口请求失败，请检查是否拼写错误！"
 
             if result_code == 200:
@@ -396,6 +394,9 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
                 self.update_interface_info(case_id, "response_code", result_code)
                 self.update_interface_info(case_id, "actual_result", expect_error)
                 self.update_interface_info(case_id, "pass_status", 0)
+
+            sleep(0.5)
+            # 等待0.5秒
 
         return redirect('/case_group/')
 
