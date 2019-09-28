@@ -187,7 +187,7 @@ class InterfaceInfo(models.Model):
     # 请求体类型
     request_body = models.TextField(
         verbose_name="请求体", blank=True, null=True,
-        help_text="请输入键值对、json、文件或xml格式的请求体")
+        help_text="请输入浏览器原生表单、json、文件或xml格式的请求体")
     # 请求体
     expected_result = models.TextField(
         verbose_name="预期结果", blank=True, null=True, help_text="请输入预期结果")
