@@ -178,10 +178,12 @@ class InterfaceInfo(models.Model):
         null=True, help_text="请输入字典格式的请求参数")
     # 请求参数
     request_head = models.TextField(
-        verbose_name="请求头", help_text="请输入字典格式的请求头")
+        verbose_name="请求头", blank=True, null=True,
+        help_text="请输入字典格式的请求头")
     # 请求头
     body_type = models.CharField(
         choices=body_choice, max_length=21,
+        blank=True, null=True,
         verbose_name="请求体类型", default="x-www-form-urlencoded",
         help_text="请选择请求体类型")
     # 请求体类型
