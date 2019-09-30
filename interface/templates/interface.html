@@ -353,7 +353,11 @@
                         <td id="regular_template_t">{{ i.regular_template }}</td>
                         <td id="response_code_t">{{ i.response_code }}</td>
                         <td id="actual_result_t">{{ i.actual_result }}</td>
-                        <td id="pass_status_t">{% if i.pass_status == 1 %}<i class="fa fa-check-circle text-success"></i>{{ i.pass_status }}{% elif i.pass_status == 0 %}<i class="fa fa-times-circle text-error"></i>{{ i.pass_status }}{% else %}<i class="fa fa-question-circle muted"></i>{{ i.pass_status }}{% endif %}</td>
+                        <td id="pass_status_t">{% if i.pass_status == 1 %}
+                            <i class="fa fa-check-circle text-success"></i>
+                            {{ i.pass_status }}{% elif i.pass_status == 0 %}
+                            <i class="fa fa-times-circle text-error"></i>{{ i.pass_status }}{% else %}
+                            <i class="fa fa-question-circle muted"></i>{{ i.pass_status }}{% endif %}</td>
                         <td class="nowrap">{{ i.create_time }}</td>
                         <td class="nowrap">{{ i.update_time }}</td>
                         <td>
@@ -527,11 +531,10 @@
                                     <div id="div_id_request_head" class="form-group">
                                         <label for="id_request_head"
                                                class="control-label  requiredField">请求头
-                                            <span class="asteriskField">*</span>
                                         </label>
                                         <div class="controls ">
                                             <textarea name="form_request_head_a" cols="40" rows="10"
-                                                      class="textarea-field admintextareawidget form-control" required
+                                                      class="textarea-field admintextareawidget form-control"
                                                       id="id_request_head"></textarea>
                                             <p id="hint_id_request_head" class="help-block">
                                                 请输入字典格式的请求头
@@ -542,7 +545,6 @@
                                         <label for="id_body_type"
                                                class="control-label  requiredField">
                                             请求体类型
-                                            <span class="asteriskField">*</span>
                                         </label>
                                         <div class="controls ">
                                             <select name="form_body_type_a" class="adminselectwidget form-control"
@@ -780,10 +782,11 @@
                                     <div id="div_id_request_head" class="form-group">
                                         <label for="id_request_head"
                                                class="control-label  requiredField">
-                                            请求头<span class="asteriskField">*</span> </label>
+                                            请求头
+                                        </label>
                                         <div class="controls ">
                                             <textarea name="form_request_head_u" cols="40" rows="10"
-                                                      class="textarea-field admintextareawidget form-control" required
+                                                      class="textarea-field admintextareawidget form-control"
                                                       id="request_head_u"></textarea>
                                             <p id="hint_id_request_head" class="help-block">请输入字典格式的请求头</p>
                                         </div>
@@ -792,7 +795,6 @@
                                         <label for="id_body_type"
                                                class="control-label  requiredField">
                                             请求体类型
-                                            <span class="asteriskField">*</span>
                                         </label>
                                         <div class="controls ">
                                             <select name="form_body_type_u" class="adminselectwidget form-control"
@@ -816,7 +818,8 @@
                                             <textarea name="form_request_body_u" cols="40" rows="10"
                                                       class="textarea-field admintextareawidget form-control"
                                                       id="request_body_u"></textarea>
-                                            <p id="hint_id_request_body" class="help-block">请输入浏览器原生表单、json、文件或xml格式的请求体</p>
+                                            <p id="hint_id_request_body" class="help-block">
+                                                请输入浏览器原生表单、json、文件或xml格式的请求体</p>
                                         </div>
                                     </div>
                                     <div id="div_id_expected_result" class="form-group">
