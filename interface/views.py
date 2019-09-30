@@ -353,9 +353,10 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
 
             if body_type == "x-www-form-urlencoded":
                 pass
+            # 请求体类型默认使用浏览器原生表单
             elif body_type == "json":
                 request_body = demjson.decode(request_body)
-                # 等价于json.loads()
+                # 等价于json.loads()反序列化
 
             response = requests.request(
                 request_mode,
@@ -552,8 +553,10 @@ class DebugInterfaceView(LoginRequiredMixin, View):
 
         if data_dict["body_type"] == "x-www-form-urlencoded":
             pass
+        # 请求体类型默认使用浏览器原生表单
         elif data_dict["body_type"] == "json":
             data_dict["request_body"] = demjson.decode(data_dict["request_body"])
+            # 等价于json.loads()反序列化
 
         response = requests.request(
             data_dict["request_mode"],
