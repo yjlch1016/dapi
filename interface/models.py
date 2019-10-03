@@ -13,18 +13,18 @@ class ProductInfo(models.Model):
     # 产品线名称，并创建索引
     product_describe = models.TextField(
         verbose_name="产品描述", help_text="请输入产品描述",
-        blank=True, null=True)
+        blank=True, null=True, default="")
     # 产品描述
     product_manager = models.CharField(
         max_length=11, verbose_name="产品经理", help_text="请输入产品经理")
     # 产品经理
     developer = models.CharField(
         max_length=11, verbose_name="开发人员",
-        blank=True, null=True, help_text="请输入开发人员")
+        blank=True, null=True, default="", help_text="请输入开发人员")
     # 开发人员
     tester = models.CharField(
         max_length=11, verbose_name="测试人员",
-        blank=True, null=True, help_text="请输入测试人员")
+        blank=True, null=True, default="", help_text="请输入测试人员")
     # 测试人员
     create_time = models.DateTimeField(
         auto_now_add=True, blank=True, null=True, verbose_name="创建时间")
@@ -67,7 +67,7 @@ class ModuleInfo(models.Model):
     # 模块名称，并创建索引
     module_describe = models.TextField(
         verbose_name="模块描述", help_text="请输入模块描述",
-        blank=True, null=True, )
+        blank=True, null=True, default="")
     # 模块描述
     create_time = models.DateTimeField(
         auto_now_add=True, blank=True, null=True, verbose_name="创建时间")
@@ -96,7 +96,7 @@ class CaseGroupInfo(models.Model):
     # 用例组名称，并创建索引
     case_group_describe = models.CharField(
         max_length=255, verbose_name="用例组描述",
-        blank=True, null=True, help_text="请输入用例组描述")
+        blank=True, null=True, default="", help_text="请输入用例组描述")
     # 用例组描述
     create_time = models.DateTimeField(
         auto_now_add=True, blank=True, null=True, verbose_name="创建时间")
@@ -174,12 +174,12 @@ class InterfaceInfo(models.Model):
         help_text="请选择请求方式")
     # 请求方式
     request_parameter = models.TextField(
-        verbose_name="请求参数", blank=True,
-        null=True, help_text="请输入字典格式的请求参数")
+        verbose_name="请求参数", blank=True, null=True,
+        help_text="请输入字典格式的请求参数", default="")
     # 请求参数
     request_head = models.TextField(
         verbose_name="请求头", blank=True, null=True,
-        help_text="请输入字典格式的请求头")
+        help_text="请输入字典格式的请求头", default="")
     # 请求头
     body_type = models.CharField(
         choices=body_choice, max_length=21,
@@ -189,10 +189,11 @@ class InterfaceInfo(models.Model):
     # 请求体类型
     request_body = models.TextField(
         verbose_name="请求体", blank=True, null=True,
-        help_text="请输入浏览器原生表单、json、文件或xml格式的请求体")
+        help_text="请输入浏览器原生表单、json、文件或xml格式的请求体", default="")
     # 请求体
     expected_result = models.TextField(
-        verbose_name="预期结果", blank=True, null=True, help_text="请输入预期结果")
+        verbose_name="预期结果", blank=True, null=True,
+        help_text="请输入预期结果", default="")
     # 预期结果
     response_assert = models.CharField(
         choices=assert_choice, max_length=2,
@@ -200,6 +201,10 @@ class InterfaceInfo(models.Model):
         verbose_name="响应断言方式", default="包含",
         help_text="请选择断言方式")
     # 响应断言方式
+    wait_time = models.FloatField(
+        max_length=5, verbose_name="等待时间", default=0.1,
+        blank=True, null=True, help_text="请输入等待时间，单位：秒")
+    # 等待时间
     regular_expression = models.CharField(
         choices=regular_choice, max_length=3,
         blank=True, null=True,
@@ -208,11 +213,13 @@ class InterfaceInfo(models.Model):
     # 开启正则表达式
     regular_variable = models.CharField(
         max_length=11, blank=True, null=True,
-        verbose_name="正则表达式变量名", help_text="请输入正则表达式变量名")
+        verbose_name="正则表达式变量名", default="",
+        help_text="请输入正则表达式变量名")
     # 正则表达式变量名
     regular_template = models.CharField(
         max_length=255, blank=True, null=True,
-        verbose_name="正则表达式模板", help_text="请输入正则表达式模板")
+        verbose_name="正则表达式模板", default="",
+        help_text="请输入正则表达式模板")
     # 正则表达式模板
     response_code = models.IntegerField(
         verbose_name="响应代码", blank=True, null=True)
