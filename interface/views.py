@@ -1,3 +1,4 @@
+import re
 from time import sleep
 
 import demjson
@@ -328,14 +329,15 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
         InterfaceInfo.objects.filter(id=case_id).update(**field_value)
 
     def post(self, request):
+
+        global regular_result
+        # 声明一个全局变量regular_result（正则表达式提取的结果）
+        # 用于传参
+
         case_group_id = request.POST.get('form_case_group_id_b', '')
         data_object = CaseGroupInfo.objects.get(
-            id=case_group_id).groups.values(
-            "id", "request_mode", "interface_url",
-            "body_type", "request_body", "request_head",
-            "request_parameter", "expected_result", "response_assert"
-        ).order_by("id")
-        # 反向查询用例组包含的用例
+            id=case_group_id).groups.values().order_by("id")
+        # 反向查询用例组包含的用例信息
 
         data_list = list(data_object)
         # 把QuerySet对象转换成列表
@@ -349,11 +351,49 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
             request_parameter = item["request_parameter"]
             expected_result = item["expected_result"]
             response_assert = item["response_assert"]
+            regular_expression = item["regular_expression"]
+            regular_variable = item["regular_variable"]
+            regular_template = item["regular_template"]
+            actual_result = item["actual_result"]
+            wait_time = item["wait_time"]
             # 获取列表里面的字典的值
+
+            if regular_expression == "开启" and regular_variable is not None:
+                # 如果正则表达式开启，并且变量名不为空
+                regular_result = re.findall(regular_template, actual_result)[0]
+                # re.findall(正则表达式模板, 某个接口的实际结果)
+                # 返回一个符合规则的list，取第1个
+                # 即为正则表达式提取的结果
+
+            if regular_expression == "不开启" and regular_variable == "":
+                # 如果正则表达式开启，并且变量名为空
+                data_object = CaseGroupInfo.objects.get(
+                    id=case_group_id).groups.values("regular_variable").filter(
+                    regular_expression="开启").order_by("id")
+                # 取出过滤条件为"正则表达式开启"的那条用例的变量名
+                data_list = list(data_object)
+                for item in data_list:
+                    regular_variable = item["regular_variable"]
+
+            old = "${" + regular_variable + "}"
+            # ${变量名} = ${ + 变量名 + }
+            if "$" in interface_url:
+                interface_url = interface_url.replace(old, regular_result)
+                # replace(old, new)把字符串中的旧字符串替换成新字符串
+                # 即把正则表达式提取的值替换进去
+            elif "$" in request_parameter:
+                request_parameter = request_parameter.replace(old, regular_result)
+            elif "$" in request_head:
+                request_head = request_head.replace(old, regular_result)
+            elif "$" in request_body:
+                request_body = request_body.replace(old, regular_result)
+            elif "$" in expected_result:
+                expected_result = expected_result.replace(old, regular_result)
 
             if body_type == "x-www-form-urlencoded":
                 pass
-            # 请求体类型默认使用浏览器原生表单
+                # 请求体类型默认使用浏览器原生表单
+                # 如果是这种格式，不作任何处理
             elif body_type == "json":
                 request_body = demjson.decode(request_body)
                 # 等价于json.loads()反序列化
@@ -370,7 +410,7 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
             # 实际的响应代码
             result_text = response.text
             # 实际的响应文本
-            expect_error = "接口请求失败，请检查是否拼写错误！"
+            expect_error = "接口请求失败，请检查拼写是否正确！"
 
             if result_code == 200:
                 if response_assert == "包含":
@@ -396,8 +436,8 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
                 self.update_interface_info(case_id, "actual_result", expect_error)
                 self.update_interface_info(case_id, "pass_status", 0)
 
-            sleep(0.5)
-            # 等待0.5秒
+            sleep(wait_time)
+            # 等待时间
 
         return redirect('/case_group/')
 
@@ -408,7 +448,7 @@ def get_case_ajax(request):
     if request.method == 'POST':
         i = request.POST.get('i')
         data_object = CaseGroupInfo.objects.get(id=i).groups.values(
-            "id", "case_name").order_by("id")
+            "id", "case_name", "pass_status").order_by("id")
         # 反向查询用例组包含的用例
         data_list = list(data_object)
         # 把QuerySet对象转换成列表
@@ -467,6 +507,7 @@ class AddInterfaceView(LoginRequiredMixin, View):
         request_body = request.POST.get('form_request_body_a', '')
         expected_result = request.POST.get('form_expected_result_a', '')
         response_assert = request.POST.get('form_response_assert_a', '')
+        wait_time = request.POST.get('form_wait_time_a', '')
         regular_expression = request.POST.get('form_regular_expression_a', '')
         regular_variable = request.POST.get('form_regular_variable_a', '')
         regular_template = request.POST.get('form_regular_template_a', '')
@@ -481,6 +522,7 @@ class AddInterfaceView(LoginRequiredMixin, View):
             request_body=request_body,
             expected_result=expected_result,
             response_assert=response_assert,
+            wait_time=wait_time,
             regular_expression=regular_expression,
             regular_variable=regular_variable,
             regular_template=regular_template,
@@ -504,6 +546,7 @@ class UpdateInterfaceView(LoginRequiredMixin, View):
         request_body = request.POST.get('form_request_body_u', '')
         expected_result = request.POST.get('form_expected_result_u', '')
         response_assert = request.POST.get('form_response_assert_u', '')
+        wait_time = request.POST.get('form_wait_time_u', '')
         regular_expression = request.POST.get('form_regular_expression_u', '')
         regular_variable = request.POST.get('form_regular_variable_u', '')
         regular_template = request.POST.get('form_regular_template_u', '')
@@ -518,6 +561,7 @@ class UpdateInterfaceView(LoginRequiredMixin, View):
             request_body=request_body,
             expected_result=expected_result,
             response_assert=response_assert,
+            wait_time=wait_time,
             regular_expression=regular_expression,
             regular_variable=regular_variable,
             regular_template=regular_template,
@@ -553,7 +597,8 @@ class DebugInterfaceView(LoginRequiredMixin, View):
 
         if data_dict["body_type"] == "x-www-form-urlencoded":
             pass
-        # 请求体类型默认使用浏览器原生表单
+            # 请求体类型默认使用浏览器原生表单
+            # 如果是这种格式，不作任何处理
         elif data_dict["body_type"] == "json":
             data_dict["request_body"] = demjson.decode(data_dict["request_body"])
             # 等价于json.loads()反序列化
@@ -570,7 +615,7 @@ class DebugInterfaceView(LoginRequiredMixin, View):
         # 实际的响应代码
         result_text = response.text
         # 实际的响应文本
-        expect_error = "接口请求失败，请检查是否拼写错误！"
+        expect_error = "接口请求失败，请检查拼写是否正确！"
 
         if result_code == 200:
             if data_dict["response_assert"] == "包含":
@@ -595,5 +640,8 @@ class DebugInterfaceView(LoginRequiredMixin, View):
             self.update_interface_info(case_id, "response_code", result_code)
             self.update_interface_info(case_id, "actual_result", expect_error)
             self.update_interface_info(case_id, "pass_status", 0)
+
+        sleep(data_dict["wait_time"])
+        # 等待时间
 
         return redirect('/interface/')
