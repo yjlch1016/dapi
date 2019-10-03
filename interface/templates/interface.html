@@ -267,6 +267,13 @@
                             </a>
                         </div>
                     </th>
+                    <th scope="col" class="sortable" style="width: 70px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                等待时间
+                            </a>
+                        </div>
+                    </th>
                     <th scope="col" class="sortable" style="width: 80px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
@@ -348,6 +355,7 @@
                         <td id="request_body_t">{{ i.request_body }}</td>
                         <td id="expected_result_t">{{ i.expected_result }}</td>
                         <td id="response_assert_t">{{ i.response_assert }}</td>
+                        <td id="wait_time_t">{{ i.wait_time }}</td>
                         <td id="regular_expression_t">{{ i.regular_expression }}</td>
                         <td id="regular_variable_t">{{ i.regular_variable }}</td>
                         <td id="regular_template_t">{{ i.regular_template }}</td>
@@ -603,6 +611,17 @@
                                             </p>
                                         </div>
                                     </div>
+                                    <div id="div_id_wait_time" class="form-group">
+                                        <label for="id_wait_time" class="control-label ">
+                                            等待时间（秒）
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="number" name="form_wait_time_a" value="0.1" step="any" class="numberinput form-control" id="wait_time_a" style="width: auto">
+                                            <p id="hint_id_wait_time" class="help-block">
+                                                请输入等待时间，单位：秒
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-default fieldset">
@@ -850,6 +869,17 @@
                                             <p id="hint_id_response_assert" class="help-block">请选择断言方式</p>
                                         </div>
                                     </div>
+                                    <div id="div_id_wait_time" class="form-group">
+                                        <label for="id_wait_time" class="control-label ">
+                                            等待时间（秒）
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="number" name="form_wait_time_u" value="" step="any" class="numberinput form-control" id="wait_time_u" style="width: auto">
+                                            <p id="hint_id_wait_time" class="help-block">
+                                                请输入等待时间，单位：秒
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-default fieldset">
@@ -1068,6 +1098,12 @@
                                             <p class="form-control-static " id="response_assert_b"></p>
                                         </div>
                                     </div>
+                                    <div id="div_id_wait_time" class="value form-group row">
+                                        <div class="control-label">等待时间（秒）</div>
+                                        <div class="controls">
+                                            <p class="form-control-static " id="wait_time_b"></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-default fieldset" id="box-2">
@@ -1169,6 +1205,7 @@
         var request_body = tr.children("td#request_body_t").text();
         var expected_result = tr.children("td#expected_result_t").text();
         var response_assert = tr.children("td#response_assert_t").text();
+        var wait_time = tr.children("td#wait_time_t").text();
         var regular_expression = tr.children("td#regular_expression_t").text();
         var regular_variable = tr.children("td#regular_variable_t").text();
         var regular_template = tr.children("td#regular_template_t").text();
@@ -1180,6 +1217,7 @@
         $('#request_head_u').val(request_head);
         $('#request_body_u').val(request_body);
         $('#expected_result_u').val(expected_result);
+        $('#wait_time_u').val(wait_time);
         $('#regular_variable_u').val(regular_variable);
         $('#regular_template_u').val(regular_template);
         //赋值
@@ -1211,6 +1249,7 @@
         var request_body = tr.children("td#request_body_t").text();
         var expected_result = tr.children("td#expected_result_t").text();
         var response_assert = tr.children("td#response_assert_t").text();
+        var wait_time = tr.children("td#wait_time_t").text();
         var regular_expression = tr.children("td#regular_expression_t").text();
         var regular_variable = tr.children("td#regular_variable_t").text();
         var regular_template = tr.children("td#regular_template_t").text();
@@ -1229,6 +1268,7 @@
         $('#request_body_b').html(request_body);
         $('#expected_result_b').html(expected_result);
         $('#response_assert_b').html(response_assert);
+        $('#wait_time_b').html(wait_time);
         $('#regular_expression_b').html(regular_expression);
         $('#regular_variable_b').html(regular_variable);
         $('#regular_template_b').html(regular_template);
