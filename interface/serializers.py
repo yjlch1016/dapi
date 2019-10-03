@@ -76,6 +76,7 @@ class InterfaceInfoSerializer(serializers.HyperlinkedModelSerializer):
             'request_body',
             'expected_result',
             'response_assert',
+            'wait_time',
             'regular_expression',
             'regular_variable',
             'regular_template',
