@@ -162,6 +162,7 @@ class DeleteProductView(LoginRequiredMixin, View):
     def post(self, request):
         product_id = request.POST.get('form_product_id_d', '')
         ProductInfo.objects.filter(id=product_id).delete()
+
         return redirect('/product/')
 
 
@@ -366,7 +367,7 @@ class DebugCaseGroupView(LoginRequiredMixin, View):
                 # 即为正则表达式提取的结果
 
             if regular_expression == "不开启" and regular_variable == "":
-                # 如果正则表达式开启，并且变量名为空
+                # 如果正则表达式不开启，并且变量名为空
                 data_object = CaseGroupInfo.objects.get(
                     id=case_group_id).groups.values("regular_variable").filter(
                     regular_expression="开启").order_by("id")
@@ -452,6 +453,7 @@ def get_case_ajax(request):
         # 反向查询用例组包含的用例
         data_list = list(data_object)
         # 把QuerySet对象转换成列表
+
         return JsonResponse(data_list, safe=False)
         # JsonResponse在抛出列表的时候需要将safe设置为False
 
