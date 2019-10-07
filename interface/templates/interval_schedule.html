@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+    <title>间隔时间 | 测试平台</title>
+
+    <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" id="site-theme" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>
+    <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+
+    <style type="text/css">
+        .btn-toolbar {
+            margin-top: 0;
+        }
+
+        #content-block.full-content {
+            margin-left: 0;
+        }
+    </style>
+
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+
+</head>
+
+<body class="change-list">
+
+<div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">测试平台</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <strong>欢迎你{{ user }}</strong>
+                </a>
+            </li>
+            <li>
+                <a href="/logout/">
+                    <i class="show-sm fa fa-sign-out"></i>
+                    <span class="hide-sm">退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="body-content" class="clearfix row">
+
+    <div id="left-side" class="col-sm-1 col-md-2">
+
+        <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-1">
+                            <i class="fa-fw fa fa-github-square"></i>
+                            产品管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-1" class="list-group panel-collapse collapse">
+                    <a href="/product/" class="list-group-item">
+                        <i class="fa-fw fa fa-apple"></i>
+                        产品线列表
+                    </a>
+                    <a href="/module/" class="list-group-item">
+                        <i class="fa-fw fa fa-android"></i>
+                        模块列表
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-2">
+                            <i class="fa-fw fa fa-github"></i>
+                            用例管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-2" class="list-group panel-collapse collapse">
+                    <a href="/case_group/" class="list-group-item">
+                        <i class="fa-fw fa fa-linux"></i>
+                        用例组列表
+                    </a>
+                    <a href="/interface/" class="list-group-item">
+                        <i class="fa-fw fa fa-windows"></i>
+                        用例列表
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-3">
+                            <i class="fa-fw fa fa-github-alt"></i>
+                            任务管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-3" class="list-group panel-collapse collapse in">
+                    <a href="/interval_schedule/" class="list-group-item active">
+                        <i class="fa-fw fa fa-backward"></i>
+                        间隔时间列表
+                    </a>
+                    <a href="/crontab_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-forward"></i>
+                        定时时间列表
+                    </a>
+                    <a href="/periodic_task/" class="list-group-item">
+                        <i class="fa-fw fa fa-play-circle"></i>
+                        任务设置列表
+                    </a>
+                    <a href="/task_result/" class="list-group-item">
+                        <i class="fa-fw fa fa-arrows-alt"></i>
+                        任务结果列表
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <ul class="well nav nav-list nav-sitemenu show-sm">
+            <li class="app_menu">
+                <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
+                <hr/>
+            </li>
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-square"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/product/">
+                            <i class="fa-fw fa fa-apple"></i>
+                            产品线列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/module/">
+                            <i class="fa-fw fa fa-android"></i>
+                            模块列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/case_group/">
+                            <i class="fa-fw fa fa-linux"></i>
+                            用例组列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/interface/">
+                            <i class="fa-fw fa fa-windows"></i>
+                            用例列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu  active">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-alt"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li class="active">
+                        <a href="/interval_schedule/">
+                            <i class="fa-fw fa fa-backward"></i>
+                            间隔时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/crontab_schedule/">
+                            <i class="fa-fw fa fa-forward"></i>
+                            定时时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/periodic_task/">
+                            <i class="fa-fw fa fa-play-circle"></i>
+                            任务设置列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/task_result/">
+                            <i class="fa-fw fa fa-arrows-alt"></i>
+                            任务结果列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+
+        <ul class="breadcrumb">
+            <li><a href="/home/">首页</a></li>
+            <li>间隔时间列表</li>
+        </ul>
+
+        <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+             data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+             data-class-sm="navbar content-navbar navbar-default navbar-xs">
+
+            <div class="navbar-collapse collapse">
+
+                <form class="navbar-form navbar-left" method="get">
+                    {% csrf_token %}
+                    <div class="input-group search-group">
+
+                        <input id="searchbar" class="form-control" type="text" name="form_every_s" value=""
+                               placeholder="周期数" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search">搜索周期数</i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+
+                <div class="navbar-btn pull-right hide-xs">
+                    <a class="btn btn-primary" data-toggle="modal" href="#addInterval">
+                        <!-- 点击会触发增加间隔时间模态框 -->
+                        <i class="fa fa-plus"></i>
+                        增加间隔时间
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="results table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="sortable sorted ascending">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                间隔时间ID
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                周期数
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                间隔期
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" style="width: 10%">
+                        <span style="color: green">修改</span>
+                    </th>
+                    <th scope="col" style="width: 10%">
+                        <span style="color: blue">删除</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in is_list %}
+                    <tr class="grid-item">
+                        <td id="interval_id_t">{{ i.id }}</td>
+                        <td id="every_t">{{ i.every }}</td>
+                        <td id="period_t">{{ i.period }}</td>
+                        <td>
+                            <a class="icon fa fa-edit"
+                               style="color: green"
+                               data-toggle="modal"
+                               href="#updateInterval"
+                               onclick="updateInterval(this)">
+                                <!-- 点击会触发修改间隔时间模态框 -->
+                                修改
+                            </a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-times"
+                               style="color: blue"
+                               data-toggle="modal"
+                               href="#deleteInterval"
+                               onclick="getIntervalId({{ i.id }}, '{{ i.every }}', '{{ i.period }}')">
+                                <!-- 点击会触发删除间隔时间模态框 -->
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination">
+            <li>
+                <span>共<span class="text-success">{{ is_count }}</span>间隔时间</span>
+            </li>
+            <li class="step-links">
+                {% if is_list.has_previous %}
+                    <a href="?page=1">首页</a>
+                    <a href="?page={{ is_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    第{{ is_list.number }}页 共{{ is_list.paginator.num_pages }}页
+                </span>
+
+                {% if is_list.has_next %}
+                    <a href="?page={{ is_list.next_page_number }}">下一页</a>
+                    <a href="?page={{ is_list.paginator.num_pages }}">尾页</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- 增加间隔时间模态框 -->
+<div class="modal fade" id="addInterval" tabindex="-1" role="dialog" aria-labelledby="addIntervalLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addIntervalLabel">增加间隔时间</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/interval_add/" method="post" id="intervalschedule_form">
+                    {% csrf_token %}
+                    <div class="form-container row clearfix">
+                        <div class="formColumn column form-column full col col-sm-12 form-horizontal" span="12"
+                             horizontal>
+                            <div class="panel panel-default fieldset unsort no_title">
+                                <div class="panel-body ">
+                                    <div id="div_id_every" class="form-group">
+                                        <label for="id_every" class="control-label  requiredField">周期数
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_every_a"
+                                                   class="int-field adminintegerfieldwidget form-control" required
+                                                   id="id_every">
+                                            <p id="hint_id_every" class="help-block">在再次运行任务之前要等待的间隔期数</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_period" class="form-group">
+                                        <label for="id_period"
+                                               class="control-label  requiredField">
+                                            间隔期<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_period_a" class="adminselectwidget form-control" required
+                                                    id="id_period">
+                                                <option value="" selected>---------</option>
+                                                <option value="days">Days</option>
+                                                <option value="hours">Hours</option>
+                                                <option value="minutes">Minutes</option>
+                                                <option value="seconds">Seconds</option>
+                                                <option value="microseconds">Microseconds</option>
+
+                                            </select>
+                                            <p id="hint_id_period" class="help-block">任务运行之间的时段类型（例如：天）</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-save"></i>
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改间隔时间模态框 -->
+<div class="modal fade" id="updateInterval" tabindex="-1" role="dialog" aria-labelledby="updateIntervalLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="updateIntervalLabel">修改间隔时间</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/interval_update/" method="post" id="intervalschedule_form">
+                    {% csrf_token %}
+                    <input type="hidden" id="interval_id_u" name="form_interval_id_u" value="">
+                    <div class="form-container row clearfix">
+                        <div class="formColumn column form-column full col col-sm-12 form-horizontal" span="12"
+                             horizontal>
+                            <div class="panel panel-default fieldset unsort no_title">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title"></h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_every" class="form-group">
+                                        <label for="id_every"
+                                               class="control-label  requiredField">
+                                            周期数
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_every_u" value=""
+                                                   class="int-field adminintegerfieldwidget form-control" required
+                                                   id="every_u">
+                                            <p id="hint_id_every" class="help-block">
+                                                在再次运行任务之前要等待的间隔期数
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_period" class="form-group">
+                                        <label for="id_period"
+                                               class="control-label  requiredField">
+                                            间隔期
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <select name="form_period_u"
+                                                    class="adminselectwidget form-control" required id="period_u">
+                                                <option value="">---------</option>
+                                                <option value="days">Days</option>
+                                                <option value="hours">Hours</option>
+                                                <option value="minutes">Minutes</option>
+                                                <option value="seconds">Seconds</option>
+                                                <option value="microseconds">Microseconds</option>
+                                            </select>
+                                            <p id="hint_id_period" class="help-block">
+                                                任务运行之间的时段类型（例如：天）
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-file-text"></i>
+                            修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除间隔时间模态框 -->
+<div class="modal fade" id="deleteInterval" tabindex="-1" role="dialog" aria-labelledby="deleteIntervalLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteIntervalLabel">删除间隔时间</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/interval_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="interval_id_d"
+                           name="form_interval_id_d"
+                           value=""/>
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的间隔时间吗？它所关联的任务也将被删除！
+                    </div>
+                    <div class="alert alert-danger">
+                        <span id="every_d"></span>
+                        <span id="period_d"></span>
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateInterval(obj) {
+        var tr = $(obj).parent().parent();
+        var id = tr.children("td#interval_id_t").text();
+        var every = tr.children("td#every_t").text();
+        var period = tr.children("td#period_t").text();
+        //取值
+        $('#interval_id_u').val(id);
+        $('#every_u').val(every);
+        $('#period_u').val(period);
+        //赋值
+        console.log(id);
+        console.log(every);
+        console.log(period);
+        //打印日志
+    }
+</script>
+
+<script>
+    function getIntervalId(ID, EVERY, PERIOD) {
+        $('#interval_id_d').val(ID);
+        $('#every_d').html(EVERY);
+        $('#period_d').html(PERIOD);
+        console.log(ID);
+        console.log(EVERY);
+        console.log(PERIOD);
+    }
+
+    //向删除模态框传递间隔时间id
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#addInterval .btn-primary').on('click',
+            function () {
+                alert('嘿，确认增加间隔时间吗？');
+            });
+        $('#addInterval .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#updateInterval .btn-primary').on('click',
+            function () {
+                alert('嘿，确认修改间隔时间吗？');
+            });
+        $('#updateInterval .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#deleteInterval .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除间隔时间吗？');
+            });
+        $('#deleteInterval .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
+
+<div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>测试部门</p>
+    </footer>
+</div>
+
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+
+</body>
+</html>
+
