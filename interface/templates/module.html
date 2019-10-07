@@ -62,7 +62,7 @@
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
                 <a class="dropdown-toggle">
-                    <strong>欢迎你～{{ user }}</strong>
+                    <strong>欢迎你{{ user }}</strong>
                 </a>
             </li>
             <li>
@@ -78,37 +78,78 @@
 
 <div id="body-content" class="clearfix row">
     <div id="left-side" class="col-sm-1 col-md-2">
+
         <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
 
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h6 class="panel-title">
-                        <a class="accordion-toggle"
-                           data-toggle="collapse"
-                           data-parent="#nav-accordion"
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
                            href="#nav-panel-1">
-                            <i class="fa-fw fa fa-money"></i>
-                            接口管理
+                            <i class="fa-fw fa fa-github-square"></i>
+                            产品管理
                         </a>
                     </h6>
                 </div>
                 <div id="nav-panel-1" class="list-group panel-collapse collapse in">
-
                     <a href="/product/" class="list-group-item">
-                        <i class="fa-fw fa fa-cloud"></i>
-                        产品线列表</span>
+                        <i class="fa-fw fa fa-apple"></i>
+                        产品线列表
                     </a>
                     <a href="/module/" class="list-group-item active">
-                        <i class="fa-fw fa fa-truck"></i>
-                        模块列表</span>
+                        <i class="fa-fw fa fa-android"></i>
+                        模块列表
                     </a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-2">
+                            <i class="fa-fw fa fa-github"></i>
+                            用例管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-2" class="list-group panel-collapse collapse">
                     <a href="/case_group/" class="list-group-item">
-                        <i class="fa-fw fa fa-globe"></i>
-                        用例组列表</span>
+                        <i class="fa-fw fa fa-linux"></i>
+                        用例组列表
                     </a>
                     <a href="/interface/" class="list-group-item">
-                        <i class="fa-fw fa fa-fire"></i>
-                        用例列表</span>
+                        <i class="fa-fw fa fa-windows"></i>
+                        用例列表
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-3">
+                            <i class="fa-fw fa fa-github-alt"></i>
+                            任务管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-3" class="list-group panel-collapse collapse">
+                    <a href="/interval_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-backward"></i>
+                        间隔时间列表
+                    </a>
+                    <a href="/crontab_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-forward"></i>
+                        定时时间列表
+                    </a>
+                    <a href="/periodic_task/" class="list-group-item">
+                        <i class="fa-fw fa fa-play-circle"></i>
+                        任务设置列表
+                    </a>
+                    <a href="/task_result/" class="list-group-item">
+                        <i class="fa-fw fa fa-arrows-alt"></i>
+                        任务结果列表
                     </a>
                 </div>
             </div>
@@ -121,29 +162,69 @@
             </li>
             <li class="app_menu dropdown-submenu  active">
                 <a href="#" class="section">
-                    <i class="icon fa-fw fa fa-money"></i>
+                    <i class="icon fa-fw fa fa-github-square"></i>
                 </a>
                 <hr/>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="/product/">
-                            <i class="fa-fw fa fa-cloud"></i>
-                            产品线列表</a>
+                            <i class="fa-fw fa fa-apple"></i>
+                            产品线列表
+                        </a>
                     </li>
                     <li class="active">
                         <a href="/module/">
-                            <i class="fa-fw fa fa-truck"></i>
-                            模块列表</a>
+                            <i class="fa-fw fa fa-android"></i>
+                            模块列表
+                        </a>
                     </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
                     <li>
                         <a href="/case_group/">
-                            <i class="fa-fw fa fa-globe"></i>
-                            用例组列表</a>
+                            <i class="fa-fw fa fa-linux"></i>
+                            用例组列表
+                        </a>
                     </li>
                     <li>
                         <a href="/interface/">
-                            <i class="fa-fw fa fa-fire"></i>
-                            用例列表</a>
+                            <i class="fa-fw fa fa-windows"></i>
+                            用例列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-alt"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/interval_schedule/">
+                            <i class="fa-fw fa fa-backward"></i>
+                            间隔时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/periodic_task/">
+                            <i class="fa-fw fa fa-play-circle"></i>
+                            任务设置列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/task_result/">
+                            <i class="fa-fw fa fa-arrows-alt"></i>
+                            任务结果列表
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -245,7 +326,7 @@
                 {% for m in m_list %}
                     <tr class="grid-item">
                         <td id="module_id_t">{{ m.id }}</td>
-                        <td style="color: red">{{ m.module_group }}</td>
+                        <td id="module_group_t" style="color: red">{{ m.module_group }}</td>
                         <td id="module_name_t">{{ m.module_name }}</td>
                         <td id="module_describe_t">{{ m.module_describe }}</td>
                         <td class="nowrap">{{ m.create_time }}</td>
@@ -424,7 +505,7 @@
                                                 <select name="form_module_group_u"
                                                         class="adminselectwidget form-control"
                                                         required id="module_group_u">
-                                                    <option value="" selected>---------</option>
+                                                    <option value="">---------</option>
                                                     {% for p in p_list %}
                                                         <option value="{{ p.id }}">{{ p.product_name }}</option>
                                                     {% endfor %}
@@ -517,14 +598,17 @@
     function updateModule(obj) {
         var tr = $(obj).parent().parent();
         var id = tr.children("td#module_id_t").text();
+        var group = tr.children("td#module_group_t").text();
         var name = tr.children("td#module_name_t").text();
         var describe = tr.children("td#module_describe_t").text();
         //取值
         $('#module_id_u').val(id);
+        $('#module_group_u').val(group);
         $('#module_name_u').val(name);
         $('#module_describe_u').val(describe);
         //赋值
         console.log(id);
+        console.log(group);
         console.log(name);
         console.log(describe);
         //打印日志
