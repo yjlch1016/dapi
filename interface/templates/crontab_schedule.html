@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+    <title>定时时间列表 | 测试平台</title>
+
+    <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" id="site-theme" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>
+    <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+
+    <style type="text/css">
+        .btn-toolbar {
+            margin-top: 0;
+        }
+
+        #content-block.full-content {
+            margin-left: 0;
+        }
+    </style>
+
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+
+</head>
+<body class="change-list">
+
+<div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">测试平台</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <strong>欢迎你{{ user }}</strong>
+                </a>
+            </li>
+            <li>
+                <a href="/logout/">
+                    <i class="show-sm fa fa-sign-out"></i>
+                    <span class="hide-sm">退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="body-content" class="clearfix row">
+
+    <div id="left-side" class="col-sm-1 col-md-2">
+
+        <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-1">
+                            <i class="fa-fw fa fa-github-square"></i>
+                            产品管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-1" class="list-group panel-collapse collapse">
+                    <a href="/product/" class="list-group-item">
+                        <i class="fa-fw fa fa-apple"></i>
+                        产品线列表
+                    </a>
+                    <a href="/module/" class="list-group-item">
+                        <i class="fa-fw fa fa-android"></i>
+                        模块列表
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-2">
+                            <i class="fa-fw fa fa-github"></i>
+                            用例管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-2" class="list-group panel-collapse collapse">
+
+                    <a href="/case_group/" class="list-group-item">
+                        <i class="fa-fw fa fa-linux"></i>
+                        用例组列表
+                    </a>
+                    <a href="/interface/" class="list-group-item">
+                        <i class="fa-fw fa fa-windows"></i>
+                        用例列表
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-3">
+                            <i class="fa-fw fa fa-github-alt"></i>
+                            任务管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-3" class="list-group panel-collapse collapse in">
+                    <a href="/interval_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-backward"></i>
+                        间隔时间列表
+                    </a>
+                    <a href="/crontab_schedule/" class="list-group-item active">
+                        <i class="fa-fw fa fa-forward"></i>
+                        定时时间列表
+                    </a>
+                    <a href="/periodic_task/" class="list-group-item">
+                        <i class="fa-fw fa fa-play-circle"></i>
+                        任务设置列表</span>
+                    </a>
+                    <a href="/task_result/" class="list-group-item">
+                        <i class="fa-fw fa fa-arrows-alt"></i>
+                        任务结果列表</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <ul class="well nav nav-list nav-sitemenu show-sm">
+            <li class="app_menu">
+                <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
+                <hr/>
+            </li>
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-square"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/product/">
+                            <i class="fa-fw fa fa-apple"></i>
+                            产品线列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/module/">
+                            <i class="fa-fw fa fa-android"></i>
+                            模块列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/case_group/">
+                            <i class="fa-fw fa fa-linux"></i>
+                            用例组列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/interface/">
+                            <i class="fa-fw fa fa-windows"></i>
+                            用例列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu  active">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-alt"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/interval_schedule/">
+                            <i class="fa-fw fa fa-backward"></i>
+                            间隔时间列表
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/crontab_schedule/">
+                            <i class="fa-fw fa fa-forward"></i>
+                            定时时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/periodic_task/">
+                            <i class="fa-fw fa fa-play-circle"></i>
+                            任务设置列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/task_result/">
+                            <i class="fa-fw fa fa-arrows-alt"></i>
+                            任务结果列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+
+        <ul class="breadcrumb">
+            <li><a href="/home/">首页</a></li>
+            <li>定时时间列表</li>
+        </ul>
+
+        <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+             data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+             data-class-sm="navbar content-navbar navbar-default navbar-xs">
+
+            <div class="navbar-collapse collapse">
+
+                <form class="navbar-form navbar-left" action="" method="get">
+                    {% csrf_token %}
+                    <div class="input-group search-group">
+                        <input id="searchbar" class="form-control" type="text" name="form_minute_s" value=""
+                               placeholder="搜索分钟" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search">搜索分钟</i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+
+                <div class="navbar-btn pull-right hide-xs">
+                    <a class="btn btn-primary" data-toggle="modal"
+                       href="#addCrontab">
+                        <!-- 点击会触发增加定时时间模态框 -->
+                        <i class="fa fa-plus"></i>
+                        增加定时时间
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="results table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="sortable sorted ascending">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                定时时间ID
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                分钟
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                小时
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                星期几
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                第几天
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                月份
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                时区
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" style="width: 10%">
+                        <span style="color: green">修改</span>
+                    </th>
+                    <th scope="col" style="width: 10%">
+                        <span style="color: blue">删除</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in cs_list %}
+                    <tr class="grid-item">
+                        <td id="crontab_id_t">{{ i.id }}</td>
+                        <td id="minute_t">{{ i.minute }}</td>
+                        <td id="hour_t">{{ i.hour }}</td>
+                        <td id="week_t">{{ i.day_of_week }}</td>
+                        <td id="day_t">{{ i.day_of_month }}</td>
+                        <td id="month_t">{{ i.month_of_year }}</td>
+                        <td id="timezone_t">{{ i.timezone }}</td>
+                        <td>
+                            <a class="icon fa fa-edit"
+                               style="color: green"
+                               data-toggle="modal"
+                               href="#updateCrontab"
+                               onclick="updateCrontab(this)">
+                                <!-- 点击会触发修改定时时间模态框 -->
+                                修改
+                            </a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-times"
+                               style="color: blue"
+                               data-toggle="modal"
+                               href="#deleteCrontab"
+                               onclick="getCrontabId({{ i.id }}, {{ i.minute }}, {{ i.hour }}, {{ i.day_of_week }}, {{ i.day_of_month }}, {{ i.month_of_year }}, '{{ i.timezone }}')">
+                                <!-- 点击会触发删除定时时间模态框 -->
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination">
+            <li><span>共<span class="text-success">{{ cs_count }}</span>定时时间</span></li>
+            <li class="step-links">
+                {% if cs_list.has_previous %}
+                    <a href="?page=1">首页</a>
+                    <a href="?page={{ cs_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    第{{ cs_list.number }}页 共{{ cs_list.paginator.num_pages }}页
+                </span>
+
+                {% if cs_list.has_next %}
+                    <a href="?page={{ cs_list.next_page_number }}">下一页</a>
+                    <a href="?page={{ cs_list.paginator.num_pages }}">尾页</a>
+                {% endif %}
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<!-- 增加定时时间模态框 -->
+<div class="modal fade" id="addCrontab" tabindex="-1" role="dialog" aria-labelledby="addCrontabLabel"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addCrontabLabel">增加定时时间</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/crontab_add/" method="post" id="crontabschedule_form">
+                    {% csrf_token %}
+                    <div class="form-container row clearfix">
+                        <div class="formColumn column form-column full col col-sm-12 form-horizontal" span="12"
+                             horizontal>
+                            <div class="panel panel-default fieldset unsort no_title">
+                                <div class="panel-body ">
+                                    <div id="div_id_minute" class="form-group">
+                                        <label for="id_minute"
+                                               class="control-label  requiredField">
+                                            分钟
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_minute_a" value="*"
+                                                   class="text-field admintextinputwidget form-control" maxlength="240"
+                                                   required id="id_minute">
+                                            <p id="hint_id_minute" class="help-block">还有几分钟。使用“*”表示“全部”。（例如：“0,30”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_hour" class="form-group">
+                                        <label for="id_hour" class="control-label  requiredField">小时
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_hour_a" value="*"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="96" required id="id_hour">
+                                            <p id="hint_id_hour" class="help-block">还有几个小时。使用“*”表示“全部”。（例如：“8,20”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_day_of_week" class="form-group">
+                                        <label for="id_day_of_week"
+                                               class="control-label  requiredField">星期几
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_week_a" value="*"
+                                                   class="text-field admintextinputwidget form-control" maxlength="64"
+                                                   required id="id_day_of_week">
+                                            <p id="hint_id_day_of_week" class="help-block">
+                                                一周中的第几天。使用“*”表示“全部”。（例如：“0,5”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_day_of_month" class="form-group">
+                                        <label for="id_day_of_month"
+                                               class="control-label  requiredField">第几天
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_day_a" value="*"
+                                                   class="text-field admintextinputwidget form-control" maxlength="124"
+                                                   required id="id_day_of_month">
+                                            <p id="hint_id_day_of_month" class="help-block">
+                                                一个月中的第几天。使用“*”表示“全部”。（例如：“1,15”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_month_of_year" class="form-group">
+                                        <label for="id_month_of_year"
+                                               class="control-label  requiredField">月份
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_month_a" value="*"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="64" required id="id_month_of_year">
+                                            <p id="hint_id_month_of_year" class="help-block">
+                                                一年中的第几个月。使用“*”表示“全部”。（例如：“0,6”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_timezone" class="form-group">
+                                        <label for="id_timezone"
+                                               class="control-label  requiredField">时区
+                                            <span class="asteriskField">*</span> </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_timezone_a" value="Asia/Shanghai"
+                                                   class="text-field admintextinputwidget form-control" maxlength="63"
+                                                   required
+                                                   id="id_timezone">
+
+                                            <p id="hint_id_timezone" class="help-block">运行计划的时区。默认值为亚洲/上海。</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-save"></i>
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改定时时间模态框 -->
+<div class="modal fade" id="updateCrontab" tabindex="-1" role="dialog" aria-labelledby="updateCrontabLabel"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="updateCrontabLabel">修改定时时间</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/crontab_update/" method="post" id="crontabschedule_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_crontab_id_u" id="crontab_id_u"
+                           value="">
+                    <div class="form-container row clearfix">
+                        <div class="formColumn column form-column full col col-sm-12 form-horizontal" span="12"
+                             horizontal>
+                            <div class="panel panel-default fieldset unsort no_title">
+                                <div class="panel-body ">
+                                    <div id="div_id_minute" class="form-group"><label for="id_minute"
+                                                                                      class="control-label  requiredField">
+                                        分钟<span class="asteriskField">*</span> </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_minute_u" value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="240" required id="minute_u">
+                                            <p id="hint_id_minute" class="help-block">还有几分钟。使用“*”表示“全部”。（例如：“0,30”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_hour" class="form-group">
+                                        <label for="id_hour"
+                                               class="control-label  requiredField">小时<span
+                                                class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_hour_u" value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="96" required id="hour_u">
+                                            <p id="hint_id_hour" class="help-block">还有几个小时。使用“*”表示“全部”。（例如：“8,20”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_day_of_week" class="form-group">
+                                        <label for="id_day_of_week"
+                                               class="control-label  requiredField">
+                                            星期几<span class="asteriskField">*</span> </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_week_u" value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="64" required id="week_u">
+                                            <p id="hint_id_day_of_week" class="help-block">
+                                                一周中的第几天。使用“*”表示“全部”。（例如：“0,5”）</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_day_of_month" class="form-group">
+                                        <label for="id_day_of_month"
+                                               class="control-label  requiredField">
+                                            第几天<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_day_u" value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="124" required id="day_u">
+                                            <p id="hint_id_day_of_month" class="help-block">
+                                                一个月中的第几天。使用“*”表示“全部”。（例如：“1,15”）</p></div>
+                                    </div>
+                                    <div id="div_id_month_of_year" class="form-group">
+                                        <label for="id_month_of_year"
+                                               class="control-label  requiredField">
+                                            月份<span class="asteriskField">*</span> </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_month_u" value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="64" required id="month_u">
+                                            <p id="hint_id_month_of_year" class="help-block">
+                                                一年中的第几个月。使用“*”表示“全部”。（例如：“0,6”）</p></div>
+                                    </div>
+                                    <div id="div_id_timezone" class="form-group">
+                                        <label for="id_timezone"
+                                               class="control-label  requiredField">
+                                            时区<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_timezone_u" value=""
+                                                   class="text-field admintextinputwidget form-control" maxlength="63"
+                                                   required
+                                                   id="timezone_u">
+                                            <p id="hint_id_timezone" class="help-block">运行计划的时区。默认值为亚洲/上海。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-file-text"></i>
+                            修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除定时时间模态框 -->
+<div class="modal fade" id="deleteCrontab" tabindex="-1" role="dialog" aria-labelledby="deleteCrontabLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteCrontabLabel">删除定时时间</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/crontab_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="crontab_id_d"
+                           name="form_crontab_id_d"
+                           value=""/>
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的定时时间吗？它所关联的任务也将被删除！
+                    </div>
+                    <div class="alert alert-danger">
+                        <span id="minute_d"></span>
+                        <span id="hour_d"></span>
+                        <span id="week_d"></span>
+                        <span id="day_d"></span>
+                        <span id="month_d"></span>
+                        <span id="timezone_d"></span>
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateCrontab(obj) {
+        var tr = $(obj).parent().parent();
+        var id = tr.children("td#crontab_id_t").text();
+        var minute = tr.children("td#minute_t").text();
+        var hour = tr.children("td#hour_t").text();
+        var week = tr.children("td#week_t").text();
+        var day = tr.children("td#day_t").text();
+        var month = tr.children("td#month_t").text();
+        var timezone = tr.children("td#timezone_t").text();
+        //取值
+        $('#crontab_id_u').val(id);
+        $('#minute_u').val(minute);
+        $('#hour_u').val(hour);
+        $('#week_u').val(week);
+        $('#day_u').val(day);
+        $('#month_u').val(month);
+        $('#timezone_u').val(timezone);
+        //赋值
+        console.log(id);
+        console.log(minute);
+        console.log(hour);
+        console.log(week);
+        console.log(day);
+        console.log(month);
+        console.log(timezone);
+        //打印日志
+    }
+</script>
+
+<script>
+    function getCrontabId(
+        ID, MINUTE, HOUR, WEEK, DAY, MONTH, TIMEZONE) {
+        $('#crontab_id_d').val(ID);
+        $('#minute_d').html(MINUTE);
+        $('#hour_d').html(HOUR);
+        $('#week_d').html(WEEK);
+        $('#day_d').html(DAY);
+        $('#month_d').html(MONTH);
+        $('#timezone_d').html(TIMEZONE);
+        console.log(ID);
+        console.log(MINUTE);
+        console.log(HOUR);
+        console.log(WEEK);
+        console.log(DAY);
+        console.log(MONTH);
+        console.log(TIMEZONE);
+    }
+
+    //向删除模态框传递定时时间id
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#addCrontab .btn-primary').on('click',
+            function () {
+                alert('嘿，确认增加定时时间吗？');
+            });
+        $('#addCrontab .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#updateCrontab .btn-primary').on('click',
+            function () {
+                alert('嘿，确认修改定时时间吗？');
+            });
+        $('#updateCrontab .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#deleteCrontab .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除定时时间吗？');
+            });
+        $('#deleteCrontab .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
+
+<div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>测试部门</p>
+    </footer>
+</div>
+
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+
+
+</body>
+</html>
