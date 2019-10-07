@@ -1,6 +1,9 @@
+from __future__ import absolute_import, unicode_literals
 import xadmin
 
 from django.utils.html import format_html
+from django_celery_beat.models import IntervalSchedule, CrontabSchedule, ClockedSchedule, SolarSchedule, PeriodicTask
+from django_celery_results.models import TaskResult
 from import_export import resources
 from xadmin import views
 from xadmin.layout import Main, Fieldset, Side
@@ -409,6 +412,69 @@ class CaseGroupInfoAdmin(object):
     # 列表页面，添加复制动作与批量修改动作
 
 
+class IntervalScheduleAdmin(object):
+    list_display = [
+        'id', 'every', 'period',
+    ]
+    ordering = ['id']
+    search_fields = ['every']
+    list_per_page = 10
+
+
+class CrontabScheduleAdmin(object):
+    list_display = [
+        'id', 'minute', 'hour',
+        'day_of_week', 'day_of_month', 'month_of_year', 'timezone'
+    ]
+    ordering = ['id']
+    search_fields = ['minute']
+    list_per_page = 10
+
+
+class SolarScheduleAdmin(object):
+    list_display = [
+        'id', 'event', 'latitude', 'longitude'
+    ]
+    ordering = ['id']
+    search_fields = ['event']
+    list_per_page = 10
+
+
+class ClockedScheduleAdmin(object):
+    list_display = [
+        'id', 'clocked_time', 'enabled'
+    ]
+    ordering = ['id']
+    search_fields = ['clocked_time']
+    list_per_page = 10
+
+
+class PeriodicTaskAdmin(object):
+    list_display = [
+        'id', 'name', 'task', 'args', 'kwargs', 'queue',
+        'exchange', 'routing_key', 'expires', 'enabled',
+        'last_run_at', 'total_run_count', 'date_changed', 'description',
+        'interval', 'crontab', 'solar', 'clocked', 'one_off',
+        'start_time', 'priority', 'headers'
+    ]
+    ordering = ['id']
+    search_fields = ['name']
+    list_per_page = 10
+
+    actions = (u'enable_tasks', u'disable_tasks', u'toggle_tasks', u'run_tasks')
+
+
+class TaskResultAdmin(object):
+    list_display = [
+        'id', 'task_id', 'status', 'content_type', 'content_encoding',
+        'result', 'date_done', 'traceback', 'hidden', 'meta',
+        'task_args', 'task_kwargs', 'task_name'
+    ]
+    ordering = ['id']
+    search_fields = ['task_id']
+    list_per_page = 10
+
+
 class BaseSetting(object):
     enable_themes = True
     use_bootswatch = True
@@ -432,16 +498,94 @@ class GlobalSetting(object):
     menu_style = "accordion"
     # 左侧菜单收缩功能
     apps_icons = {
-        "interface": "fa fa-money",
+        "interface": "fa fa-github-square",
     }
     # 配置应用图标，即一级菜单图标
     global_models_icon = {
-        ProductInfo: "fa fa-cloud",
-        ModuleInfo: "fa fa-truck",
-        CaseGroupInfo: "fa fa-globe",
-        InterfaceInfo: "fa fa-fire"
+        ProductInfo: "fa fa-apple",
+        ModuleInfo: "fa fa-android",
+        CaseGroupInfo: "fa fa-linux",
+        InterfaceInfo: "fa fa-windows"
     }
+
     # 配置模型图标，即二级菜单图标
+
+    def get_site_menu(self):
+        return (
+            {
+                'title': '产品管理',
+                'icon': 'fa fa-github-square',
+                'perm': self.get_model_perm(ProductInfo, 'change'),
+                # 权限
+                'menus': (
+                    {
+                        'title': '产品线列表',
+                        'icon': 'fa fa-apple',
+                        'url': self.get_model_url(ProductInfo, 'changelist')
+                    },
+                    {
+                        'title': '模块列表',
+                        'icon': 'fa fa-android',
+                        'url': self.get_model_url(ModuleInfo, 'changelist')
+                    },
+                )
+            },
+            {
+                'title': '用例管理',
+                'icon': 'fa fa-github',
+                'perm': self.get_model_perm(CaseGroupInfo, 'change'),
+                'menus': (
+                    {
+                        'title': '用例组列表',
+                        'icon': 'fa fa-linux',
+                        'url': self.get_model_url(CaseGroupInfo, 'changelist')
+                    },
+                    {
+                        'title': '用例列表',
+                        'icon': 'fa fa-windows',
+                        'url': self.get_model_url(InterfaceInfo, 'changelist')
+                    },
+                )
+            },
+            {
+                'title': '任务管理',
+                'icon': 'fa fa-github-alt',
+                'perm': self.get_model_perm(PeriodicTask, 'change'),
+                'menus': (
+                    {
+                        'title': '间隔时间列表',
+                        'icon': 'fa fa-backward',
+                        'url': self.get_model_url(IntervalSchedule, 'changelist')
+                    },
+                    {
+                        'title': '定时时间列表',
+                        'icon': 'fa fa-forward',
+                        'url': self.get_model_url(CrontabSchedule, 'changelist')
+                    },
+                    {
+                        'title': '太阳时间列表（无用）',
+                        'icon': 'fa fa-fast-backward',
+                        'url': self.get_model_url(SolarSchedule, 'changelist')
+                    },
+                    {
+                        'title': '计时时间列表（无用）',
+                        'icon': 'fa fa-fast-forward',
+                        'url': self.get_model_url(ClockedSchedule, 'changelist')
+                    },
+                    {
+                        'title': '任务设置列表',
+                        'icon': 'fa fa-play-circle',
+                        'url': self.get_model_url(PeriodicTask, 'changelist')
+                    },
+                    {
+                        'title': '任务结果列表',
+                        'icon': 'fa fa-arrows-alt',
+                        'url': self.get_model_url(TaskResult, 'changelist')
+                    },
+                )
+            },
+        )
+    # 自定义应用的顺序
 
 
 xadmin.site.register(ProductInfo, ProductInfoAdmin)
@@ -451,3 +595,17 @@ xadmin.site.register(InterfaceInfo, InterfaceInfoAdmin)
 
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSetting)
+
+xadmin.site.register(IntervalSchedule, IntervalScheduleAdmin)
+# 间隔时间表
+xadmin.site.register(CrontabSchedule, CrontabScheduleAdmin)
+# 定时时间表
+xadmin.site.register(SolarSchedule, SolarScheduleAdmin)
+# 太阳时间表
+xadmin.site.register(ClockedSchedule, ClockedScheduleAdmin)
+# 计时时间表
+xadmin.site.register(PeriodicTask, PeriodicTaskAdmin)
+# 配置任务
+
+xadmin.site.register(TaskResult, TaskResultAdmin)
+# 任务结果
