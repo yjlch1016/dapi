@@ -41,7 +41,7 @@
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
                 <a class="dropdown-toggle">
-                    <strong>欢迎你～{{ user }}</strong></a>
+                    <strong>欢迎你{{ user }}</strong></a>
             </li>
             <li>
                 <a href="/logout/">
@@ -54,37 +54,165 @@
 </div>
 
 <div id="body-content" class="clearfix row">
-
     <div id="left-side" class="col-sm-1 col-md-2">
-        <ul class="well nav nav-pills nav-stacked nav-sitemenu hide-sm">
-            <div class="panel-heading">
-                <h6 class="panel-title">
-                    <i class="fa-fw fa fa-money"></i>
-                    接口管理
-                </h6>
+
+        <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-1">
+                            <i class="fa-fw fa fa-github-square"></i>
+                            产品管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-1" class="list-group panel-collapse collapse">
+                    <a href="/product/" class="list-group-item">
+                        <i class="fa-fw fa fa-apple"></i>
+                        产品线列表
+                    </a>
+                    <a href="/module/" class="list-group-item">
+                        <i class="fa-fw fa fa-android"></i>
+                        模块列表
+                    </a>
+                </div>
             </div>
-            <li>
-                <a href="/product/">
-                    <i class="fa-fw fa fa-cloud"></i>
-                    产品线列表</a>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-2">
+                            <i class="fa-fw fa fa-github"></i>
+                            用例管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-2" class="list-group panel-collapse collapse">
+                    <a href="/case_group/" class="list-group-item">
+                        <i class="fa-fw fa fa-linux"></i>
+                        用例组列表
+                    </a>
+                    <a href="/interface/" class="list-group-item">
+                        <i class="fa-fw fa fa-windows"></i>
+                        用例列表
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-3">
+                            <i class="fa-fw fa fa-github-alt"></i>
+                            任务管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-3" class="list-group panel-collapse collapse">
+                    <a href="/interval_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-backward"></i>
+                        间隔时间列表</span>
+                    </a>
+                    <a href=/crontab_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-forward"></i>
+                        定时时间列表</span>
+                    </a>
+                    <a href="/periodic_task/" class="list-group-item">
+                        <i class="fa-fw fa fa-play-circle"></i>
+                        任务设置列表</span>
+                    </a>
+                    <a href="/task_result/" class="list-group-item">
+                        <i class="fa-fw fa fa-arrows-alt"></i>
+                        任务结果列表</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <ul class="well nav nav-list nav-sitemenu show-sm">
+            <li class="app_menu">
+                <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
+                <hr/>
             </li>
-            <li>
-                <a href="/module/">
-                    <i class="fa-fw fa fa-truck"></i>
-                    模块列表
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-square"></i>
                 </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/product/">
+                            <i class="fa-fw fa fa-apple"></i>
+                            产品线列表
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/module/">
+                            <i class="fa-fw fa fa-android"></i>
+                            模块列表
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li>
-                <a href="/case_group/">
-                    <i class="fa-fw fa fa-globe"></i>
-                    用例组列表
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github"></i>
                 </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/case_group/">
+                            <i class="fa-fw fa fa-linux"></i>
+                            用例组列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/interface/">
+                            <i class="fa-fw fa fa-windows"></i>
+                            用例列表
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li>
-                <a href="/interface/">
-                    <i class="fa-fw fa fa-fire"></i>
-                    用例列表
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-alt"></i>
                 </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/interval_schedule/">
+                            <i class="fa-fw fa fa-backward"></i>
+                            间隔时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/crontab_schedule/">
+                            <i class="fa-fw fa fa-forward"></i>
+                            定时时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/periodic_task/">
+                            <i class="fa-fw fa fa-play-circle"></i>
+                            任务设置列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/task_result/">
+                            <i class="fa-fw fa fa-arrows-alt"></i>
+                            任务结果列表
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>
@@ -112,7 +240,6 @@
     </footer>
 </div>
 
-
 <script type="text/javascript"
         src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.core.js' %}"></script>
 <script type="text/javascript"
@@ -138,3 +265,4 @@
 
 </body>
 </html>
+
