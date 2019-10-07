@@ -61,7 +61,7 @@
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
                 <a class="dropdown-toggle">
-                    <strong>欢迎你～{{ user }}</strong>
+                    <strong>欢迎你{{ user }}</strong>
                 </a>
             </li>
             <li>
@@ -75,35 +75,81 @@
 </div>
 
 <div id="body-content" class="clearfix row">
+
     <div id="left-side" class="col-sm-1 col-md-2">
 
         <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
-            <div class="panel panel-info">
+
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h6 class="panel-title">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
                            href="#nav-panel-1">
-                            <i class="fa-fw fa fa-money"></i>
-                            接口管理
+                            <i class="fa-fw fa fa-github-square"></i>
+                            产品管理
                         </a>
                     </h6>
                 </div>
-                <div id="nav-panel-1" class="list-group panel-collapse collapse in">
+                <div id="nav-panel-1" class="list-group panel-collapse collapse">
                     <a href="/product/" class="list-group-item">
-                        <i class="fa-fw fa fa-cloud"></i>
+                        <i class="fa-fw fa fa-apple"></i>
                         产品线列表
                     </a>
                     <a href="/module/" class="list-group-item">
-                        <i class="fa-fw fa fa-truck"></i>
+                        <i class="fa-fw fa fa-android"></i>
                         模块列表
                     </a>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-2">
+                            <i class="fa-fw fa fa-github"></i>
+                            用例管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-2" class="list-group panel-collapse collapse in">
                     <a href="/case_group/" class="list-group-item">
-                        <i class="fa-fw fa fa-globe"></i>
+                        <i class="fa-fw fa fa-linux"></i>
                         用例组列表
                     </a>
                     <a href="/interface/" class="list-group-item active">
-                        <i class="fa-fw fa fa-fire"></i>
+                        <i class="fa-fw fa fa-windows"></i>
                         用例列表
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-3">
+                            <i class="fa-fw fa fa-github-alt"></i>
+                            任务管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-3" class="list-group panel-collapse collapse">
+                    <a href="/interval_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-backward"></i>
+                        间隔时间列表
+                    </a>
+                    <a href="/crontab_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-forward"></i>
+                        定时时间列表
+                    </a>
+                    <a href="/periodic_task/" class="list-group-item">
+                        <i class="fa-fw fa fa-play-circle"></i>
+                        任务设置列表
+                    </a>
+                    <a href="/task_result/" class="list-group-item">
+                        <i class="fa-fw fa fa-arrows-alt"></i>
+                        任务结果列表
                     </a>
                 </div>
             </div>
@@ -114,34 +160,77 @@
                 <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
                 <hr/>
             </li>
-            <li class="app_menu dropdown-submenu  active">
+
+            <li class="app_menu dropdown-submenu ">
                 <a href="#" class="section">
-                    <i class="icon fa-fw fa fa-money"></i>
+                    <i class="icon fa-fw fa fa-github-square"></i>
                 </a>
                 <hr/>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="/product/">
-                            <i class="fa-fw fa fa-cloud"></i>
+                            <i class="fa-fw fa fa-apple"></i>
                             产品线列表
                         </a>
                     </li>
                     <li>
                         <a href="/module/">
-                            <i class="fa-fw fa fa-truck"></i>
+                            <i class="fa-fw fa fa-android"></i>
                             模块列表
                         </a>
                     </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu  active">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
                     <li>
                         <a href="/case_group/">
-                            <i class="fa-fw fa fa-globe"></i>
+                            <i class="fa-fw fa fa-linux"></i>
                             用例组列表
                         </a>
                     </li>
                     <li class="active">
                         <a href="/interface/">
-                            <i class="fa-fw fa fa-fire"></i>
+                            <i class="fa-fw fa fa-windows"></i>
                             用例列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-alt"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/interval_schedule/">
+                            <i class="fa-fw fa fa-backward"></i>
+                            间隔时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/crontab_schedule/">
+                            <i class="fa-fw fa fa-forward"></i>
+                            定时时间列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/periodic_task/">
+                            <i class="fa-fw fa fa-play-circle"></i>
+                            任务设置列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/task_result/">
+                            <i class="fa-fw fa fa-arrows-alt"></i>
+                            任务结果列表
                         </a>
                     </li>
                 </ul>
@@ -616,7 +705,9 @@
                                             等待时间（秒）
                                         </label>
                                         <div class="controls ">
-                                            <input type="number" name="form_wait_time_a" value="0.1" step="any" class="numberinput form-control" id="wait_time_a" style="width: auto">
+                                            <input type="number" name="form_wait_time_a" value="0.1" step="any"
+                                                   class="numberinput form-control" id="wait_time_a"
+                                                   style="width: auto">
                                             <p id="hint_id_wait_time" class="help-block">
                                                 请输入等待时间，单位：秒
                                             </p>
@@ -777,8 +868,7 @@
                                         <div class="controls ">
                                             <select name="form_request_mode_u"
                                                     class="adminselectwidget form-control"
-                                                    id="id_request_mode">
-                                                <option value="">---------</option>
+                                                    id="request_mode_u">
                                                 <option value="GET">GET</option>
                                                 <option value="POST">POST</option>
                                                 <option value="PUT">PUT</option>
@@ -817,8 +907,8 @@
                                         </label>
                                         <div class="controls ">
                                             <select name="form_body_type_u" class="adminselectwidget form-control"
-                                                    id="id_body_type">
-                                                <option value="x-www-form-urlencoded" selected>
+                                                    id="body_type_u">
+                                                <option value="x-www-form-urlencoded">
                                                     application/x-www-form-urlencoded
                                                 </option>
                                                 <option value="json">application/json</option>
@@ -874,7 +964,9 @@
                                             等待时间（秒）
                                         </label>
                                         <div class="controls ">
-                                            <input type="number" name="form_wait_time_u" value="" step="any" class="numberinput form-control" id="wait_time_u" style="width: auto">
+                                            <input type="number" name="form_wait_time_u" value="" step="any"
+                                                   class="numberinput form-control" id="wait_time_u"
+                                                   style="width: auto">
                                             <p id="hint_id_wait_time" class="help-block">
                                                 请输入等待时间，单位：秒
                                             </p>
@@ -893,11 +985,10 @@
                                         </label>
                                         <div class="controls ">
                                             <select name="form_regular_expression_u"
-                                                    class="adminselectwidget form-control"
-                                                    id="id_regular_expression">
+                                                    class="adminselectwidget form-control" id="regular_expression_u">
                                                 <option value="">---------</option>
                                                 <option value="开启">开启</option>
-                                                <option value="不开启" selected>不开启</option>
+                                                <option value="不开启">不开启</option>
                                             </select>
                                             <p id="hint_id_regular_expression" class="help-block">请选择是否开启正则表达式</p>
                                         </div>
@@ -1213,14 +1304,19 @@
         $('#case_id_u').val(case_id);
         $('#case_name_u').val(case_name);
         $('#interface_url_u').val(interface_url);
+        $('#request_mode_u').val(request_mode);
         $('#request_parameter_u').val(request_parameter);
         $('#request_head_u').val(request_head);
+        $('#body_type_u').val(body_type);
         $('#request_body_u').val(request_body);
         $('#expected_result_u').val(expected_result);
+        $('#response_assert_u').val(response_assert);
         $('#wait_time_u').val(wait_time);
+        $('#regular_expression_u').val(regular_expression);
         $('#regular_variable_u').val(regular_variable);
         $('#regular_template_u').val(regular_template);
         //赋值
+        console.log(regular_expression)
     }
 </script>
 
