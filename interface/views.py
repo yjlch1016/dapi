@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.datetime_safe import datetime
 from django.views import View
+from django_celery_beat.models import IntervalSchedule, CrontabSchedule
 from rest_framework import viewsets
 
 from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo
@@ -647,3 +648,182 @@ class DebugInterfaceView(LoginRequiredMixin, View):
         # 等待时间
 
         return redirect('/interface/')
+
+
+class IntervalScheduleListView(LoginRequiredMixin, View):
+    """间隔时间列表"""
+
+    def get(self, request):
+        user_name = request.session.get('user', '')
+        interval_schedule_list = IntervalSchedule.objects.all().order_by("id")
+        interval_schedule_count = IntervalSchedule.objects.all().count()
+
+        search_interval_schedule = request.GET.get("form_every_s", "")
+        # 搜索周期数
+        if search_interval_schedule:
+            interval_schedule_list = interval_schedule_list.filter(
+                every__icontains=search_interval_schedule)
+            interval_schedule_count = interval_schedule_list.count()
+
+        paginator = Paginator(interval_schedule_list, 10)
+        page = request.GET.get('page', 1)
+        try:
+            is_list = paginator.page(page)
+        except PageNotAnInteger:
+            is_list = paginator.page(1)
+        except EmptyPage:
+            is_list = paginator.page(paginator.num_pages)
+
+        return render(
+            request,
+            "interval_schedule.html",
+            {
+                "user": user_name,
+                "is_list": is_list,
+                "is_count": interval_schedule_count,
+            }
+        )
+
+
+class AddIntervalScheduleView(LoginRequiredMixin, View):
+    """增加间隔时间"""
+
+    def post(self, request):
+        every = request.POST.get('form_every_a', '')
+        period = request.POST.get('form_period_a', '')
+        IntervalSchedule.objects.create(
+            every=every,
+            period=period,
+        )
+
+        return redirect('/interval_schedule/')
+
+
+class UpdateIntervalScheduleView(LoginRequiredMixin, View):
+    """修改间隔时间"""
+
+    def post(self, request):
+        interval_id = request.POST.get('form_interval_id_u', '')
+        every = request.POST.get('form_every_u', '')
+        period = request.POST.get('form_period_u', '')
+        IntervalSchedule.objects.filter(id=interval_id).update(
+            every=every,
+            period=period,
+        )
+
+        return redirect('/interval_schedule/')
+
+
+class DeleteIntervalScheduleView(LoginRequiredMixin, View):
+    """删除间隔时间"""
+
+    def post(self, request):
+        interval_id = request.POST.get('form_interval_id_d', '')
+        IntervalSchedule.objects.filter(id=interval_id).delete()
+
+        return redirect('/interval_schedule/')
+
+
+class CrontabScheduleListView(LoginRequiredMixin, View):
+    """定时时间列表"""
+
+    def get(self, request):
+        user_name = request.session.get('user', '')
+        crontab_schedule_list = CrontabSchedule.objects.all().order_by("id")
+        crontab_schedule_count = CrontabSchedule.objects.all().count()
+
+        search_crontab_schedule = request.GET.get("form_minute_s", "")
+        # 搜索分钟
+        if search_crontab_schedule:
+            crontab_schedule_list = crontab_schedule_list.filter(
+                minute__icontains=search_crontab_schedule)
+            crontab_schedule_count = crontab_schedule_list.count()
+
+        paginator = Paginator(crontab_schedule_list, 10)
+        page = request.GET.get('page', 1)
+        try:
+            cs_list = paginator.page(page)
+        except PageNotAnInteger:
+            cs_list = paginator.page(1)
+        except EmptyPage:
+            cs_list = paginator.page(paginator.num_pages)
+
+        return render(
+            request,
+            "crontab_schedule.html",
+            {
+                "user": user_name,
+                "cs_list": cs_list,
+                "cs_count": crontab_schedule_count,
+            }
+        )
+
+
+class AddCrontabScheduleView(LoginRequiredMixin, View):
+    """增加定时时间"""
+
+    def post(self, request):
+        minute = request.POST.get('form_minute_a', '')
+        hour = request.POST.get('form_hour_a', '')
+        day_of_week = request.POST.get('form_week_a', '')
+        day_of_month = request.POST.get('form_day_a', '')
+        month_of_year = request.POST.get('form_month_a', '')
+        timezone = request.POST.get('form_timezone_a', '')
+        CrontabSchedule.objects.create(
+            minute=minute,
+            hour=hour,
+            day_of_week=day_of_week,
+            day_of_month=day_of_month,
+            month_of_year=month_of_year,
+            timezone=timezone,
+        )
+
+        return redirect('/crontab_schedule/')
+
+
+class UpdateCrontabScheduleView(LoginRequiredMixin, View):
+    """修改定时时间"""
+
+    def post(self, request):
+        crontab_id = request.POST.get('form_crontab_id_u', '')
+        minute = request.POST.get('form_minute_u', '')
+        hour = request.POST.get('form_hour_u', '')
+        day_of_week = request.POST.get('form_week_u', '')
+        day_of_month = request.POST.get('form_day_u', '')
+        month_of_year = request.POST.get('form_month_u', '')
+        timezone = request.POST.get('form_timezone_u', '')
+        CrontabSchedule.objects.filter(id=crontab_id).update(
+            minute=minute,
+            hour=hour,
+            day_of_week=day_of_week,
+            day_of_month=day_of_month,
+            month_of_year=month_of_year,
+            timezone=timezone,
+        )
+
+        return redirect('/crontab_schedule/')
+
+
+class DeleteCrontabScheduleView(LoginRequiredMixin, View):
+    """删除定时时间"""
+
+    def post(self, request):
+        crontab_id = request.POST.get('form_crontab_id_d', '')
+        CrontabSchedule.objects.filter(id=crontab_id).delete()
+
+        return redirect('/crontab_schedule/')
+
+
+class PeriodicTaskListView(LoginRequiredMixin, View):
+    """任务设置列表"""
+
+    def get(self, request):
+        user_name = request.session.get('user', '')
+
+        return render(
+            request,
+            "periodic_task.html",
+            {
+                "user": user_name,
+            }
+        )
