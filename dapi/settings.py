@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
+from __future__ import absolute_import, unicode_literals
 
 import os
 
@@ -46,6 +47,12 @@ INSTALLED_APPS = [
 
     'rest_framework',
     # django-rest-framework
+
+    'django_celery_beat',
+    # django-celery-beat
+
+    'django_celery_results',
+    # django-celery-results
 ]
 
 MIDDLEWARE = [
@@ -173,3 +180,25 @@ REST_FRAMEWORK = {
 
 LOGIN_URL = '/login/'
 # 设置默认的登录路由
+
+
+CELERY_ENABLE_UTC = False
+# 不使用国际标准时间
+CELERY_TIMEZONE = 'Asia/Shanghai'
+# 使用亚洲/上海时区
+DJANGO_CELERY_BEAT_TZ_AWARE = False
+# 解决时区问题
+CELERY_BROKER_URL = 'redis://:Abcdef@123456@192.168.1.106:6379/0'
+# redis://:password@hostname:port/db_number
+CELERY_BROKER_TRANSPORT = 'redis'
+# 使用redis作为中间件
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+# 自定义调度类，使用Django的ORM
+CELERY_RESULT_BACKEND = 'django-db'
+# 任务结果，使用Django的ORM
+CELERY_ACCEPT_CONTENT = ['application/json']
+# 设置任务接收的序列化类型
+CELERY_TASK_SERIALIZER = 'json'
+# 设置任务序列化方式
+CELERY_RESULT_SERIALIZER = 'json'
+# 设置结果序列化方式
