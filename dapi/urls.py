@@ -22,7 +22,9 @@ from interface import views
 from interface.views import ModuleListView, AddModuleView, UpdateModuleView, DeleteModuleView, CaseGroupListView, \
     InterfaceListView, AddCaseGroupView, DeleteCaseGroupView, UpdateCaseGroupView, ProductListView, AddProductView, \
     UpdateProductView, DeleteProductView, AddInterfaceView, DeleteInterfaceView, UpdateInterfaceView, \
-    DebugInterfaceView, DebugCaseGroupView
+    DebugInterfaceView, DebugCaseGroupView, IntervalScheduleListView, AddIntervalScheduleView, \
+    UpdateIntervalScheduleView, DeleteIntervalScheduleView, CrontabScheduleListView, AddCrontabScheduleView, \
+    UpdateCrontabScheduleView, DeleteCrontabScheduleView, PeriodicTaskListView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -70,4 +72,28 @@ urlpatterns = [
     path('interface_delete/', DeleteInterfaceView.as_view(), name='interface_delete'),
     path('interface_debug/', DebugInterfaceView.as_view(), name='interface_debug'),
     # 用例路由
+
+    path('interval_schedule/', IntervalScheduleListView.as_view(),
+         name='interval_schedule'),
+    path('interval_add/', AddIntervalScheduleView.as_view(),
+         name='interval_add'),
+    path('interval_update/', UpdateIntervalScheduleView.as_view(),
+         name='interval_update'),
+    path('interval_delete/', DeleteIntervalScheduleView.as_view(),
+         name='interval_delete'),
+    # 间隔时间路由
+
+    path('crontab_schedule/', CrontabScheduleListView.as_view(),
+         name='crontab_schedule'),
+    path('crontab_add/', AddCrontabScheduleView.as_view(),
+         name='crontab_add'),
+    path('crontab_update/', UpdateCrontabScheduleView.as_view(),
+         name='crontab_update'),
+    path('crontab_delete/', DeleteCrontabScheduleView.as_view(),
+         name='crontab_delete'),
+    # 定时时间路由
+
+    path('periodic_task/', PeriodicTaskListView.as_view(),
+         name='periodic_task'),
+    # 任务设置路由
 ]
