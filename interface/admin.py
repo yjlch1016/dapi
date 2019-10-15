@@ -451,17 +451,16 @@ class ClockedScheduleAdmin(object):
 
 class PeriodicTaskAdmin(object):
     list_display = [
-        'id', 'name', 'task', 'args', 'kwargs', 'queue',
-        'exchange', 'routing_key', 'expires', 'enabled',
-        'last_run_at', 'total_run_count', 'date_changed', 'description',
-        'interval', 'crontab', 'solar', 'clocked', 'one_off',
-        'start_time', 'priority', 'headers'
+        'id', 'name', 'task',
+        'interval', 'crontab', 'solar', 'clocked',
+        'args', 'kwargs',
+        'queue', 'exchange', 'routing_key', 'headers',
+        'priority', 'expires', 'one_off', 'start_time', 'enabled', 'description',
+        'last_run_at', 'total_run_count', 'date_changed'
     ]
     ordering = ['id']
     search_fields = ['name']
     list_per_page = 10
-
-    actions = (u'enable_tasks', u'disable_tasks', u'toggle_tasks', u'run_tasks')
 
 
 class TaskResultAdmin(object):
@@ -488,7 +487,8 @@ class GlobalSetting(object):
         CaseGroupInfo,
         InterfaceInfo
     ]
-    # 配置全局搜索选项，默认搜索组、用户、日志记录
+    # 配置全局搜索选项
+    # 默认搜索组、用户、日志记录
 
     site_title = "测试平台"
     # 标题
