@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.datetime_safe import datetime
 from django.views import View
-from django_celery_beat.models import IntervalSchedule, CrontabSchedule
+from django_celery_beat.models import IntervalSchedule, CrontabSchedule, PeriodicTask
 from rest_framework import viewsets
 
 from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo
@@ -819,11 +819,31 @@ class PeriodicTaskListView(LoginRequiredMixin, View):
 
     def get(self, request):
         user_name = request.session.get('user', '')
+        periodic_task_list = PeriodicTask.objects.all().order_by("id")
+        periodic_task_count = PeriodicTask.objects.all().count()
+
+        search_periodic_task = request.GET.get("form_name_s", "")
+        # 搜索任务说明
+        if search_periodic_task:
+            periodic_task_list = periodic_task_list.filter(
+                name__icontains=search_periodic_task)
+            periodic_task_count = periodic_task_list.count()
+
+        paginator = Paginator(periodic_task_list, 10)
+        page = request.GET.get('page', 1)
+        try:
+            pt_list = paginator.page(page)
+        except PageNotAnInteger:
+            pt_list = paginator.page(1)
+        except EmptyPage:
+            pt_list = paginator.page(paginator.num_pages)
 
         return render(
             request,
             "periodic_task.html",
             {
                 "user": user_name,
+                "pt_list": pt_list,
+                "pt_count": periodic_task_count,
             }
         )
