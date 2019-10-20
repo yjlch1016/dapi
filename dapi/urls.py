@@ -25,7 +25,7 @@ from interface.views import ModuleListView, AddModuleView, UpdateModuleView, Del
     DebugInterfaceView, DebugCaseGroupView, IntervalScheduleListView, AddIntervalScheduleView, \
     UpdateIntervalScheduleView, DeleteIntervalScheduleView, CrontabScheduleListView, AddCrontabScheduleView, \
     UpdateCrontabScheduleView, DeleteCrontabScheduleView, PeriodicTaskListView, TaskResultListView, AddPeriodicTaskView, \
-    DeletePeriodicTaskView, UpdatePeriodicTaskView
+    DeletePeriodicTaskView, UpdatePeriodicTaskView, DeleteTaskResultView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -106,5 +106,7 @@ urlpatterns = [
 
     path('task_result/', TaskResultListView.as_view(),
          name='task_result'),
+    path('result_delete/', DeleteTaskResultView.as_view(),
+         name='result_delete'),
     # 任务结果路由
 ]
