@@ -346,6 +346,9 @@
                             </a>
                         </div>
                     </th>
+                    <th scope="col" style="width: 80px">
+                        <span style="color: blue">删除</span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -369,6 +372,16 @@
                             <i class="fa fa-question-circle muted"></i>{{ i.hidden }}{% endif %}
                         </td>
                         <td>{{ i.meta }}</td>
+                        <td>
+                            <a class="icon fa fa-times"
+                               style="color: blue"
+                               data-toggle="modal"
+                               href="#deleteResult"
+                               onclick="getResultId({{ i.id }}, '{{ i.task_id }}', '{{ i.task_name }}')">
+                                <!-- 点击会触发删除任务结果模态框 -->
+                                删除
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -395,6 +408,74 @@
         </ul>
     </div>
 </div>
+
+<!-- 删除任务结果模态框 -->
+<div class="modal fade" id="deleteResult" tabindex="-1"
+     role="dialog" aria-labelledby="deleteResultLabel"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteResultLabel">删除任务结果</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/result_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="result_id_d"
+                           name="form_result_id_d"
+                           value=""/>
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的任务结果吗？
+                    </div>
+                    <div class="alert alert-danger">
+                        <p id="task_d"></p>
+                        <p id="name_d"></p>
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getResultId(ID, TASK, NAME) {
+        $('#result_id_d').val(ID);
+        $('#task_d').html(TASK);
+        $('#name_d').html(NAME);
+        console.log(ID);
+        console.log(TASK);
+        console.log(NAME);
+    }
+
+    //向删除模态框传递任务结果id
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#deleteResult .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除任务结果吗？');
+            });
+        $('#deleteResult .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
 
 <div id="footer">
     <hr/>
