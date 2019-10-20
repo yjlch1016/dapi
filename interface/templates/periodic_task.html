@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
@@ -16,8 +16,15 @@
     <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/vendor/bootstrap-clockpicker/bootstrap-clockpicker.css" type="text/css" media="screen"
+          rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/selectize/selectize.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/selectize/selectize.bootstrap3.css" type="text/css" media="screen"
+          rel="stylesheet">
 
     <style type="text/css">
         .btn-toolbar {
@@ -255,7 +262,9 @@
                 </form>
 
                 <div class="navbar-btn pull-right hide-xs">
-                    <a class="btn btn-primary">
+                    <a class="btn btn-primary" data-toggle="modal"
+                       href="#addPeriodic">
+                        <!-- 点击会触发增加任务设置模态框 -->
                         <i class="fa fa-plus"></i>
                         增加任务设置
                     </a>
@@ -289,41 +298,26 @@
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable" style="width: 100px">
+                    <th scope="col" class="sortable" style="width: 120px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 间隔时间
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable" style="width: 100px">
+                    <th scope="col" class="sortable" style="width: 120px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 定时时间
                             </a>
                         </div>
                     </th>
-                    {#                    <th scope="col" class="sortable" style="width: 100px">#}
-                    {#                        <div class="dropdown pull-left">#}
-                    {#                            <a class="dropdown-toggle">#}
-                    {#                                太阳时间#}
-                    {#                            </a>#}
-                    {#                        </div>#}
-                    {#                    </th>#}
-                    {#                    <th scope="col" class="sortable" style="width: 100px">#}
-                    {#                        <div class="dropdown pull-left">#}
-                    {#                            <a class="dropdown-toggle">#}
-                    {#                                计时时间#}
-                    {#                            </a>#}
-                    {#                        </div>#}
-                    {#                    </th>#}
                     <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
                                 位置参数
                             </a>
                         </div>
-
                     </th>
                     <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
@@ -423,43 +417,77 @@
                             </a>
                         </div>
                     </th>
+                    <th scope="col" style="width: 80px">
+                        <span style="color: green">修改</span>
+                    </th>
+                    <th scope="col" style="width: 80px">
+                        <span style="color: blue">删除</span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for i in pt_list %}
                     <tr class="grid-item">
-                        <td>{{ i.id }}</td>
-                        <td>{{ i.name }}</td>
-                        <td>{{ i.task }}</td>
-                        <td class="nowrap"><span class='text-muted'>{{ i.interval_id }}</span></td>
-                        <td class="nowrap">
-                            <div class="btn-group pull-right">
-                                <a data-res-uri="/admin/django_celery_beat/crontabschedule/1/detail/"
-                                   data-edit-uri="/admin/django_celery_beat/crontabschedule/1/update/"
-                                   class="details-handler" rel="tooltip"
-                                   title="1 2 3 4 5 (m/h/d/dM/MY) Asia/Shanghai详情">
-                                    <i class="fa fa-info-circle"></i>
-                                </a>
-                            </div>
-                            {{ i.crontab_id }}
+                        <td id="periodic_id_t">{{ i.id }}</td>
+                        <td id="name_t">{{ i.name }}</td>
+                        <td id="task_t">{{ i.task }}</td>
+                        <td class="nowrap" id="interval_t">
+                            {{ i.interval.every }}
+                            {{ i.interval.period }}
                         </td>
-                        {#                        <td class="nowrap"><span class='text-muted'>{{ i.solar_id }}</span></td>#}
-                        {#                        <td class="nowrap"><span class='text-muted'>{{ i.clocked_id }}</span></td>#}
-                        <td>{{ i.args }}</td>
-                        <td>{{ i.kwargs }}</td>
-                        <td>{{ i.queue }}</td>
-                        <td>{{ i.exchange }}</td>
-                        <td>{{ i.routing_key }}</td>
-                        <td>{{ i.headers }}</td>
-                        <td>{{ i.priority }}</td>
-                        <td class="nowrap">{{ i.expires }}</td>
-                        <td><i class="fa fa-times-circle text-error"></i>{{ i.one_off }}</td>
-                        <td class="nowrap">{{ i.start_time }}</td>
-                        <td><i class="fa fa-check-circle text-success"></i>{{ i.enabled }}</td>
-                        <td>{{ i.description }}</td>
+                        <td class="nowrap" id="crontab_t">
+                            {{ i.crontab.minute }}
+                            {{ i.crontab.hour }}
+                            {{ i.crontab.day_of_week }}
+                            {{ i.crontab.day_of_month }}
+                            {{ i.crontab.month_of_year }}
+                            {{ i.crontab.timezone }}
+                        </td>
+                        <td id="args_t">{{ i.args }}</td>
+                        <td id="kwargs_t">{{ i.kwargs }}</td>
+                        <td id="queue_t">{{ i.queue }}</td>
+                        <td id="exchange_t">{{ i.exchange }}</td>
+                        <td id="routing_key_t">{{ i.routing_key }}</td>
+                        <td id="headers_t">{{ i.headers }}</td>
+                        <td id="priority_t">{{ i.priority }}</td>
+                        <td id="expires_t" class="nowrap">{{ i.expires }}</td>
+                        <td id="one_off_t">{% if i.one_off == 1 %}
+                            <i class="fa fa-check-circle text-success"></i>
+                            {{ i.one_off }}{% elif i.one_off == 0 %}
+                            <i class="fa fa-times-circle text-error"></i>{{ i.one_off }}{% else %}
+                            <i class="fa fa-question-circle muted"></i>{{ i.one_off }}{% endif %}
+                        </td>
+                        <td id="start_time_t" class="nowrap">{{ i.start_time }}</td>
+                        <td id="enabled_t">{% if i.enabled == 1 %}
+                            <i class="fa fa-check-circle text-success"></i>
+                            {{ i.enabled }}{% elif i.enabled == 0 %}
+                            <i class="fa fa-times-circle text-error"></i>{{ i.enabled }}{% else %}
+                            <i class="fa fa-question-circle muted"></i>{{ i.enabled }}{% endif %}
+                        </td>
+                        <td id="description_t">{{ i.description }}</td>
                         <td class="nowrap">{{ i.last_run_at }}</td>
                         <td>{{ i.total_run_count }}</td>
                         <td class="nowrap">{{ i.date_changed }}</td>
+                        <td>
+                            <a class="icon fa fa-edit"
+                               style="color: green"
+                               data-toggle="modal"
+                               href="#updatePeriodic"
+                               onclick="updatePeriodic(this)">
+                                <!-- 点击会触发修改任务设置模态框 -->
+                                修改
+                            </a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-times"
+                               style="color: blue"
+                               data-toggle="modal"
+                               href="#deletePeriodic"
+                               onclick="getPeriodicId({{ i.id }}, '{{ i.name }}', '{{ i.task }}')">
+                                <!-- 点击会触发删除任务设置模态框 -->
+                                删除
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -488,6 +516,708 @@
     </div>
 </div>
 
+<!-- 增加任务设置模态框 -->
+<div class="modal fade" id="addPeriodic" tabindex="-1" role="dialog" aria-labelledby="addPeriodicLabel"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addPeriodicLabel">增加任务设置</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/periodic_add/" method="post" id="periodictask_form">
+                    {% csrf_token %}
+                    <div class="form-container row clearfix">
+                        <div class="formColumn column form-column full col col-sm-12 form-horizontal" span="12"
+                             horizontal>
+                            <div class="panel panel-default fieldset unsort no_title">
+                                <div class="panel-body ">
+                                    <div id="div_id_name" class="form-group">
+                                        <label for="id_name" class="control-label  requiredField">
+                                            任务说明
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_name_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" required id="id_name">
+                                            <p id="hint_id_name" class="help-block">
+                                                该任务的简短说明
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_task" class="form-group">
+                                        <label for="id_task" class="control-label  requiredField">
+                                            任务名称
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_task_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" required id="id_task">
+                                            <p id="hint_id_task" class="help-block">
+                                                应该运行的Celery任务的名称（例如：“proj.tasks.import_contacts”）
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_interval" class="form-group">
+                                        <label for="id_interval" class="control-label ">
+                                            间隔时间
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_interval_wrap_container">
+                                                <select name="form_interval_id_a"
+                                                        class="adminselectwidget form-control"
+                                                        id="id_interval">
+                                                    <option value="" selected>---------</option>
+                                                    {% for i in is_list %}
+                                                        <option value="{{ i.id }}">
+                                                            每隔{{ i.every }}{{ i.period }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_interval" class="help-block">
+                                                间隔计划以运行任务。仅设置一种计划类型，间隔时间与定时时间二选一。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_crontab" class="form-group">
+                                        <label for="id_crontab" class="control-label ">
+                                            定时时间
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_crontab_wrap_container">
+                                                <select name="form_crontab_id_a"
+                                                        class="adminselectwidget form-control"
+                                                        id="id_crontab">
+                                                    <option value="" selected>---------</option>
+                                                    {% for i in cs_list %}
+                                                        <option value="{{ i.id }}">
+                                                            {{ i.minute }}
+                                                            {{ i.hour }}
+                                                            {{ i.day_of_week }}
+                                                            {{ i.day_of_month }}
+                                                            {{ i.month_of_year }}
+                                                            (分/时/日/月/年)
+                                                            {{ i.timezone }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_crontab" class="help-block">
+                                                定时计划以运行任务。仅设置一种计划类型，间隔时间与定时时间二选一。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_args" class="form-group">
+                                        <label for="id_args" class="control-label ">
+                                            位置参数
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_args_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_args">[]</textarea>
+                                            <p id="hint_id_args" class="help-block">
+                                                JSON编码的位置参数（示例：["arg1", "arg2"]）
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_kwargs" class="form-group">
+                                        <label for="id_kwargs" class="control-label ">
+                                            关键字参数
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_kwargs_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_kwargs">{}</textarea>
+                                            <p id="hint_id_kwargs" class="help-block">
+                                                JSON编码的关键字参数（示例：{"argument": "value"}）
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_queue" class="form-group">
+                                        <label for="id_queue" class="control-label ">
+                                            队列覆盖
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_queue_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" id="id_queue">
+                                            <p id="hint_id_queue" class="help-block">
+                                                在CELERY_TASK_QUEUES中定义的队列。将默认值保留为“无”。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_exchange" class="form-group">
+                                        <label for="id_exchange" class="control-label ">
+                                            交换
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_exchange_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" id="id_exchange">
+                                            <p id="hint_id_exchange" class="help-block">
+                                                覆盖Exchange以进行低级AMQP路由
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_routing_key" class="form-group">
+                                        <label for="id_routing_key" class="control-label ">
+                                            路由键
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_routing_key_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" id="id_routing_key">
+                                            <p id="hint_id_routing_key" class="help-block">
+                                                低级AMQP路由的覆盖路由密钥
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_headers" class="form-group">
+                                        <label for="id_headers" class="control-label ">
+                                            AMQP邮件标题
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_headers_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_headers">{}</textarea>
+                                            <p id="hint_id_headers" class="help-block">
+                                                AMQP消息的JSON编码消息头
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_priority" class="form-group">
+                                        <label for="id_priority" class="control-label ">
+                                            优先级
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_priority_a"
+                                                   class="int-field adminintegerfieldwidget form-control"
+                                                   id="id_priority">
+                                            <p id="hint_id_priority" class="help-block">
+                                                优先级数字，介于0到255之间。支持者：RabbitMQ，Redis（优先级颠倒，最高为0）
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_expires" class="form-group">
+                                        <label for="id_expires" class="control-label ">
+                                            到期时间
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text"
+                                                   name="form_expires_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   id="id_expires">
+                                            <p id="hint_id_expires" class="help-block">
+                                                到期时间，计划表将在此日期后不再触发任务运行
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="div_id_one_off" class="checkbox">
+                                            <label for="id_one_off" class="">
+                                                <input type="checkbox" name="form_one_off_a" class="checkboxinput"
+                                                       id="id_one_off">
+                                                一次性任务
+                                            </label>
+                                            <p id="hint_id_one_off" class="help-block">
+                                                如果为True，则计划将仅一次运行任务
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_start_time" class="form-group">
+                                        <label for="id_start_time" class="control-label ">
+                                            开始时间
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text"
+                                                   name="form_start_time_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   id="id_start_time">
+                                            <p id="hint_id_start_time" class="help-block">
+                                                计划开始触发要运行的任务的开始时间
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="div_id_enabled" class="checkbox">
+                                            <label for="id_enabled" class="">
+                                                <input type="checkbox" name="form_enabled_a" class="checkboxinput"
+                                                       id="id_enabled"
+                                                       checked>
+                                                启用
+                                            </label>
+                                            <p id="hint_id_enabled" class="help-block">
+                                                设置为False可禁用计划
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_description" class="form-group">
+                                        <label for="id_description" class="control-label ">
+                                            描述
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_description_a" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="id_description"></textarea>
+                                            <p id="hint_id_description" class="help-block">
+                                                有关此定期任务的详细信息的详细说明
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-save"></i>
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改任务设置模态框 -->
+<div class="modal fade" id="updatePeriodic" tabindex="-1" role="dialog"
+     aria-labelledby="updatePeriodicLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="updatePeriodicLabel">修改任务设置</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" action="/periodic_update/" method="post" id="periodictask_form">
+                    {% csrf_token %}
+                    <input type="hidden" id="periodic_id_u" name="form_periodic_id_u" value="">
+                    <div class="form-container row clearfix">
+                        <div class="formColumn column form-column full col col-sm-12 form-horizontal" span="12"
+                             horizontal>
+                            <div class="panel panel-default fieldset unsort no_title">
+                                <div class="panel-body ">
+                                    <div id="div_id_name" class="form-group">
+                                        <label for="id_name" class="control-label  requiredField">
+                                            任务说明
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" id="name_u" name="form_name_u" value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" required>
+                                            <p id="hint_id_name" class="help-block">
+                                                该任务的简短说明
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_task" class="form-group">
+                                        <label for="id_task" class="control-label  requiredField">
+                                            任务名称
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_task_u"
+                                                   value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" required id="task_u">
+                                            <p id="hint_id_task" class="help-block">
+                                                应该运行的Celery任务的名称（例如：“proj.tasks.import_contacts”
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_interval" class="form-group">
+                                        <label for="id_interval" class="control-label ">
+                                            间隔时间
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_interval_wrap_container">
+                                                <select name="form_interval_u" class="adminselectwidget form-control"
+                                                        id="interval_u">
+                                                    <option value="">---------</option>
+                                                    {% for i in is_list %}
+                                                        <option value="{{ i.id }}">{{ i.every }}{{ i.period }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_interval" class="help-block">
+                                                间隔计划以运行任务。仅设置一种计划类型，间隔时间与定时时间二选一。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_crontab" class="form-group">
+                                        <label for="id_crontab" class="control-label ">
+                                            定时时间
+                                        </label>
+                                        <div class="controls ">
+                                            <div class="control-wrap" id="id_crontab_wrap_container">
+                                                <select name="form_crontab_u" class="adminselectwidget form-control"
+                                                        id="crontab_u">
+                                                    <option value="">---------</option>
+                                                    {% for i in cs_list %}
+                                                        <option value="{{ i.id }}">
+                                                            {{ i.minute }}
+                                                            {{ i.hour }}
+                                                            {{ i.day_of_week }}
+                                                            {{ i.day_of_month }}
+                                                            {{ i.month_of_year }}
+                                                            {{ i.timezone }}
+                                                        </option>
+                                                    {% endfor %}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p id="hint_id_crontab" class="help-block">
+                                                定时计划以运行任务。仅设置一种计划类型，间隔时间与定时时间二选一。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_args" class="form-group">
+                                        <label for="id_args" class="control-label ">
+                                            位置参数
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_args_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="args_u"></textarea>
+                                            <p id="hint_id_args" class="help-block">
+                                                JSON编码的位置参数（示例：["arg1", "arg2"]）
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_kwargs" class="form-group">
+                                        <label for="id_kwargs" class="control-label ">
+                                            关键字参数
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_kwargs_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="kwargs_u"></textarea>
+                                            <p id="hint_id_kwargs" class="help-block">
+                                                JSON编码的关键字参数（示例：{"argument": "value"}）
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_queue" class="form-group">
+                                        <label for="id_queue" class="control-label ">
+                                            队列覆盖
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_queue_u"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" id="queue_u">
+                                            <p id="hint_id_queue" class="help-block">
+                                                在CELERY_TASK_QUEUES中定义的队列。将默认值保留为“无”。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_exchange" class="form-group">
+                                        <label for="id_exchange" class="control-label ">
+                                            交换
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_exchange_u"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" id="exchange_u">
+                                            <p id="hint_id_exchange" class="help-block">
+                                                覆盖Exchange以进行低级AMQP路由
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_routing_key" class="form-group">
+                                        <label for="id_routing_key" class="control-label ">
+                                            路由键
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_routing_key_u"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="200" id="routing_key_u">
+                                            <p id="hint_id_routing_key" class="help-block">
+                                                低级AMQP路由的覆盖路由密钥
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_headers" class="form-group">
+                                        <label for="id_headers" class="control-label ">
+                                            AMQP邮件标题
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_headers_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="headers_u"></textarea>
+                                            <p id="hint_id_headers" class="help-block">
+                                                AMQP消息的JSON编码消息头
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_priority" class="form-group">
+                                        <label for="id_priority" class="control-label ">
+                                            优先级
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_priority_u"
+                                                   class="int-field adminintegerfieldwidget form-control"
+                                                   id="priority_u">
+                                            <p id="hint_id_priority" class="help-block">
+                                                优先级数字，介于0到255之间。支持者：RabbitMQ，Redis（优先级颠倒，最高为0）
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_expires" class="form-group">
+                                        <label for="id_expires_0" class="control-label ">
+                                            到期时间
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text"
+                                                   name="form_expires_u"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   id="expires_u">
+                                            <p id="hint_id_expires" class="help-block">
+                                                到期时间，计划表将在此日期后不再触发任务运行
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="div_id_one_off" class="checkbox">
+                                            <label for="id_one_off" class="">
+                                                <input type="checkbox" name="form_one_off_u" class="checkboxinput"
+                                                       id="one_off_u">
+                                                一次性任务
+                                            </label>
+                                            <p id="hint_id_one_off" class="help-block">
+                                                如果为True，则计划将仅一次运行任务
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_start_time" class="form-group">
+                                        <label for="id_start_time_0" class="control-label ">
+                                            开始时间
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text"
+                                                   name="form_start_time_u"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   id="start_time_u">
+                                            <p id="hint_id_start_time" class="help-block">
+                                                计划开始触发要运行的任务的开始时间
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="div_id_enabled" class="checkbox">
+                                            <label for="id_enabled" class="">
+                                                <input type="checkbox" name="form_enabled_u" class="checkboxinput"
+                                                       id="enabled_u">
+                                                启用
+                                            </label>
+                                            <p id="hint_id_enabled" class="help-block">
+                                                设置为False可禁用计划
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_description" class="form-group">
+                                        <label for="id_description" class="control-label ">
+                                            描述
+                                        </label>
+                                        <div class="controls ">
+                                            <textarea name="form_description_u" cols="40" rows="10"
+                                                      class="textarea-field admintextareawidget form-control"
+                                                      id="description_u"></textarea>
+                                            <p id="hint_id_description" class="help-block">
+                                                有关此定期任务的详细信息的详细说明
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-file-text"></i>
+                            修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除任务设置模态框 -->
+<div class="modal fade" id="deletePeriodic" tabindex="-1"
+     role="dialog" aria-labelledby="deletePeriodicLabel"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deletePeriodicLabel">删除任务设置</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/periodic_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="periodic_id_d"
+                           name="form_periodic_id_d"
+                           value=""/>
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的任务设置吗？
+                    </div>
+                    <div class="alert alert-danger">
+                        <p id="name_d"></p>
+                        <p id="task_d"></p>
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updatePeriodic(obj) {
+        var tr = $(obj).parent().parent();
+        var id = tr.children("td#periodic_id_t").text().trim().replace(/\s/g, "");
+        //trim().replace(/\s/g, "")去除空格、回车、空字符
+        var name = tr.children("td#name_t").text().trim().replace(/\s/g, "");
+        var task = tr.children("td#task_t").text().trim().replace(/\s/g, "");
+        var interval = tr.children("td#interval_t").text().trim().replace(/\s/g, "");
+        var crontab = tr.children("td#crontab_t").text().trim().replace(/\s/g, "");
+        var args = tr.children("td#args_t").text().trim().replace(/\s/g, "");
+        var kwargs = tr.children("td#kwargs_t").text().trim().replace(/\s/g, "");
+        var queue = tr.children("td#queue_t").text().trim().replace(/\s/g, "");
+        var exchange = tr.children("td#exchange_t").text().trim().replace(/\s/g, "");
+        var routing_key = tr.children("td#routing_key_t").text().trim().replace(/\s/g, "");
+        var headers = tr.children("td#headers_t").text().trim().replace(/\s/g, "");
+        var priority = tr.children("td#priority_t").text().trim().replace(/\s/g, "");
+        var expires = tr.children("td#expires_t").text().trim().replace(/\s/g, "");
+        var one_off = tr.children("td#one_off_t").text().trim().replace(/\s/g, "");
+        var start_time = tr.children("td#start_time_t").text().trim().replace(/\s/g, "");
+        var enabled = tr.children("td#enabled_t").text().trim().replace(/\s/g, "");
+        var description = tr.children("td#description_t").text().trim().replace(/\s/g, "");
+        //取值
+        $('#periodic_id_u').val(id);
+        $('#name_u').val(name);
+        $('#task_u').val(task);
+        $('#interval_u').val(interval);
+        $('#crontab_u').val(crontab);
+        $('#args_u').val(args);
+        $('#kwargs_u').val(kwargs);
+        $('#queue_u').val(queue);
+        $('#exchange_u').val(exchange);
+        $('#routing_key_u').val(routing_key);
+        $('#headers_u').val(headers);
+        $('#priority_u').val(priority);
+        $('#expires_u').val(expires);
+
+        if (one_off === 'True') {
+            $("input[id=one_off_u]").prop("checked", true);
+        } else if (one_off === 'False') {
+            $("input[id=one_off_u]").prop("checked", false);
+        }
+
+        $('#start_time_u').val(start_time);
+
+        if (enabled === 'True') {
+            $("input[id=enabled_u]").prop("checked", true);
+        } else if (enabled === 'False') {
+            $("input[id=enabled_u]").prop("checked", false);
+        }
+
+        $('#description_u').val(description);
+        //赋值
+        console.log(id);
+        console.log(name);
+        console.log(task);
+        console.log(interval);
+        console.log(crontab);
+        console.log(args);
+        console.log(kwargs);
+        console.log(queue);
+        console.log(exchange);
+        console.log(routing_key);
+        console.log(headers);
+        console.log(priority);
+        console.log(expires);
+        console.log(one_off);
+        console.log(start_time);
+        console.log(enabled);
+        console.log(description);
+        //打印日志
+    }
+</script>
+
+<script>
+    function getPeriodicId(ID, NAME, TASK) {
+        $('#periodic_id_d').val(ID);
+        $('#name_d').html(NAME);
+        $('#task_d').html(TASK);
+        console.log(ID);
+        console.log(NAME);
+        console.log(TASK);
+    }
+
+    //向删除模态框传递任务设置id
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#addPeriodic .btn-primary').on('click',
+            function () {
+                alert('嘿，确认增加任务设置吗？');
+            });
+        $('#addPeriodic .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#updatePeriodic .btn-primary').on('click',
+            function () {
+                alert('嘿，确认修改任务设置吗？');
+            });
+        $('#updatePeriodic .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#deletePeriodic .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除任务设置吗？');
+            });
+        $('#deletePeriodic .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
+
 <div id="footer">
     <hr/>
     <footer class="text-center">
@@ -503,12 +1233,16 @@
 <script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/selectize/selectize.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.quick-form.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/select2/select2.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-clockpicker/bootstrap-clockpicker.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/select2/select2_locale_zh-hans.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.select.js"></script>
 
 </body>
 </html>

@@ -465,9 +465,10 @@ class PeriodicTaskAdmin(object):
 
 class TaskResultAdmin(object):
     list_display = [
-        'id', 'task_id', 'status', 'content_type', 'content_encoding',
-        'result', 'date_done', 'traceback', 'hidden', 'meta',
-        'task_args', 'task_kwargs', 'task_name'
+        'id', 'task_id', 'task_name',
+        'task_args', 'task_kwargs',
+        'status', 'content_type', 'content_encoding', 'traceback',
+        'result', 'date_done', 'hidden', 'meta',
     ]
     ordering = ['id']
     search_fields = ['task_id']

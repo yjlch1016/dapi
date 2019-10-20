@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+    <title>任务结果列表 | 测试平台</title>
+
+    <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" id="site-theme" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>
+    <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+
+    <style type="text/css">
+        .btn-toolbar {
+            margin-top: 0;
+        }
+
+        #content-block.full-content {
+            margin-left: 0;
+        }
+    </style>
+
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+
+</head>
+<body class="change-list">
+
+<div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">测试平台</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <strong>欢迎你{{ user }}</strong>
+                </a>
+            </li>
+            <li>
+                <a href="/logout/">
+                    <i class="show-sm fa fa-sign-out"></i>
+                    <span class="hide-sm">退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="body-content" class="clearfix row">
+    <div id="left-side" class="col-sm-1 col-md-2">
+
+        <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-1">
+                            <i class="fa-fw fa fa-github-square"></i>
+                            产品管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-1" class="list-group panel-collapse collapse">
+
+                    <a href="/product/" class="list-group-item">
+                        <i class="fa-fw fa fa-apple"></i>
+                        产品线列表</span>
+                    </a>
+                    <a href="/module/" class="list-group-item">
+                        <i class="fa-fw fa fa-android"></i>
+                        模块列表</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-2">
+                            <i class="fa-fw fa fa-github"></i>
+                            用例管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-2" class="list-group panel-collapse collapse">
+                    <a href="/case_group/" class="list-group-item">
+                        <i class="fa-fw fa fa-linux"></i>
+                        用例组列表</span>
+                    </a>
+                    <a href="/interface/" class="list-group-item">
+                        <i class="fa-fw fa fa-windows"></i>
+                        用例列表</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
+                           href="#nav-panel-3">
+                            <i class="fa-fw fa fa-github-alt"></i>
+                            任务管理
+                        </a>
+                    </h6>
+                </div>
+                <div id="nav-panel-3" class="list-group panel-collapse collapse in">
+                    <a href="/interval_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-backward"></i>
+                        间隔时间列表</span>
+                    </a>
+                    <a href="/crontab_schedule/" class="list-group-item">
+                        <i class="fa-fw fa fa-forward"></i>
+                        定时时间列表</span>
+                    </a>
+                    <a href="/periodic_task/" class="list-group-item">
+                        <i class="fa-fw fa fa-play-circle"></i>
+                        任务设置列表</span>
+                    </a>
+                    <a href="/task_result/" class="list-group-item active">
+                        <i class="fa-fw fa fa-arrows-alt"></i>
+                        任务结果列表</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <ul class="well nav nav-list nav-sitemenu show-sm">
+            <li class="app_menu">
+                <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
+                <hr/>
+            </li>
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-square"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/product/">
+                            <i class="fa-fw fa fa-apple"></i>
+                            产品线列表</a>
+                    </li>
+                    <li>
+                        <a href="/module/">
+                            <i class="fa-fw fa fa-android"></i>
+                            模块列表</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu ">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/case_group/">
+                            <i class="fa-fw fa fa-linux"></i>
+                            用例组列表</a>
+                    </li>
+                    <li>
+                        <a href="/interface/">
+                            <i class="fa-fw fa fa-windows"></i>
+                            用例列表</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="app_menu dropdown-submenu  active">
+                <a href="#" class="section">
+                    <i class="icon fa-fw fa fa-github-alt"></i>
+                </a>
+                <hr/>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/interval_schedule/">
+                            <i class="fa-fw fa fa-backward"></i>
+                            间隔时间列表</a>
+                    </li>
+                    <li>
+                        <a href="/crontab_schedule/">
+                            <i class="fa-fw fa fa-forward"></i>
+                            定时时间列表</a>
+                    </li>
+                    <li>
+                        <a href="/periodic_task/">
+                            <i class="fa-fw fa fa-play-circle"></i>
+                            任务设置列表</a>
+                    </li>
+                    <li class="active">
+                        <a href="/task_result/">
+                            <i class="fa-fw fa fa-arrows-alt"></i>
+                            任务结果列表</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+        <ul class="breadcrumb">
+            <li>
+                <a href="/home/">首页</a>
+            </li>
+            <li>任务结果列表</li>
+        </ul>
+
+        <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+             data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+             data-class-sm="navbar content-navbar navbar-default navbar-xs">
+
+            <div class="navbar-collapse collapse">
+                <form class="navbar-form navbar-left" action="" method="get">
+                    {% csrf_token %}
+                    <div class="input-group search-group">
+                        <input id="searchbar" class="form-control" type="text" name="form_name_s" value=""
+                               placeholder="任务名称" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search">搜索任务名称</i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="results table-responsive">
+
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="sortable sorted ascending" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                任务结果ID
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 100px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                任务队列ID
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 150px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                任务名称
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 100px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                任务位置参数
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 120px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                任务关键字参数
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 90px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                任务状态
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 120px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                结果内容类型
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                结果编码
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                回调
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 100px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                结果数据
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 140px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                完成时间
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                隐藏
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 100px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                任务元信息
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in tr_list %}
+                    <tr class="grid-item">
+                        <td>{{ i.id }}</td>
+                        <td>{{ i.task_id }}</td>
+                        <td>{{ i.task_name }}</td>
+                        <td>{{ i.task_args }}</td>
+                        <td>{{ i.task_kwargs }}</td>
+                        <td>{{ i.status }}</td>
+                        <td>{{ i.content_type }}</td>
+                        <td>{{ i.content_encoding }}</td>
+                        <td>{{ i.traceback }}</td>
+                        <td>{{ i.result }}</td>
+                        <td class="nowrap">{{ i.date_done }}</td>
+                        <td>{% if i.hidden == 1 %}
+                            <i class="fa fa-check-circle text-success"></i>
+                            {{ i.hidden }}{% elif i.hidden == 0 %}
+                            <i class="fa fa-times-circle text-error"></i>{{ i.hidden }}{% else %}
+                            <i class="fa fa-question-circle muted"></i>{{ i.hidden }}{% endif %}
+                        </td>
+                        <td>{{ i.meta }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination">
+            <li><span>共<span class="text-success">{{ tr_count }}</span>任务结果</span></li>
+            <li class="step-links">
+                {% if tr_list.has_previous %}
+                    <a href="?page=1">首页</a>
+                    <a href="?page={{ tr_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    第{{ tr_list.number }}页 共{{ tr_list.paginator.num_pages }}页
+                </span>
+
+                {% if tr_list.has_next %}
+                    <a href="?page={{ tr_list.next_page_number }}">下一页</a>
+                    <a href="?page={{ tr_list.paginator.num_pages }}">尾页</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>测试部门</p>
+    </footer>
+</div>
+
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+
+</body>
+</html>

@@ -12,7 +12,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.datetime_safe import datetime
 from django.views import View
-from django_celery_beat.models import IntervalSchedule, CrontabSchedule, PeriodicTask
+from django_celery_beat.models import IntervalSchedule, CrontabSchedule, PeriodicTask, PeriodicTasks
+from django_celery_results.models import TaskResult
 from rest_framework import viewsets
 
 from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo
@@ -819,6 +820,8 @@ class PeriodicTaskListView(LoginRequiredMixin, View):
 
     def get(self, request):
         user_name = request.session.get('user', '')
+        interval_schedule_list = IntervalSchedule.objects.all().order_by("id")
+        crontab_schedule_list = CrontabSchedule.objects.all().order_by("id")
         periodic_task_list = PeriodicTask.objects.all().order_by("id")
         periodic_task_count = PeriodicTask.objects.all().count()
 
@@ -843,7 +846,208 @@ class PeriodicTaskListView(LoginRequiredMixin, View):
             "periodic_task.html",
             {
                 "user": user_name,
+                "is_list": interval_schedule_list,
+                "cs_list": crontab_schedule_list,
                 "pt_list": pt_list,
                 "pt_count": periodic_task_count,
+            }
+        )
+
+
+class AddPeriodicTaskView(LoginRequiredMixin, View):
+    """增加任务设置"""
+
+    def post(self, request):
+        name = request.POST.get('form_name_a', '')
+        task = request.POST.get('form_task_a', '')
+        interval_id = request.POST.get('form_interval_id_a', '')
+        if interval_id == "":
+            interval_id = None
+        crontab_id = request.POST.get('form_crontab_id_a', '')
+        if crontab_id == "":
+            crontab_id = None
+        args = request.POST.get('form_args_a', '')
+        if args == "":
+            args = "[]"
+        kwargs = request.POST.get('form_kwargs_a', '')
+        if kwargs == "":
+            kwargs = "{}"
+        queue = request.POST.get('form_queue_a', '')
+        if queue == "":
+            queue = None
+        exchange = request.POST.get('form_exchange_a', '')
+        if exchange == "":
+            exchange = None
+        routing_key = request.POST.get('form_routing_key_a', '')
+        if routing_key == "":
+            routing_key = None
+        headers = request.POST.get('form_headers_a', '')
+        if headers == "":
+            headers = "{}"
+        priority = request.POST.get('form_priority_a', '')
+        if priority == "":
+            priority = None
+        expires = request.POST.get('form_expires_a', '')
+        if expires == "":
+            expires = None
+        one_off = request.POST.get('form_one_off_a', '')
+        if one_off == "":
+            one_off = 0
+        elif one_off == "on":
+            one_off = 1
+        start_time = request.POST.get('form_start_time_a', '')
+        if start_time == "":
+            start_time = None
+        enabled = request.POST.get('form_enabled_a', '')
+        if enabled == "on":
+            enabled = 1
+        elif enabled == "":
+            enabled = 0
+        description = request.POST.get('form_description_a', '')
+        if description == "":
+            description = "空"
+        PeriodicTask.objects.create(
+            name=name,
+            task=task,
+            interval_id=interval_id,
+            crontab_id=crontab_id,
+            args=args,
+            kwargs=kwargs,
+            queue=queue,
+            exchange=exchange,
+            routing_key=routing_key,
+            headers=headers,
+            priority=priority,
+            expires=expires,
+            one_off=one_off,
+            start_time=start_time,
+            enabled=enabled,
+            description=description,
+        )
+
+        return redirect('/periodic_task/')
+
+
+class UpdatePeriodicTaskView(LoginRequiredMixin, View):
+    """修改任务设置"""
+
+    def post(self, request):
+        periodic_id = request.POST.get('form_periodic_id_u', '')
+        name = request.POST.get('form_name_u', '')
+        task = request.POST.get('form_task_u', '')
+        interval_id = request.POST.get('form_interval_u', '')
+        if interval_id == "":
+            interval_id = None
+        crontab_id = request.POST.get('form_crontab_u', '')
+        if crontab_id == "":
+            crontab_id = None
+        args = request.POST.get('form_args_u', '')
+        if args == "":
+            args = "[]"
+        kwargs = request.POST.get('form_kwargs_u', '')
+        if kwargs == "":
+            kwargs = "{}"
+        queue = request.POST.get('form_queue_u', '')
+        if queue == "None":
+            queue = None
+        exchange = request.POST.get('form_exchange_u', '')
+        if exchange == "None":
+            exchange = None
+        routing_key = request.POST.get('form_routing_key_u', '')
+        if routing_key == "None":
+            routing_key = None
+        headers = request.POST.get('form_headers_u', '')
+        if headers == "":
+            headers = "{}"
+        priority = request.POST.get('form_priority_u', '')
+        if priority == "None":
+            priority = None
+        expires = request.POST.get('form_expires_u', '')
+        if expires == "None":
+            expires = None
+        one_off = request.POST.get('form_one_off_u', '')
+        if one_off == "":
+            one_off = 0
+        elif one_off == "on":
+            one_off = 1
+        start_time = request.POST.get('form_start_time_u', '')
+        if start_time == "None":
+            start_time = None
+        enabled = request.POST.get('form_enabled_u', '')
+        if enabled == "on":
+            enabled = 1
+        elif enabled == "":
+            enabled = 0
+        description = request.POST.get('form_description_u', '')
+        if description == "":
+            description = "空"
+        PeriodicTask.objects.filter(id=periodic_id).update(
+            name=name,
+            task=task,
+            interval_id=interval_id,
+            crontab_id=crontab_id,
+            args=args,
+            kwargs=kwargs,
+            queue=queue,
+            exchange=exchange,
+            routing_key=routing_key,
+            headers=headers,
+            priority=priority,
+            expires=expires,
+            one_off=one_off,
+            start_time=start_time,
+            enabled=enabled,
+            description=description,
+            date_changed=datetime.now(),
+        )
+
+        PeriodicTask.objects.all().update(last_run_at=None)
+        for task in PeriodicTask.objects.all():
+            PeriodicTasks.changed(task)
+
+        return redirect('/periodic_task/')
+
+
+class DeletePeriodicTaskView(LoginRequiredMixin, View):
+    """删除任务设置"""
+
+    def post(self, request):
+        periodic_id = request.POST.get('form_periodic_id_d', '')
+        PeriodicTask.objects.filter(id=periodic_id).delete()
+
+        return redirect('/periodic_task/')
+
+
+class TaskResultListView(LoginRequiredMixin, View):
+    """任务结果列表"""
+
+    def get(self, request):
+        user_name = request.session.get('user', '')
+        task_result_list = TaskResult.objects.all().order_by("id")
+        task_result_count = TaskResult.objects.all().count()
+
+        search_task_result = request.GET.get("form_name_s", "")
+        # 搜索任务名称
+        if search_task_result:
+            task_result_list = task_result_list.filter(
+                task_name__icontains=search_task_result)
+            task_result_count = task_result_list.count()
+
+        paginator = Paginator(task_result_list, 10)
+        page = request.GET.get('page', 1)
+        try:
+            tr_list = paginator.page(page)
+        except PageNotAnInteger:
+            tr_list = paginator.page(1)
+        except EmptyPage:
+            tr_list = paginator.page(paginator.num_pages)
+
+        return render(
+            request,
+            "task_result.html",
+            {
+                "user": user_name,
+                "tr_list": tr_list,
+                "tr_count": task_result_count,
             }
         )

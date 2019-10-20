@@ -24,7 +24,8 @@ from interface.views import ModuleListView, AddModuleView, UpdateModuleView, Del
     UpdateProductView, DeleteProductView, AddInterfaceView, DeleteInterfaceView, UpdateInterfaceView, \
     DebugInterfaceView, DebugCaseGroupView, IntervalScheduleListView, AddIntervalScheduleView, \
     UpdateIntervalScheduleView, DeleteIntervalScheduleView, CrontabScheduleListView, AddCrontabScheduleView, \
-    UpdateCrontabScheduleView, DeleteCrontabScheduleView, PeriodicTaskListView
+    UpdateCrontabScheduleView, DeleteCrontabScheduleView, PeriodicTaskListView, TaskResultListView, AddPeriodicTaskView, \
+    DeletePeriodicTaskView, UpdatePeriodicTaskView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -95,5 +96,15 @@ urlpatterns = [
 
     path('periodic_task/', PeriodicTaskListView.as_view(),
          name='periodic_task'),
+    path('periodic_add/', AddPeriodicTaskView.as_view(),
+         name='periodic_add'),
+    path('periodic_update/', UpdatePeriodicTaskView.as_view(),
+         name='periodic_update'),
+    path('periodic_delete/', DeletePeriodicTaskView.as_view(),
+         name='periodic_delete'),
     # 任务设置路由
+
+    path('task_result/', TaskResultListView.as_view(),
+         name='task_result'),
+    # 任务结果路由
 ]
