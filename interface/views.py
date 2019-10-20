@@ -1051,3 +1051,13 @@ class TaskResultListView(LoginRequiredMixin, View):
                 "tr_count": task_result_count,
             }
         )
+
+
+class DeleteTaskResultView(LoginRequiredMixin, View):
+    """删除任务结果"""
+
+    def post(self, request):
+        result_id = request.POST.get('form_result_id_d', '')
+        TaskResult.objects.filter(id=result_id).delete()
+
+        return redirect('/task_result/')
