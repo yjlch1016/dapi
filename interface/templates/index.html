@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -9,29 +7,31 @@
     <meta name="author" content="">
     <meta name="robots" content="NONE,NOARCHIVE"/>
 
-    <title>首页 | 测试平台</title>
+    <title>测试报告 | 测试平台</title>
 
-    <link href="{% static 'xadmin/vendor/bootstrap/css/bootstrap.css' %}"
-          type="text/css" media="screen" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" id="site-theme"
-          href="{% static 'xadmin/css/themes/bootstrap-xadmin.css' %}"/>
-    <link href="{% static 'xadmin/vendor/font-awesome/css/font-awesome.css' %}"
-          type="text/css" media="screen" rel="stylesheet">
-    <link href="{% static 'xadmin/css/xadmin.main.css' %}"
-          type="text/css" media="screen" rel="stylesheet">
-    <link href="{% static 'xadmin/css/xadmin.plugins.css' %}"
-          type="text/css" media="screen" rel="stylesheet">
-    <link href="{% static 'xadmin/css/xadmin.responsive.css' %}"
-          type="text/css" media="screen" rel="stylesheet">
-    <link href="{% static 'xadmin/css/xadmin.page.dashboard.css' %}"
-          type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" id="site-theme" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>
+    <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.widget.editable.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/selectize/selectize.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/selectize/selectize.bootstrap3.css" type="text/css" media="screen"
+          rel="stylesheet">
 
-    <script type="text/javascript"
-            src="{% static 'xadmin/vendor/jquery/jquery.js' %}"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
 
 </head>
 
-<body class="dashboard">
+<body class="change-list">
 
 <div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
@@ -41,7 +41,8 @@
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
                 <a class="dropdown-toggle">
-                    <strong>欢迎你{{ user }}</strong></a>
+                    <strong>欢迎你</strong>
+                </a>
             </li>
             <li>
                 <a href="/logout/">
@@ -102,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <div class="panel-heading">
                     <h6 class="panel-title">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
@@ -112,8 +113,8 @@
                         </a>
                     </h6>
                 </div>
-                <div id="nav-panel-3" class="list-group panel-collapse collapse">
-                    <a href="/pyecharts/index/" class="list-group-item">
+                <div id="nav-panel-3" class="list-group panel-collapse collapse in">
+                    <a href="/pyecharts/index/" class="list-group-item active">
                         <i class="fa-fw fa fa-bars"></i>
                         接口测试报告
                     </a>
@@ -133,19 +134,19 @@
                 <div id="nav-panel-4" class="list-group panel-collapse collapse">
                     <a href="/interval_schedule/" class="list-group-item">
                         <i class="fa-fw fa fa-backward"></i>
-                        间隔时间列表</span>
+                        间隔时间列表
                     </a>
-                    <a href=/crontab_schedule/" class="list-group-item">
+                    <a href="/crontab_schedule/" class="list-group-item">
                         <i class="fa-fw fa fa-forward"></i>
-                        定时时间列表</span>
+                        定时时间列表
                     </a>
                     <a href="/periodic_task/" class="list-group-item">
                         <i class="fa-fw fa fa-play-circle"></i>
-                        任务设置列表</span>
+                        任务设置列表
                     </a>
                     <a href="/task_result/" class="list-group-item">
                         <i class="fa-fw fa fa-arrows-alt"></i>
-                        任务结果列表</span>
+                        任务结果列表
                     </a>
                 </div>
             </div>
@@ -169,7 +170,6 @@
                             产品线列表
                         </a>
                     </li>
-
                     <li>
                         <a href="/module/">
                             <i class="fa-fw fa fa-android"></i>
@@ -200,13 +200,13 @@
                 </ul>
             </li>
 
-            <li class="app_menu dropdown-submenu ">
+            <li class="app_menu dropdown-submenu active">
                 <a href="#" class="section">
                     <i class="icon fa-fw fa fa-bar-chart-o"></i>
                 </a>
                 <hr/>
                 <ul class="dropdown-menu">
-                    <li>
+                    <li class="active">
                         <a href="/pyecharts/index/">
                             <i class="fa-fw fa fa-bars"></i>
                             接口测试报告
@@ -251,19 +251,17 @@
     </div>
 
     <div id="content-block" class="col-sm-11 col-md-10">
-        <div class="navbar content-navbar navbar-default navbar-xs">
-            <div class="navbar-header">
-                <p class="navbar-brand">
-                    首页
-                </p>
-            </div>
-        </div>
-        <div class="dashboard row">
-            <div class="col-sm-12 column" align="center">
-                <img src="/static/img/home.gif" alt="人生苦短，Python当歌">
-            </div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="/home/">首页</a>
+            </li>
+            <li>接口测试报告</li>
+        </ul>
+
+        <div id="bar" style="width:800px; height:400px;">
         </div>
     </div>
+
 </div>
 
 <div id="footer">
@@ -273,29 +271,43 @@
     </footer>
 </div>
 
-<script type="text/javascript"
-        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.core.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.widget.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.mouse.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.sortable.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/vendor/bootstrap/js/bootstrap.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/js/xadmin.main.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/js/xadmin.responsive.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/vendor/jquery-ui/jquery.ui.effect.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/js/xadmin.page.dashboard.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/js/xadmin.plugin.portal.js' %}"></script>
-<script type="text/javascript"
-        src="{% static 'xadmin/js/xadmin.plugin.themes.js' %}"></script>
+<script>
+    var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+
+    $(
+        function () {
+            fetchData(chart);
+        }
+    );
+
+    function fetchData() {
+        $.ajax({
+            type: "GET",
+            url: "/pyecharts/bar/",
+            dataType: 'json',
+            success: function (result) {
+                chart.setOption(result.data);
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/selectize/selectize.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.quick-form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/select2/select2.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/select2/select2_locale_zh-hans.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.select.js"></script>
 
 </body>
 </html>
-

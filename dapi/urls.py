@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import xadmin
+from django.conf.urls import url
 
 from django.urls import path, include
 from rest_framework import routers
@@ -109,4 +110,7 @@ urlpatterns = [
     path('result_delete/', DeleteTaskResultView.as_view(),
          name='result_delete'),
     # 任务结果路由
+
+    url('^pyecharts/', include('interface.urls'))
+    # pyecharts路由
 ]
