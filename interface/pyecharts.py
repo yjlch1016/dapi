@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from rest_framework.views import APIView
 
@@ -70,7 +71,7 @@ class ChartView(APIView):
         return JsonResponse(json.loads(bar_base()))
 
 
-class IndexView(APIView):
+class IndexView(LoginRequiredMixin, APIView):
     def get(self, request, *args, **kwargs):
         return HttpResponse(
             content=open("interface/templates/index.html").read())
