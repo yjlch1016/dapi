@@ -93,7 +93,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dapi',
-        'HOST': '192.168.1.106',
+        'HOST': '192.168.1.102',
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': 'Abcdef@123456',
@@ -188,7 +188,7 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 # 使用亚洲/上海时区
 DJANGO_CELERY_BEAT_TZ_AWARE = False
 # 解决时区问题
-CELERY_BROKER_URL = 'redis://:Abcdef@123456@192.168.1.106:6379/0'
+CELERY_BROKER_URL = 'redis://:Abcdef@123456@192.168.1.102:6379/0'
 # redis://:password@hostname:port/db_number
 CELERY_BROKER_TRANSPORT = 'redis'
 # 使用redis作为中间件
@@ -202,3 +202,8 @@ CELERY_TASK_SERIALIZER = 'json'
 # 设置任务序列化方式
 CELERY_RESULT_SERIALIZER = 'json'
 # 设置结果序列化方式
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# 定义文件存放的目录

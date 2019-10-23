@@ -246,3 +246,43 @@ class InterfaceInfo(models.Model):
 
     def __str__(self):
         return self.case_name
+
+
+class PerformanceInfo(models.Model):
+    # 压测信息表
+
+    script_introduce = models.CharField(
+        max_length=32, verbose_name="脚本简介",
+        help_text="请输入压测脚本简介", db_index=True)
+    # 脚本简介，并创建索引
+    jmeter_script = models.FileField(
+        upload_to="jmeter/%Y%m%d%H%M%S",
+        max_length=100, verbose_name="压测脚本",
+        help_text="请上传JMeter脚本")
+    # 压测脚本的相对路径
+    sample_number = models.IntegerField(
+        blank=True, null=True,
+        verbose_name="请求数", default=1,
+        help_text="请输入请求数")
+    # 请求数
+    duration = models.IntegerField(
+        blank=True, null=True,
+        verbose_name="持续时间", default=1,
+        help_text="请输入持续时间，单位：秒")
+    # 持续时间
+    create_time = models.DateTimeField(
+        auto_now_add=True, blank=True, null=True, verbose_name="创建时间")
+    # 创建时间
+    update_time = models.DateTimeField(
+        auto_now=True, blank=True, null=True, verbose_name="修改时间")
+
+    # 修改时间
+
+    class Meta:
+        db_table = 'performance_info'
+
+        verbose_name = '压测脚本列表'
+        verbose_name_plural = "压测脚本列表"
+
+    def __str__(self):
+        return self.script_introduce

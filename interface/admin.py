@@ -12,7 +12,7 @@ from django.apps import apps
 from xadmin.plugins.actions import BaseActionView
 from xadmin.plugins.batch import BatchChangeAction
 
-from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo
+from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo
 
 
 # Register your models here.
@@ -412,6 +412,65 @@ class CaseGroupInfoAdmin(object):
     # 列表页面，添加复制动作与批量修改动作
 
 
+class PerformanceInfoAdmin(object):
+
+    def update_button(self, obj):
+        # 修改按钮
+        button_html = '<a class="icon fa fa-edit" style="color: green" href="/admin/interface/performanceinfo/%s/update/">修改</a>' % obj.id
+        return format_html(button_html)
+
+    update_button.short_description = '<span style="color: green">修改</span>'
+    update_button.allow_tags = True
+
+    def delete_button(self, obj):
+        # 删除按钮
+        button_html = '<a class="icon fa fa-times" style="color: blue" href="/admin/interface/performanceinfo/%s/delete/">删除</a>' % obj.id
+        return format_html(button_html)
+
+    delete_button.short_description = '<span style="color: blue">删除</span>'
+    delete_button.allow_tags = True
+
+    form_layout = (
+        Main(
+            Fieldset('压测信息部分',
+                     'script_introduce', 'jmeter_script',
+                     'sample_number', 'duration'),
+        ),
+        # Side(
+        #     Fieldset('时间部分',
+        #              'create_time', 'update_time'),
+        # )
+    )
+
+    list_display = [
+        'id',
+        'script_introduce',
+        'jmeter_script',
+        'sample_number',
+        'duration',
+        'create_time',
+        'update_time',
+        'update_button',
+        'delete_button',
+    ]
+    ordering = ("id",)
+    search_fields = ("script_introduce",)
+    list_filter = ["script_introduce", "create_time"]
+    show_detail_fields = ['script_introduce']
+    list_display_links = ('id', 'script_introduce')
+    list_editable = ['script_introduce']
+    list_per_page = 10
+
+    batch_fields = (
+        'script_introduce',
+        'sample_number',
+        'duration',
+    )
+    # 可批量修改的字段
+    actions = [CopyAction, BatchChangeAction]
+    # 列表页面，添加复制动作与批量修改动作
+
+
 class IntervalScheduleAdmin(object):
     list_display = [
         'id', 'every', 'period',
@@ -486,7 +545,8 @@ class GlobalSetting(object):
         ProductInfo,
         ModuleInfo,
         CaseGroupInfo,
-        InterfaceInfo
+        InterfaceInfo,
+        PerformanceInfo
     ]
     # 配置全局搜索选项
     # 默认搜索组、用户、日志记录
@@ -506,7 +566,8 @@ class GlobalSetting(object):
         ProductInfo: "fa fa-apple",
         ModuleInfo: "fa fa-android",
         CaseGroupInfo: "fa fa-linux",
-        InterfaceInfo: "fa fa-windows"
+        InterfaceInfo: "fa fa-windows",
+        PerformanceInfo: "fa fa-html5"
     }
 
     # 配置模型图标，即二级菜单图标
@@ -532,7 +593,7 @@ class GlobalSetting(object):
                 )
             },
             {
-                'title': '用例管理',
+                'title': '接口测试',
                 'icon': 'fa fa-github',
                 'perm': self.get_model_perm(CaseGroupInfo, 'change'),
                 'menus': (
@@ -545,6 +606,18 @@ class GlobalSetting(object):
                         'title': '用例列表',
                         'icon': 'fa fa-windows',
                         'url': self.get_model_url(InterfaceInfo, 'changelist')
+                    },
+                )
+            },
+            {
+                'title': '性能测试',
+                'icon': 'fa fa-html5',
+                'perm': self.get_model_perm(PerformanceInfo, 'change'),
+                'menus': (
+                    {
+                        'title': '压测脚本列表',
+                        'icon': 'fa fa-google-plus',
+                        'url': self.get_model_url(PerformanceInfo, 'changelist')
                     },
                 )
             },
@@ -593,6 +666,7 @@ xadmin.site.register(ProductInfo, ProductInfoAdmin)
 xadmin.site.register(ModuleInfo, ModuleInfoAdmin)
 xadmin.site.register(CaseGroupInfo, CaseGroupInfoAdmin)
 xadmin.site.register(InterfaceInfo, InterfaceInfoAdmin)
+xadmin.site.register(PerformanceInfo, PerformanceInfoAdmin)
 
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSetting)
