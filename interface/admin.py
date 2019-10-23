@@ -430,6 +430,14 @@ class PerformanceInfoAdmin(object):
     delete_button.short_description = '<span style="color: blue">删除</span>'
     delete_button.allow_tags = True
 
+    def download_button(self, obj):
+        # 下载按钮
+        button_html = '<a class="icon fa fa-download" style="color: orange" href="/media/%s">下载</a>' % obj.jmeter_script
+        return format_html(button_html)
+
+    download_button.short_description = '<span style="color: orange">下载</span>'
+    download_button.allow_tags = True
+
     form_layout = (
         Main(
             Fieldset('压测信息部分',
@@ -450,6 +458,7 @@ class PerformanceInfoAdmin(object):
         'duration',
         'create_time',
         'update_time',
+        'download_button',
         'update_button',
         'delete_button',
     ]
