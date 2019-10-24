@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <meta name="robots" content="NONE,NOARCHIVE"/>
 
-    <title>任务结果列表 | 测试平台</title>
+    <title>压测脚本列表 | 测试平台</title>
 
     <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
     <link rel="stylesheet" type="text/css" id="site-theme" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>
@@ -16,8 +16,13 @@
     <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.widget.editable.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen"
+          rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
 
     <style type="text/css">
         .btn-toolbar {
@@ -41,9 +46,8 @@
         }
     </style>
 
-    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
-
 </head>
+
 <body class="change-list">
 
 <div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
@@ -68,6 +72,7 @@
 </div>
 
 <div id="body-content" class="clearfix row">
+
     <div id="left-side" class="col-sm-1 col-md-2">
 
         <div class="panel-group hide-sm nav-sitemenu col-md-2" id="nav-accordion">
@@ -83,7 +88,6 @@
                     </h6>
                 </div>
                 <div id="nav-panel-1" class="list-group panel-collapse collapse">
-
                     <a href="/product/" class="list-group-item">
                         <i class="fa-fw fa fa-apple"></i>
                         产品线列表</span>
@@ -117,7 +121,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <div class="panel-heading">
                     <h6 class="panel-title">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
@@ -127,10 +131,10 @@
                         </a>
                     </h6>
                 </div>
-                <div id="nav-panel-3" class="list-group panel-collapse collapse">
-                    <a href="/performance/" class="list-group-item">
+                <div id="nav-panel-3" class="list-group panel-collapse collapse in">
+                    <a href="/performance/" class="list-group-item active">
                         <i class="fa-fw fa fa-google-plus"></i>
-                        压测脚本列表
+                        压测脚本列表</span>
                     </a>
                 </div>
             </div>
@@ -153,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h6 class="panel-title">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
@@ -163,7 +167,7 @@
                         </a>
                     </h6>
                 </div>
-                <div id="nav-panel-5" class="list-group panel-collapse collapse in">
+                <div id="nav-panel-5" class="list-group panel-collapse collapse">
                     <a href="/interval_schedule/" class="list-group-item">
                         <i class="fa-fw fa fa-backward"></i>
                         间隔时间列表</span>
@@ -176,7 +180,7 @@
                         <i class="fa-fw fa fa-play-circle"></i>
                         任务设置列表</span>
                     </a>
-                    <a href="/task_result/" class="list-group-item active">
+                    <a href="/task_result/" class="list-group-item">
                         <i class="fa-fw fa fa-arrows-alt"></i>
                         任务结果列表</span>
                     </a>
@@ -184,11 +188,13 @@
             </div>
         </div>
 
+
         <ul class="well nav nav-list nav-sitemenu show-sm">
             <li class="app_menu">
                 <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
                 <hr/>
             </li>
+
             <li class="app_menu dropdown-submenu ">
                 <a href="#" class="section">
                     <i class="icon fa-fw fa fa-github-square"></i>
@@ -198,12 +204,14 @@
                     <li>
                         <a href="/product/">
                             <i class="fa-fw fa fa-apple"></i>
-                            产品线列表</a>
+                            产品线列表
+                        </a>
                     </li>
                     <li>
                         <a href="/module/">
                             <i class="fa-fw fa fa-android"></i>
-                            模块列表</a>
+                            模块列表
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -217,17 +225,19 @@
                     <li>
                         <a href="/case_group/">
                             <i class="fa-fw fa fa-linux"></i>
-                            用例组列表</a>
+                            用例组列表
+                        </a>
                     </li>
                     <li>
                         <a href="/interface/">
                             <i class="fa-fw fa fa-windows"></i>
-                            用例列表</a>
+                            用例列表
+                        </a>
                     </li>
                 </ul>
             </li>
 
-            <li class="app_menu dropdown-submenu ">
+            <li class="app_menu dropdown-submenu  active">
                 <a href="#" class="section">
                     <i class="icon fa-fw fa fa-html5"></i>
                 </a>
@@ -257,7 +267,7 @@
                 </ul>
             </li>
 
-            <li class="app_menu dropdown-submenu  active">
+            <li class="app_menu dropdown-submenu ">
                 <a href="#" class="section">
                     <i class="icon fa-fw fa fa-github-alt"></i>
                 </a>
@@ -266,22 +276,26 @@
                     <li>
                         <a href="/interval_schedule/">
                             <i class="fa-fw fa fa-backward"></i>
-                            间隔时间列表</a>
+                            间隔时间列表
+                        </a>
                     </li>
                     <li>
                         <a href="/crontab_schedule/">
                             <i class="fa-fw fa fa-forward"></i>
-                            定时时间列表</a>
+                            定时时间列表
+                        </a>
                     </li>
                     <li>
                         <a href="/periodic_task/">
                             <i class="fa-fw fa fa-play-circle"></i>
-                            任务设置列表</a>
+                            任务设置列表
+                        </a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/task_result/">
                             <i class="fa-fw fa fa-arrows-alt"></i>
-                            任务结果列表</a>
+                            任务结果列表
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -289,163 +303,127 @@
     </div>
 
     <div id="content-block" class="col-sm-11 col-md-10">
+
         <ul class="breadcrumb">
             <li>
                 <a href="/home/">首页</a>
             </li>
-            <li>任务结果列表</li>
+            <li>
+                压测脚本列表
+            </li>
         </ul>
 
-        <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
-             data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
-             data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        <div class="navbar content-navbar navbar-default navbar-xs">
 
             <div class="navbar-collapse collapse">
-                <form class="navbar-form navbar-left" action="" method="get">
+
+                <form class="navbar-form navbar-left" method="get">
                     {% csrf_token %}
                     <div class="input-group search-group">
-                        <input id="searchbar" class="form-control" type="text" name="form_name_s" value=""
-                               placeholder="任务名称" required>
+                        <input id="searchbar" class="form-control" type="text"
+                               name="form_script_introduce_s" value=""
+                               placeholder="脚本简介" required>
                         <span class="input-group-btn">
                             <button class="btn btn-primary" type="submit">
-                                <i class="fa fa-search">搜索任务名称</i>
+                                <i class="fa fa-search">搜索压测脚本</i>
                             </button>
                         </span>
                     </div>
                 </form>
+
+                <div class="navbar-btn pull-right hide-xs">
+                    <a class="btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                        增加压测脚本
+                    </a>
+                </div>
             </div>
         </div>
 
         <div class="results table-responsive">
-
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" class="sortable sorted ascending" style="width: 80px">
+                    <th scope="col" class="sortable sorted ascending" style="width: 50px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
-                                任务结果ID
+                                压测脚本ID
                             </a>
                         </div>
                     </th>
                     <th scope="col" class="sortable" style="width: 100px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
-                                任务队列ID
+                                脚本简介
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable" style="width: 150px">
+                    <th scope="col" class="sortable" style="width: 160px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
-                                任务名称
+                                压测脚本
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable" style="width: 100px">
+                    <th scope="col" class="sortable" style="width: 50px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
-                                任务位置参数
+                                请求数
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable" style="width: 120px">
+                    <th scope="col" class="sortable" style="width: 50px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
-                                任务关键字参数
-                            </a>
-                        </div>
-                    </th>
-                    <th scope="col" class="sortable" style="width: 90px">
-                        <div class="dropdown pull-left">
-                            <a class="dropdown-toggle">
-                                任务状态
-                            </a>
-                        </div>
-                    </th>
-                    <th scope="col" class="sortable" style="width: 120px">
-                        <div class="dropdown pull-left">
-                            <a class="dropdown-toggle">
-                                结果内容类型
+                                持续时间
                             </a>
                         </div>
                     </th>
                     <th scope="col" class="sortable" style="width: 80px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
-                                结果编码
+                                创建时间
                             </a>
                         </div>
                     </th>
                     <th scope="col" class="sortable" style="width: 80px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
-                                回调
+                                修改时间
                             </a>
                         </div>
                     </th>
-                    <th scope="col" class="sortable" style="width: 100px">
-                        <div class="dropdown pull-left">
-                            <a class="dropdown-toggle">
-                                结果数据
-                            </a>
-                        </div>
+                    <th scope="col" style="width: 50px">
+                        <span style="color: orange">下载</span>
                     </th>
-                    <th scope="col" class="sortable" style="width: 140px">
-                        <div class="dropdown pull-left">
-                            <a class="dropdown-toggle">
-                                完成时间
-                            </a>
-                        </div>
+                    <th scope="col" style="width: 50px">
+                        <span style="color: green">修改</span>
                     </th>
-                    <th scope="col" class="sortable" style="width: 80px">
-                        <div class="dropdown pull-left">
-                            <a class="dropdown-toggle">
-                                隐藏
-                            </a>
-                        </div>
-                    </th>
-                    <th scope="col" class="sortable" style="width: 100px">
-                        <div class="dropdown pull-left">
-                            <a class="dropdown-toggle">
-                                任务元信息
-                            </a>
-                        </div>
-                    </th>
-                    <th scope="col" style="width: 80px">
+                    <th scope="col" style="width: 50px">
                         <span style="color: blue">删除</span>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for i in tr_list %}
+                {% for i in pe_list %}
                     <tr class="grid-item">
                         <td>{{ i.id }}</td>
-                        <td>{{ i.task_id }}</td>
-                        <td>{{ i.task_name }}</td>
-                        <td>{{ i.task_args }}</td>
-                        <td>{{ i.task_kwargs }}</td>
-                        <td>{{ i.status }}</td>
-                        <td>{{ i.content_type }}</td>
-                        <td>{{ i.content_encoding }}</td>
-                        <td>{{ i.traceback }}</td>
-                        <td>{{ i.result }}</td>
-                        <td class="nowrap">{{ i.date_done }}</td>
-                        <td>{% if i.hidden == 1 %}
-                            <i class="fa fa-check-circle text-success"></i>
-                            {{ i.hidden }}{% elif i.hidden == 0 %}
-                            <i class="fa fa-times-circle text-error"></i>{{ i.hidden }}{% else %}
-                            <i class="fa fa-question-circle muted"></i>{{ i.hidden }}{% endif %}
-                        </td>
-                        <td>{{ i.meta }}</td>
+                        <td>{{ i.script_introduce }}</td>
+                        <td>{{ i.jmeter_script }}</td>
+                        <td>{{ i.sample_number }}</td>
+                        <td>{{ i.duration }}</td>
+                        <td class="nowrap">{{ i.create_time }}</td>
+                        <td class="nowrap">{{ i.update_time }}</td>
                         <td>
-                            <a class="icon fa fa-times"
-                               style="color: blue"
-                               data-toggle="modal"
-                               href="#deleteResult"
-                               onclick="getResultId({{ i.id }}, '{{ i.task_id }}', '{{ i.task_name }}')">
-                                <!-- 点击会触发删除任务结果模态框 -->
-                                删除
+                            <a class="icon fa fa-download" style="color: orange">下载
+                            </a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-edit" style="color: green">修改
+                            </a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-times" style="color: blue">删除
                             </a>
                         </td>
                     </tr>
@@ -455,93 +433,32 @@
         </div>
 
         <ul class="pagination">
-            <li><span>共<span class="text-success">{{ tr_count }}</span>任务结果</span></li>
+
+            <li>
+                <span>
+                    共<span class="text-success">{{ pe_count }}</span>压测脚本列表
+                </span>
+            </li>
             <li class="step-links">
-                {% if tr_list.has_previous %}
+                {% if pe_list.has_previous %}
                     <a href="?page=1">首页</a>
-                    <a href="?page={{ tr_list.previous_page_number }}">上一页</a>
+                    <a href="?page={{ pe_list.previous_page_number }}">上一页</a>
                 {% endif %}
 
                 <span class="current">
-                    第{{ tr_list.number }}页 共{{ tr_list.paginator.num_pages }}页
+                    第{{ pe_list.number }}页 共{{ pe_list.paginator.num_pages }}页
                 </span>
 
-                {% if tr_list.has_next %}
-                    <a href="?page={{ tr_list.next_page_number }}">下一页</a>
-                    <a href="?page={{ tr_list.paginator.num_pages }}">尾页</a>
+                {% if pe_list.has_next %}
+                    <a href="?page={{ pe_list.next_page_number }}">下一页</a>
+                    <a href="?page={{ pe_list.paginator.num_pages }}">尾页</a>
                 {% endif %}
             </li>
+
         </ul>
+
     </div>
 </div>
-
-<!-- 删除任务结果模态框 -->
-<div class="modal fade" id="deleteResult" tabindex="-1"
-     role="dialog" aria-labelledby="deleteResultLabel"
-     aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="deleteResultLabel">删除任务结果</h4>
-            </div>
-            <div class="modal-body">
-                <form action="/result_delete/" method="post">
-                    {% csrf_token %}
-                    <input type="hidden"
-                           id="result_id_d"
-                           name="form_result_id_d"
-                           value=""/>
-                    <!-- 定义一个隐藏的input，用于传值 -->
-                    <div class="alert alert-warning">
-                        请确认要删除选中的任务结果吗？
-                    </div>
-                    <div class="alert alert-danger">
-                        <p id="task_d"></p>
-                        <p id="name_d"></p>
-                    </div>
-                    <div class="form-actions well well-sm">
-                        <button type="button" class="btn btn-info" data-dismiss="modal">
-                            <i class="fa fa-undo"></i>
-                            取消
-                        </button>
-                        <button type="submit" class="default btn btn-primary hide-xs">
-                            <i class="fa fa-trash-o"></i>
-                            删除
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function getResultId(ID, TASK, NAME) {
-        $('#result_id_d').val(ID);
-        $('#task_d').html(TASK);
-        $('#name_d').html(NAME);
-        console.log(ID);
-        console.log(TASK);
-        console.log(NAME);
-    }
-
-    //向删除模态框传递任务结果id
-</script>
-
-<!-- 二次确认弹窗 -->
-<script>
-    $(function () {
-        $('#deleteResult .btn-primary').on('click',
-            function () {
-                alert('嘿，确认删除任务结果吗？');
-            });
-        $('#deleteResult .btn-info').on('click',
-            function () {
-                alert('嘿，确认取消吗？');
-            });
-    });
-</script>
 
 <div id="footer">
     <hr/>
@@ -558,12 +475,17 @@
 <script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.editable.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.actions.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.datetime.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+
 
 </body>
 </html>

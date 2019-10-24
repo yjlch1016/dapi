@@ -16,7 +16,7 @@ from django_celery_beat.models import IntervalSchedule, CrontabSchedule, Periodi
 from django_celery_results.models import TaskResult
 from rest_framework import viewsets
 
-from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo
+from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo
 from interface.serializers import ProductInfoSerializer, ModuleInfoSerializer, CaseGroupInfoSerializer, \
     InterfaceInfoSerializer
 
@@ -649,6 +649,40 @@ class DebugInterfaceView(LoginRequiredMixin, View):
         # 等待时间
 
         return redirect('/interface/')
+
+
+class PerformanceListView(LoginRequiredMixin, View):
+    """压测脚本列表"""
+
+    def get(self, request):
+        user_name = request.session.get('user', '')
+        performance_list = PerformanceInfo.objects.all().order_by("id")
+        performance_count = PerformanceInfo.objects.all().count()
+
+        search_performance = request.GET.get("form_script_introduce_s", "")
+        # 搜索压测脚本
+        if search_performance:
+            performance_list = performance_list.filter(script_introduce__icontains=search_performance)
+            performance_count = performance_list.count()
+
+        paginator = Paginator(performance_list, 10)
+        page = request.GET.get('page', 1)
+        try:
+            pe_list = paginator.page(page)
+        except PageNotAnInteger:
+            pe_list = paginator.page(1)
+        except EmptyPage:
+            pe_list = paginator.page(paginator.num_pages)
+
+        return render(
+            request,
+            "performance.html",
+            {
+                "user": user_name,
+                "pe_list": pe_list,
+                "pe_count": performance_count,
+            }
+        )
 
 
 class IntervalScheduleListView(LoginRequiredMixin, View):
