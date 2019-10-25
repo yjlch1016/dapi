@@ -685,6 +685,24 @@ class PerformanceListView(LoginRequiredMixin, View):
         )
 
 
+class AddPerformanceView(LoginRequiredMixin, View):
+    """增加压测脚本"""
+
+    def post(self, request):
+        script_introduce = request.POST.get('form_script_introduce_a', '')
+        jmeter_script = request.FILES.get('form_jmeter_script_a', '')
+        sample_number = request.POST.get('form_sample_number_a', '')
+        duration = request.POST.get('form_duration_a', '')
+        PerformanceInfo.objects.create(
+            script_introduce=script_introduce,
+            jmeter_script=jmeter_script,
+            sample_number=sample_number,
+            duration=duration,
+        )
+
+        return redirect('/performance/')
+
+
 class IntervalScheduleListView(LoginRequiredMixin, View):
     """间隔时间列表"""
 

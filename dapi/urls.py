@@ -28,7 +28,7 @@ from interface.views import ModuleListView, AddModuleView, UpdateModuleView, Del
     DebugInterfaceView, DebugCaseGroupView, IntervalScheduleListView, AddIntervalScheduleView, \
     UpdateIntervalScheduleView, DeleteIntervalScheduleView, CrontabScheduleListView, AddCrontabScheduleView, \
     UpdateCrontabScheduleView, DeleteCrontabScheduleView, PeriodicTaskListView, TaskResultListView, AddPeriodicTaskView, \
-    DeletePeriodicTaskView, UpdatePeriodicTaskView, DeleteTaskResultView, PerformanceListView
+    DeletePeriodicTaskView, UpdatePeriodicTaskView, DeleteTaskResultView, PerformanceListView, AddPerformanceView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -78,7 +78,8 @@ urlpatterns = [
     # 用例路由
 
     path('performance/', PerformanceListView.as_view(), name='performance'),
-    # 压测路由
+    path('performance_add/', AddPerformanceView.as_view(), name='performance_add'),
+    # 压测脚本路由
 
     path('interval_schedule/', IntervalScheduleListView.as_view(),
          name='interval_schedule'),

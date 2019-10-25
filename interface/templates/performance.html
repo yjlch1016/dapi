@@ -16,11 +16,7 @@
     <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.widget.editable.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen"
-          rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
 
     <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
 
@@ -332,7 +328,8 @@
                 </form>
 
                 <div class="navbar-btn pull-right hide-xs">
-                    <a class="btn btn-primary">
+                    <a class="btn btn-primary" data-toggle="modal" href="#addPerformance">
+                        <!-- 点击会触发增加压测脚本模态框 -->
                         <i class="fa fa-plus"></i>
                         增加压测脚本
                     </a>
@@ -418,7 +415,8 @@
                         <td class="nowrap">{{ i.create_time }}</td>
                         <td class="nowrap">{{ i.update_time }}</td>
                         <td>
-                            <a class="icon fa fa-download" style="color: orange">下载
+                            <a class="icon fa fa-download" style="color: orange"
+                               href="/media/{{ i.jmeter_script }}">下载
                             </a>
                         </td>
                         <td>
@@ -467,12 +465,130 @@
     </div>
 </div>
 
+<!-- 增加压测脚本模态框 -->
+<div class="modal fade" id="addPerformance" tabindex="-1" role="dialog"
+     aria-labelledby="addPerformanceLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addPerformanceLabel">增加压测脚本</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" enctype="multipart/form-data" action="/performance_add/" method="post"
+                      id="performanceinfo_form">
+                    {% csrf_token %}
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">压测信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_script_introduce" class="form-group">
+                                        <label for="id_script_introduce" class="control-label  requiredField">
+                                            脚本简介<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_script_introduce_a"
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="32" required id="id_script_introduce">
+                                            <p id="hint_id_script_introduce" class="help-block">请输入压测脚本简介</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_jmeter_script" class="form-group">
+                                        <label for="id_jmeter_script"
+                                               class="control-label  requiredField">
+                                            压测脚本<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="file" name="form_jmeter_script_a" class="adminfilewidget"
+                                                   required id="id_jmeter_script">
+                                            <p id="hint_id_jmeter_script" class="help-block">请上传JMeter脚本</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_sample_number" class="form-group">
+                                        <label for="id_sample_number" class="control-label ">
+                                            请求数
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_sample_number_a" value="1"
+                                                   class="int-field adminintegerfieldwidget form-control"
+                                                   id="id_sample_number">
+                                            <p id="hint_id_sample_number" class="help-block">请输入请求数</p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_duration" class="form-group">
+                                        <label for="id_duration" class="control-label ">
+                                            持续时间
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_duration_a" value="1"
+                                                   class="int-field adminintegerfieldwidget form-control"
+                                                   id="id_duration">
+                                            <p id="hint_id_duration" class="help-block">请输入持续时间，单位：秒</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-save"></i>
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="footer">
     <hr/>
     <footer class="text-center">
         <p>测试部门</p>
     </footer>
 </div>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#addPerformance .btn-primary').on('click',
+            function () {
+                alert('嘿，确认增加压测脚本吗？');
+            });
+        $('#addPerformance .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#updatePerformance .btn-primary').on('click',
+            function () {
+                alert('嘿，确认修改压测脚本吗？');
+            });
+        $('#updatePerformance .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+
+        $('#deletePerformance .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除压测脚本吗？');
+            });
+        $('#deletePerformance .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
 
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
@@ -482,16 +598,9 @@
 <script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.editable.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.actions.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.datetime.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
 
 </body>
 </html>
