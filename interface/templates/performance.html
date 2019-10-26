@@ -407,11 +407,11 @@
                 <tbody>
                 {% for i in pe_list %}
                     <tr class="grid-item">
-                        <td>{{ i.id }}</td>
-                        <td>{{ i.script_introduce }}</td>
-                        <td>{{ i.jmeter_script }}</td>
-                        <td>{{ i.sample_number }}</td>
-                        <td>{{ i.duration }}</td>
+                        <td id="performance_id_t">{{ i.id }}</td>
+                        <td id="script_introduce_t">{{ i.script_introduce }}</td>
+                        <td id="jmeter_script_t">{{ i.jmeter_script }}</td>
+                        <td id="sample_number_t">{{ i.sample_number }}</td>
+                        <td id="duration_t">{{ i.duration }}</td>
                         <td class="nowrap">{{ i.create_time }}</td>
                         <td class="nowrap">{{ i.update_time }}</td>
                         <td>
@@ -424,11 +424,21 @@
                             </a>
                         </td>
                         <td>
-                            <a class="icon fa fa-edit" style="color: green">修改
+                            <a class="icon fa fa-edit"
+                               style="color: green"
+                               data-toggle="modal"
+                               href="#updatePerformance"
+                               onclick="updatePerformance(this)">
+                                <!-- 点击会触发修改压测脚本模态框 -->
+                                修改
                             </a>
                         </td>
                         <td>
-                            <a class="icon fa fa-times" style="color: blue">删除
+                            <a class="icon fa fa-times" style="color: blue"
+                               data-toggle="modal"
+                               href="#deletePerformance"
+                               onclick="getPerformanceId({{ i.id }}, '{{ i.script_introduce }}', '{{ i.jmeter_script }}')">删除
+                                <!-- 点击会触发删除压测脚本模态框 -->
                             </a>
                         </td>
                     </tr>
@@ -551,12 +561,201 @@
     </div>
 </div>
 
+<!-- 修改压测脚本模态框 -->
+<div class="modal fade" id="updatePerformance" tabindex="-1" role="dialog"
+     aria-labelledby="updatePerformanceLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="updatePerformanceLabel">修改压测脚本</h4>
+            </div>
+            <div class="modal-body">
+                <form class="exform" enctype="multipart/form-data" action="/performance_update/" method="post"
+                      id="performanceinfo_form">
+                    {% csrf_token %}
+                    <input type="hidden" id="performance_id_u" name="form_performance_id_u" value="">
+                    <div class="form-container row clearfix">
+                        <div class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">压测信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_script_introduce" class="form-group">
+                                        <label for="id_script_introduce" class="control-label  requiredField">
+                                            脚本简介
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_script_introduce_u" value=""
+                                                   class="text-field admintextinputwidget form-control"
+                                                   maxlength="32" required id="script_introduce_u">
+                                            <p id="hint_id_script_introduce" class="help-block">
+                                                请输入压测脚本简介
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_jmeter_script" class="form-group">
+                                        <label for="id_jmeter_script"
+                                               class="control-label  requiredField">
+                                            压测脚本
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            目前:
+                                            <input type="text" class="text-field admintextinputwidget form-control"
+                                                   id="jmeter_script_u_old" name="form_jmeter_script_u_old"
+                                                   readonly="readonly">
+                                            <br/>
+                                            修改:
+                                            <input type="file" name="form_jmeter_script_u_new" class="adminfilewidget"
+                                                   id="id_jmeter_script">
+                                            <p id="hint_id_jmeter_script" class="help-block">
+                                                请上传JMeter脚本
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_sample_number" class="form-group">
+                                        <label for="id_sample_number"
+                                               class="control-label ">
+                                            请求数
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_sample_number_u" value=""
+                                                   class="int-field adminintegerfieldwidget form-control"
+                                                   id="sample_number_u">
+                                            <p id="hint_id_sample_number" class="help-block">
+                                                请输入请求数
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_duration" class="form-group">
+                                        <label for="id_duration" class="control-label ">
+                                            持续时间
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" name="form_duration_u" value=""
+                                                   class="int-field adminintegerfieldwidget form-control"
+                                                   id="duration_u">
+                                            <p id="hint_id_duration" class="help-block">
+                                                请输入持续时间，单位：秒
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm clearfix">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-file-text"></i>
+                            修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除压测脚本模态框 -->
+<div class="modal fade" id="deletePerformance"
+     tabindex="-1" role="dialog"
+     aria-labelledby="deletePerformanceLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deletePerformanceLabel">删除压测脚本</h4>
+            </div>
+            <div class="modal-body">
+
+                <form action="/performance_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="performance_id_d"
+                           name="form_performance_id_d"
+                           value=""/>
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的压测脚本吗？
+                    </div>
+                    <div class="alert alert-danger">
+                        <p id="script_introduce_d"></p>
+                        <br/>
+                        <input type="text" class="text-field admintextinputwidget form-control"
+                               id="jmeter_script_d_old" name="form_jmeter_script_d_old"
+                               readonly="readonly">
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="footer">
     <hr/>
     <footer class="text-center">
         <p>测试部门</p>
     </footer>
 </div>
+
+<script>
+    function updatePerformance(obj) {
+        var tr = $(obj).parent().parent();
+        var id = tr.children("td#performance_id_t").text().trim().replace(/\s/g, "");
+        //trim().replace(/\s/g, "")去除空格、回车、空字符
+        var introduce = tr.children("td#script_introduce_t").text().trim().replace(/\s/g, "");
+        var script = tr.children("td#jmeter_script_t").text().trim().replace(/\s/g, "");
+        var number = tr.children("td#sample_number_t").text().trim().replace(/\s/g, "");
+        var duration = tr.children("td#duration_t").text().trim().replace(/\s/g, "");
+        //取值
+        $('#performance_id_u').val(id);
+        $('#script_introduce_u').val(introduce);
+        $('#jmeter_script_u_old').val(script);
+        $('#sample_number_u').val(number);
+        $('#duration_u').val(duration);
+        //赋值
+        console.log(id);
+        console.log(introduce);
+        console.log(script);
+        console.log(number);
+        console.log(duration);
+        //打印日志
+    }
+</script>
+
+<script>
+    function getPerformanceId(ID, NAME, JMX) {
+        $('#performance_id_d').val(ID);
+        $('#script_introduce_d').html(NAME);
+        $('#jmeter_script_d_old').val(JMX);
+        console.log(ID);
+        console.log(NAME);
+        console.log(JMX);
+    }
+
+    //向删除模态框传递压测脚本id
+</script>
 
 <!-- 二次确认弹窗 -->
 <script>

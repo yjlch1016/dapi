@@ -1,3 +1,4 @@
+import os
 import re
 from time import sleep
 
@@ -16,6 +17,7 @@ from django_celery_beat.models import IntervalSchedule, CrontabSchedule, Periodi
 from django_celery_results.models import TaskResult
 from rest_framework import viewsets
 
+from dapi import settings
 from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo
 from interface.serializers import ProductInfoSerializer, ModuleInfoSerializer, CaseGroupInfoSerializer, \
     InterfaceInfoSerializer
@@ -699,6 +701,79 @@ class AddPerformanceView(LoginRequiredMixin, View):
             sample_number=sample_number,
             duration=duration,
         )
+
+        return redirect('/performance/')
+
+
+class UpdatePerformanceView(LoginRequiredMixin, View):
+    """修改压测脚本"""
+
+    def post(self, request):
+        performance_id = request.POST.get('form_performance_id_u', '')
+        script_introduce = request.POST.get('form_script_introduce_u', '')
+        jmeter_script_old = request.POST.get('form_jmeter_script_u_old', '')
+        # 旧的脚本的相对路径
+        jmeter_script_new = request.FILES.get('form_jmeter_script_u_new', '')
+        sample_number = request.POST.get('form_sample_number_u', '')
+        duration = request.POST.get('form_duration_u', '')
+
+        if jmeter_script_new == "":
+            # 如果没有上传新脚本
+            PerformanceInfo.objects.filter(id=performance_id).update(
+                script_introduce=script_introduce,
+                sample_number=sample_number,
+                duration=duration,
+                update_time=datetime.now(),
+            )
+        else:
+            # 如果上传了新脚本
+            time = datetime.now().strftime("%Y%m%d%H%M%S")
+            time_path = os.path.join(settings.MEDIA_ROOT, "jmeter/" + time)
+            os.makedirs(time_path, mode=0o777)
+            filename = "jmeter/" + time + "/" + jmeter_script_new.name
+            filepath = os.path.join(settings.MEDIA_ROOT, filename)
+            f = open(filepath, 'wb')
+            for i in jmeter_script_new.chunks():
+                f.write(i)
+            f.close()
+
+            PerformanceInfo.objects.filter(id=performance_id).update(
+                script_introduce=script_introduce,
+                jmeter_script=filename,
+                sample_number=sample_number,
+                duration=duration,
+                update_time=datetime.now(),
+            )
+
+            old_path = os.path.join(settings.MEDIA_ROOT, jmeter_script_old)
+            # 获取旧的脚本的绝对路径
+            parent_path = os.path.dirname(old_path)
+            # 获取旧的脚本的父目录
+            os.remove(old_path)
+            # 删除旧的脚本
+            os.rmdir(parent_path)
+            # 删除旧的脚本的父目录
+
+        return redirect('/performance/')
+
+
+class DeletePerformanceView(LoginRequiredMixin, View):
+    """删除压测脚本"""
+
+    def post(self, request):
+        performance_id = request.POST.get('form_performance_id_d', '')
+        jmeter_script_old = request.POST.get('form_jmeter_script_d_old', '')
+        # 旧的脚本的相对路径
+        PerformanceInfo.objects.filter(id=performance_id).delete()
+
+        old_path = os.path.join(settings.MEDIA_ROOT, jmeter_script_old)
+        # 获取旧的脚本的绝对路径
+        parent_path = os.path.dirname(old_path)
+        # 获取旧的脚本的父目录
+        os.remove(old_path)
+        # 删除旧的脚本
+        os.rmdir(parent_path)
+        # 删除旧的脚本的父目录
 
         return redirect('/performance/')
 
