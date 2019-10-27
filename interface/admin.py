@@ -12,7 +12,8 @@ from django.apps import apps
 from xadmin.plugins.actions import BaseActionView
 from xadmin.plugins.batch import BatchChangeAction
 
-from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo
+from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo, \
+    PerformanceResultInfo
 
 
 # Register your models here.
@@ -456,6 +457,7 @@ class PerformanceInfoAdmin(object):
         'jmeter_script',
         'sample_number',
         'duration',
+        'run_sum',
         'create_time',
         'update_time',
         'download_button',
@@ -478,6 +480,49 @@ class PerformanceInfoAdmin(object):
     # 可批量修改的字段
     actions = [CopyAction, BatchChangeAction]
     # 列表页面，添加复制动作与批量修改动作
+
+
+class PerformanceResultInfoAdmin(object):
+
+    def has_add_permission(self):
+        # 禁用增加按钮
+        return False
+
+    def delete_button(self, obj):
+        # 删除按钮
+        button_html = '<a class="icon fa fa-times" style="color: blue" href="/admin/interface/performanceresultinfo/%s/delete/">删除</a>' % obj.id
+        return format_html(button_html)
+
+    delete_button.short_description = '<span style="color: blue">删除</span>'
+    delete_button.allow_tags = True
+
+    def download_button_jtl(self, obj):
+        # 下载jtl按钮
+        button_html = '<a class="icon fa fa-download" style="color: orange" href="/%s">下载</a>' % obj.jtl
+        return format_html(button_html)
+
+    download_button_jtl.short_description = '<span style="color: orange">下载jtl文件</span>'
+    download_button_jtl.allow_tags = True
+
+    list_display = [
+        'id',
+        'script_result',
+        'test_report',
+        'jtl',
+        'dashboard_report',
+        'run_time',
+        'download_button_jtl',
+        'delete_button',
+    ]
+    ordering = ("id",)
+    search_fields = ['test_report']
+    list_display_links = None
+    # 禁用编辑链接
+    readonly_fields = [
+        'id', 'script_result', 'test_report', 'jtl', 'dashboard_report'
+    ]
+    # 设置只读字段
+    list_per_page = 10
 
 
 class IntervalScheduleAdmin(object):
@@ -532,6 +577,11 @@ class PeriodicTaskAdmin(object):
 
 
 class TaskResultAdmin(object):
+
+    def has_add_permission(self):
+        # 禁用增加按钮
+        return False
+
     list_display = [
         'id', 'task_id', 'task_name',
         'task_args', 'task_kwargs',
@@ -540,6 +590,15 @@ class TaskResultAdmin(object):
     ]
     ordering = ['id']
     search_fields = ['task_id']
+    list_display_links = None
+    # 禁用编辑链接
+    readonly_fields = [
+        'id', 'task_id', 'task_name',
+        'task_args', 'task_kwargs',
+        'status', 'content_type', 'content_encoding', 'traceback',
+        'result', 'date_done', 'hidden', 'meta'
+    ]
+    # 设置只读字段
     list_per_page = 10
 
 
@@ -555,7 +614,7 @@ class GlobalSetting(object):
         ModuleInfo,
         CaseGroupInfo,
         InterfaceInfo,
-        PerformanceInfo
+        PerformanceInfo,
     ]
     # 配置全局搜索选项
     # 默认搜索组、用户、日志记录
@@ -576,7 +635,8 @@ class GlobalSetting(object):
         ModuleInfo: "fa fa-android",
         CaseGroupInfo: "fa fa-linux",
         InterfaceInfo: "fa fa-windows",
-        PerformanceInfo: "fa fa-html5"
+        PerformanceInfo: "fa fa-html5",
+        PerformanceResultInfo: "fa fa-renren"
     }
 
     # 配置模型图标，即二级菜单图标
@@ -628,6 +688,11 @@ class GlobalSetting(object):
                         'icon': 'fa fa-google-plus',
                         'url': self.get_model_url(PerformanceInfo, 'changelist')
                     },
+                    {
+                        'title': '压测结果列表',
+                        'icon': 'fa fa-renren',
+                        'url': self.get_model_url(PerformanceResultInfo, 'changelist')
+                    },
                 )
             },
             {
@@ -676,6 +741,7 @@ xadmin.site.register(ModuleInfo, ModuleInfoAdmin)
 xadmin.site.register(CaseGroupInfo, CaseGroupInfoAdmin)
 xadmin.site.register(InterfaceInfo, InterfaceInfoAdmin)
 xadmin.site.register(PerformanceInfo, PerformanceInfoAdmin)
+xadmin.site.register(PerformanceResultInfo, PerformanceResultInfoAdmin)
 
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSetting)

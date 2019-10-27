@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <meta name="robots" content="NONE,NOARCHIVE"/>
 
-    <title>测试报告 | 测试平台</title>
+    <title>压测结果列表 | 测试平台</title>
 
     <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
     <link rel="stylesheet" type="text/css" id="site-theme" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>
@@ -16,18 +16,32 @@
     <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.widget.editable.css" type="text/css" media="screen" rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen"
-          rel="stylesheet">
     <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/vendor/selectize/selectize.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/vendor/selectize/selectize.bootstrap3.css" type="text/css" media="screen"
-          rel="stylesheet">
 
-    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <style type="text/css">
+        .btn-toolbar {
+            margin-top: 0;
+        }
+
+        #content-block.full-content {
+            margin-left: 0;
+        }
+    </style>
+
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+        }
+
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
 
 </head>
 
@@ -41,7 +55,7 @@
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
                 <a class="dropdown-toggle">
-                    <strong>欢迎你</strong>
+                    <strong>欢迎你{{ user }}</strong>
                 </a>
             </li>
             <li>
@@ -103,7 +117,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <div class="panel-heading">
                     <h6 class="panel-title">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
@@ -113,19 +127,19 @@
                         </a>
                     </h6>
                 </div>
-                <div id="nav-panel-3" class="list-group panel-collapse collapse">
+                <div id="nav-panel-3" class="list-group panel-collapse collapse in">
                     <a href="/performance/" class="list-group-item">
                         <i class="fa-fw fa fa-google-plus"></i>
                         压测脚本列表
                     </a>
-                    <a href="/performance_result/" class="list-group-item">
+                    <a href="/performance_result/" class="list-group-item active">
                         <i class="fa-fw fa fa-renren"></i>
                         压测结果列表
                     </a>
                 </div>
             </div>
 
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h6 class="panel-title">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion"
@@ -135,8 +149,8 @@
                         </a>
                     </h6>
                 </div>
-                <div id="nav-panel-4" class="list-group panel-collapse collapse in">
-                    <a href="/pyecharts/index/" class="list-group-item active">
+                <div id="nav-panel-4" class="list-group panel-collapse collapse">
+                    <a href="/pyecharts/index/" class="list-group-item">
                         <i class="fa-fw fa fa-bars"></i>
                         接口测试报告
                     </a>
@@ -174,12 +188,12 @@
             </div>
         </div>
 
+
         <ul class="well nav nav-list nav-sitemenu show-sm">
             <li class="app_menu">
                 <a href="/home/"><i class="icon fa-fw fa fa-home"></i></a>
                 <hr/>
             </li>
-
             <li class="app_menu dropdown-submenu ">
                 <a href="#" class="section">
                     <i class="icon fa-fw fa fa-github-square"></i>
@@ -213,6 +227,7 @@
                             用例组列表
                         </a>
                     </li>
+
                     <li>
                         <a href="/interface/">
                             <i class="fa-fw fa fa-windows"></i>
@@ -222,19 +237,20 @@
                 </ul>
             </li>
 
-            <li class="app_menu dropdown-submenu ">
+            <li class="app_menu dropdown-submenu  active">
                 <a href="#" class="section">
                     <i class="icon fa-fw fa fa-html5"></i>
                 </a>
                 <hr/>
                 <ul class="dropdown-menu">
-                    <li class="active">
+                    <li>
                         <a href="/performance/">
                             <i class="fa-fw fa fa-google-plus"></i>
                             压测脚本列表
                         </a>
                     </li>
-                    <li>
+
+                    <li class="active">
                         <a href="/performance_result/">
                             <i class="fa-fw fa fa-renren"></i>
                             压测结果列表
@@ -243,13 +259,13 @@
                 </ul>
             </li>
 
-            <li class="app_menu dropdown-submenu active">
+            <li class="app_menu dropdown-submenu ">
                 <a href="#" class="section">
                     <i class="icon fa-fw fa fa-bar-chart-o"></i>
                 </a>
                 <hr/>
                 <ul class="dropdown-menu">
-                    <li class="active">
+                    <li>
                         <a href="/pyecharts/index/">
                             <i class="fa-fw fa fa-bars"></i>
                             接口测试报告
@@ -264,24 +280,28 @@
                 </a>
                 <hr/>
                 <ul class="dropdown-menu">
+
                     <li>
                         <a href="/interval_schedule/">
                             <i class="fa-fw fa fa-backward"></i>
                             间隔时间列表
                         </a>
                     </li>
+
                     <li>
                         <a href="/crontab_schedule/">
                             <i class="fa-fw fa fa-forward"></i>
                             定时时间列表
                         </a>
                     </li>
+
                     <li>
                         <a href="/periodic_task/">
                             <i class="fa-fw fa fa-play-circle"></i>
                             任务设置列表
                         </a>
                     </li>
+
                     <li>
                         <a href="/task_result/">
                             <i class="fa-fw fa fa-arrows-alt"></i>
@@ -294,17 +314,118 @@
     </div>
 
     <div id="content-block" class="col-sm-11 col-md-10">
+
         <ul class="breadcrumb">
             <li>
                 <a href="/home/">首页</a>
             </li>
-            <li>接口测试报告</li>
+
+            <li>
+                压测结果列表
+            </li>
         </ul>
 
-        <div id="bar" style="width:800px; height:400px;">
-        </div>
-    </div>
+        <div class="results table-responsive">
 
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="sortable sorted ascending" style="width: 40px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                压测结果ID
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle" style="color: red">
+                                压测脚本
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                测试报告（点击可查看）
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                jtl文件
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 100px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                Dashboard Report文件
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" class="sortable" style="width: 80px">
+                        <div class="dropdown pull-left">
+                            <a class="dropdown-toggle">
+                                运行时间
+                            </a>
+                        </div>
+                    </th>
+                    <th scope="col" style="width: 40px">
+                        <span style="color: orange">下载jtl文件</span>
+                    </th>
+                    <th scope="col" style="width: 30px">
+                        <span style="color: blue">删除</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in pr_list %}
+                    <tr class="grid-item">
+                        <td>{{ i.id }}</td>
+                        <td class="nowrap" style="color: red">{{ i.script_result }}</td>
+                        <td>
+                            <a href="/{{ i.test_report }}">{{ i.test_report }}</a>
+                        </td>
+                        <td>{{ i.jtl }}</td>
+                        <td>{{ i.dashboard_report }}</td>
+                        <td class="nowrap">{{ i.run_time }}</td>
+                        <td>
+                            <a class="icon fa fa-download" style="color: orange"
+                               href="/{{ i.jtl }}">下载</a>
+                        </td>
+                        <td>
+                            <a class="icon fa fa-times" style="color: blue">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination">
+            <li>
+                <span>共<span class="text-success">{{ pr_count }}</span>压测结果</span>
+            </li>
+
+            <li class="step-links">
+                {% if pr_list.has_previous %}
+                    <a href="?page=1">首页</a>
+                    <a href="?page={{ pr_list.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    第{{ pr_list.number }}页 共{{ pr_list.paginator.num_pages }}页
+                </span>
+
+                {% if pr_list.has_next %}
+                    <a href="?page={{ pr_list.next_page_number }}">下一页</a>
+                    <a href="?page={{ pr_list.paginator.num_pages }}">尾页</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
 </div>
 
 <div id="footer">
@@ -314,27 +435,6 @@
     </footer>
 </div>
 
-<script>
-    var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
-
-    $(
-        function () {
-            fetchData(chart);
-        }
-    );
-
-    function fetchData() {
-        $.ajax({
-            type: "GET",
-            url: "/pyecharts/bar/",
-            dataType: 'json',
-            success: function (result) {
-                chart.setOption(result.data);
-            }
-        });
-    }
-</script>
-
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
@@ -343,14 +443,12 @@
 <script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/selectize/selectize.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.quick-form.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
 <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/select2/select2.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/select2/select2_locale_zh-hans.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.select.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
 
 </body>
 </html>

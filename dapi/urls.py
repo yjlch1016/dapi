@@ -29,7 +29,7 @@ from interface.views import ModuleListView, AddModuleView, UpdateModuleView, Del
     UpdateIntervalScheduleView, DeleteIntervalScheduleView, CrontabScheduleListView, AddCrontabScheduleView, \
     UpdateCrontabScheduleView, DeleteCrontabScheduleView, PeriodicTaskListView, TaskResultListView, AddPeriodicTaskView, \
     DeletePeriodicTaskView, UpdatePeriodicTaskView, DeleteTaskResultView, PerformanceListView, AddPerformanceView, \
-    UpdatePerformanceView, DeletePerformanceView
+    UpdatePerformanceView, DeletePerformanceView, DebugPerformanceView, PerformanceResultListView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -78,11 +78,21 @@ urlpatterns = [
     path('interface_debug/', DebugInterfaceView.as_view(), name='interface_debug'),
     # 用例路由
 
-    path('performance/', PerformanceListView.as_view(), name='performance'),
-    path('performance_add/', AddPerformanceView.as_view(), name='performance_add'),
-    path('performance_update/', UpdatePerformanceView.as_view(), name='performance_update'),
-    path('performance_delete/', DeletePerformanceView.as_view(), name='performance_delete'),
+    path('performance/', PerformanceListView.as_view(),
+         name='performance'),
+    path('performance_add/', AddPerformanceView.as_view(),
+         name='performance_add'),
+    path('performance_update/', UpdatePerformanceView.as_view(),
+         name='performance_update'),
+    path('performance_delete/', DeletePerformanceView.as_view(),
+         name='performance_delete'),
+    path('performance_debug/', DebugPerformanceView.as_view(),
+         name='performance_debug'),
     # 压测脚本路由
+
+    path('performance_result/', PerformanceResultListView.as_view(),
+         name='performance_result'),
+    # 压测结果路由
 
     path('interval_schedule/', IntervalScheduleListView.as_view(),
          name='interval_schedule'),

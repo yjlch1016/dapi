@@ -132,6 +132,10 @@
                         <i class="fa-fw fa fa-google-plus"></i>
                         压测脚本列表</span>
                     </a>
+                    <a href="/performance_result/" class="list-group-item">
+                        <i class="fa-fw fa fa-renren"></i>
+                        压测结果列表
+                    </a>
                 </div>
             </div>
 
@@ -243,6 +247,12 @@
                         <a href="/performance/">
                             <i class="fa-fw fa fa-google-plus"></i>
                             压测脚本列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/performance_result/">
+                            <i class="fa-fw fa fa-renren"></i>
+                            压测结果列表
                         </a>
                     </li>
                 </ul>
@@ -376,6 +386,9 @@
                             </a>
                         </div>
                     </th>
+                    <th scope="col" style="width: 50px">
+                        <span style="color: red">运行次数</span>
+                    </th>
                     <th scope="col" class="sortable" style="width: 80px">
                         <div class="dropdown pull-left">
                             <a class="dropdown-toggle">
@@ -412,6 +425,12 @@
                         <td id="jmeter_script_t">{{ i.jmeter_script }}</td>
                         <td id="sample_number_t">{{ i.sample_number }}</td>
                         <td id="duration_t">{{ i.duration }}</td>
+                        <td>
+                            <span style="color: red">
+                            {{ i.scripts.all.count }}
+                                {# 反向统计所包含的外键的总数 #}
+                            </span>
+                        </td>
                         <td class="nowrap">{{ i.create_time }}</td>
                         <td class="nowrap">{{ i.update_time }}</td>
                         <td>
@@ -420,7 +439,11 @@
                             </a>
                         </td>
                         <td>
-                            <a class="icon fa fa-bug" style="color: purple">运行
+                            <a class="icon fa fa-bug" style="color: purple"
+                               data-toggle="modal"
+                               href="#debugPerformance"
+                               onclick="debugPerformanceId({{ i.id }}, '{{ i.script_introduce }}', '{{ i.jmeter_script }}', {{ i.sample_number }}, {{ i.duration }})">运行
+                                <!-- 点击会触发运行压测脚本模态框 -->
                             </a>
                         </td>
                         <td>
@@ -687,7 +710,7 @@
                            value=""/>
                     <!-- 定义一个隐藏的input，用于传值 -->
                     <div class="alert alert-warning">
-                        请确认要删除选中的压测脚本吗？
+                        请确认要删除选中的压测脚本吗？它所包含的压测结果也将被删除！
                     </div>
                     <div class="alert alert-danger">
                         <p id="script_introduce_d"></p>
@@ -704,6 +727,80 @@
                         <button type="submit" class="default btn btn-primary hide-xs">
                             <i class="fa fa-trash-o"></i>
                             删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 运行压测脚本模态框 -->
+<div class="modal fade" id="debugPerformance" tabindex="-1" role="dialog"
+     aria-labelledby="debugPerformanceLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="debugPerformanceLabel">运行压测脚本</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/performance_debug/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="performance_id_b"
+                           name="form_performance_id_b"
+                           value="">
+                    <!-- 定义一个隐藏的input，用于传值 -->
+                    <div class="form-container row clearfix">
+                        <div id="column-0"
+                             class="column form-column main col col-sm-12 form-horizontal">
+                            <div class="panel panel-default fieldset" id="box-0">
+                                <div class="panel-heading">
+                                    <i class='icon fa fa-chevron-up chevron'></i>
+                                    <h3 class="panel-title">压测信息部分</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div id="div_id_script_introduce" class="value form-group row">
+                                        <div class="control-label">脚本简介</div>
+                                        <div class="controls">
+                                            <p id="script_introduce_b" class="form-control-static "></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_jmeter_script" class="value form-group row">
+                                        <div class="control-label">压测脚本</div>
+                                        <div class="controls">
+                                            <input type="text" class="text-field admintextinputwidget form-control"
+                                                   id="jmeter_script_b" name="form_jmeter_script_b"
+                                                   readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div id="div_id_sample_number" class="value form-group row">
+                                        <div class="control-label">请求数</div>
+                                        <div class="controls">
+                                            <p id="sample_number_b" class="form-control-static "></p>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_duration" class="value form-group row">
+                                        <div class="control-label">持续时间</div>
+                                        <div class="controls">
+                                            <p id="duration_b" class="form-control-static "></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-location-arrow"></i>
+                            运行
                         </button>
                     </div>
                 </form>
@@ -757,6 +854,23 @@
     //向删除模态框传递压测脚本id
 </script>
 
+<script>
+    function debugPerformanceId(ID, NAME, JMX, NUMBER, TIME) {
+        $('#performance_id_b').val(ID);
+        $('#script_introduce_b').html(NAME);
+        $('#jmeter_script_b').val(JMX);
+        $('#sample_number_b').html(NUMBER);
+        $('#duration_b').html(TIME);
+        console.log(ID);
+        console.log(NAME);
+        console.log(JMX);
+        console.log(NUMBER);
+        console.log(TIME);
+    }
+
+    //向运行模态框传递压测脚本id
+</script>
+
 <!-- 二次确认弹窗 -->
 <script>
     $(function () {
@@ -783,6 +897,14 @@
                 alert('嘿，确认删除压测脚本吗？');
             });
         $('#deletePerformance .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+        $('#debugPerformance .btn-primary').on('click',
+            function () {
+                alert('嘿，确认运行压测脚本吗？');
+            });
+        $('#debugPerformance .btn-info').on('click',
             function () {
                 alert('嘿，确认取消吗？');
             });

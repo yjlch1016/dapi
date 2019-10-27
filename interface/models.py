@@ -286,3 +286,50 @@ class PerformanceInfo(models.Model):
 
     def __str__(self):
         return self.script_introduce
+
+    def run_sum(self):
+        # 运行次数
+        return self.scripts.all().count()
+
+    # 利用外键反向统计语句
+
+    run_sum.short_description = '<span style="color: red">运行次数</span>'
+    run_sum.allow_tags = True
+
+
+class PerformanceResultInfo(models.Model):
+    # 压测结果表
+
+    script_result = models.ForeignKey(
+        PerformanceInfo, on_delete=models.CASCADE,
+        verbose_name="压测脚本", related_name="scripts",
+        help_text="请选择压测脚本")
+    # 外键，关联压测脚本id
+    test_report = models.CharField(
+        max_length=100, verbose_name="测试报告",
+        blank=True, null=True,
+        help_text="测试报告")
+    # 测试报告
+    jtl = models.CharField(
+        max_length=100, verbose_name="jtl文件",
+        blank=True, null=True,
+        help_text="jtl文件")
+    # jtl文件
+    dashboard_report = models.CharField(
+        max_length=100, verbose_name="Dashboard Report文件",
+        blank=True, null=True,
+        help_text="Dashboard Report文件")
+    # Dashboard Report文件
+    run_time = models.DateTimeField(
+        auto_now_add=True, blank=True, null=True, verbose_name="运行时间")
+
+    # 运行时间
+
+    class Meta:
+        db_table = 'performance_result_info'
+
+        verbose_name = '压测结果列表'
+        verbose_name_plural = "压测结果列表"
+
+    def __str__(self):
+        return self.test_report

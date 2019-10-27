@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 from time import sleep
 
 import demjson
@@ -18,7 +19,8 @@ from django_celery_results.models import TaskResult
 from rest_framework import viewsets
 
 from dapi import settings
-from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo
+from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo, \
+    PerformanceResultInfo
 from interface.serializers import ProductInfoSerializer, ModuleInfoSerializer, CaseGroupInfoSerializer, \
     InterfaceInfoSerializer
 
@@ -776,6 +778,67 @@ class DeletePerformanceView(LoginRequiredMixin, View):
         # 删除旧的脚本的父目录
 
         return redirect('/performance/')
+
+
+class DebugPerformanceView(LoginRequiredMixin, View):
+    """运行压测脚本"""
+
+    # 当前工程的路径：/Users/yangjianliang/PycharmProjects/dapi
+    # shell命令是在这个目录下执行的
+    # 命令：jmeter -n -t jmx脚本 -l jtl文件 -e -o 测试报告目录
+
+    def post(self, request):
+        performance_id = request.POST.get('form_performance_id_b', '')
+        # 脚本id
+        jmeter_script = request.POST.get('form_jmeter_script_b', '')
+        # 脚本的相对路径
+
+        prefix = re.findall("(.*).jmx", jmeter_script)[0]
+        time = datetime.now().strftime("%Y%m%d%H%M%S")
+        jmx = "media/" + jmeter_script
+        jtl = "media/" + prefix + time + ".jtl"
+        report = "media/" + prefix + time + "report"
+
+        command = "jmeter -n -t " + jmx + " -l " + jtl + " -e -o " + report
+
+        subprocess.run(command, shell=True)
+
+        PerformanceResultInfo.objects.create(
+            script_result_id=performance_id,
+            test_report=report + "/index.html",
+            jtl=jtl,
+            dashboard_report=report,
+        )
+
+        return redirect('/performance/')
+
+
+class PerformanceResultListView(LoginRequiredMixin, View):
+    """压测结果列表"""
+
+    def get(self, request):
+        user_name = request.session.get('user', '')
+        performance_result_list = PerformanceResultInfo.objects.all().order_by("id")
+        performance_result_count = PerformanceResultInfo.objects.all().count()
+
+        paginator = Paginator(performance_result_list, 10)
+        page = request.GET.get('page', 1)
+        try:
+            pr_list = paginator.page(page)
+        except PageNotAnInteger:
+            pr_list = paginator.page(1)
+        except EmptyPage:
+            pr_list = paginator.page(paginator.num_pages)
+
+        return render(
+            request,
+            "performance_result.html",
+            {
+                "user": user_name,
+                "pr_list": pr_list,
+                "pr_count": performance_result_count,
+            }
+        )
 
 
 class IntervalScheduleListView(LoginRequiredMixin, View):
