@@ -29,7 +29,8 @@ from interface.views import ModuleListView, AddModuleView, UpdateModuleView, Del
     UpdateIntervalScheduleView, DeleteIntervalScheduleView, CrontabScheduleListView, AddCrontabScheduleView, \
     UpdateCrontabScheduleView, DeleteCrontabScheduleView, PeriodicTaskListView, TaskResultListView, AddPeriodicTaskView, \
     DeletePeriodicTaskView, UpdatePeriodicTaskView, DeleteTaskResultView, PerformanceListView, AddPerformanceView, \
-    UpdatePerformanceView, DeletePerformanceView, DebugPerformanceView, PerformanceResultListView
+    UpdatePerformanceView, DeletePerformanceView, DebugPerformanceView, PerformanceResultListView, \
+    DeletePerformanceResultView
 
 router = routers.DefaultRouter()
 router.register('product_info', views.ProductInfoViewSet)
@@ -92,6 +93,8 @@ urlpatterns = [
 
     path('performance_result/', PerformanceResultListView.as_view(),
          name='performance_result'),
+    path('performance_result_delete/', DeletePerformanceResultView.as_view(),
+         name='performance_result_delete'),
     # 压测结果路由
 
     path('interval_schedule/', IntervalScheduleListView.as_view(),

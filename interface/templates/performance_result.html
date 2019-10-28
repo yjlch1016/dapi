@@ -396,7 +396,11 @@
                                href="/{{ i.jtl }}">下载</a>
                         </td>
                         <td>
-                            <a class="icon fa fa-times" style="color: blue">删除</a>
+                            <a class="icon fa fa-times" style="color: blue"
+                               data-toggle="modal"
+                               href="#deletePerformanceResult"
+                               onclick="getPerformanceResultId({{ i.id }}, '{{ i.test_report }}', '{{ i.jtl }}', '{{ i.dashboard_report }}')">删除</a>
+                            <!-- 点击会触发删除压测结果模态框 -->
                         </td>
                     </tr>
                 {% endfor %}
@@ -428,12 +432,91 @@
     </div>
 </div>
 
+<!-- 删除压测结果模态框 -->
+<div class="modal fade" id="deletePerformanceResult"
+     tabindex="-1" role="dialog"
+     aria-labelledby="deletePerformanceResultLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deletePerformanceResultLabel">删除压测结果</h4>
+            </div>
+            <div class="modal-body">
+
+                <form action="/performance_result_delete/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           id="result_id_d"
+                           name="form_result_id_d"
+                           value="">
+                    <input type="hidden"
+                           id="jtl_d"
+                           name="form_jtl_d"
+                           value="">
+                    <input type="hidden"
+                           id="dashboard_report_d"
+                           name="form_dashboard_report_d"
+                           value="">
+                    <!-- 定义3个隐藏的input，用于传值 -->
+                    <div class="alert alert-warning">
+                        请确认要删除选中的压测结果吗？
+                    </div>
+                    <div class="alert alert-danger">
+                        <p id="test_report_d"></p>
+                    </div>
+                    <div class="form-actions well well-sm">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">
+                            <i class="fa fa-undo"></i>
+                            取消
+                        </button>
+                        <button type="submit" class="default btn btn-primary hide-xs">
+                            <i class="fa fa-trash-o"></i>
+                            删除
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="footer">
     <hr/>
     <footer class="text-center">
         <p>测试部门</p>
     </footer>
 </div>
+
+<script>
+    function getPerformanceResultId(ID, INDEX, JTL, DASHBOARD) {
+        $('#result_id_d').val(ID);
+        $('#test_report_d').html(INDEX);
+        $('#jtl_d').val(JTL);
+        $('#dashboard_report_d').val(DASHBOARD);
+        console.log(ID);
+        console.log(INDEX);
+        console.log(JTL);
+        console.log(DASHBOARD);
+    }
+
+    //向删除模态框传递压测结果id
+</script>
+
+<!-- 二次确认弹窗 -->
+<script>
+    $(function () {
+        $('#deletePerformanceResult .btn-primary').on('click',
+            function () {
+                alert('嘿，确认删除压测结果吗？');
+            });
+        $('#deletePerformanceResult .btn-info').on('click',
+            function () {
+                alert('嘿，确认取消吗？');
+            });
+    });
+</script>
 
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>

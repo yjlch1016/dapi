@@ -1,5 +1,6 @@
 import os
 import re
+import shutil
 import subprocess
 from time import sleep
 
@@ -752,9 +753,9 @@ class UpdatePerformanceView(LoginRequiredMixin, View):
             parent_path = os.path.dirname(old_path)
             # 获取旧的脚本的父目录
             os.remove(old_path)
-            # 删除旧的脚本
+            # os.remove()删除旧的脚本
             os.rmdir(parent_path)
-            # 删除旧的脚本的父目录
+            # os.rmdir()删除旧的脚本的父目录，目录为空
 
         return redirect('/performance/')
 
@@ -839,6 +840,30 @@ class PerformanceResultListView(LoginRequiredMixin, View):
                 "pr_count": performance_result_count,
             }
         )
+
+
+class DeletePerformanceResultView(LoginRequiredMixin, View):
+    """删除压测结果"""
+
+    def post(self, request):
+        result_id = request.POST.get('form_result_id_d', '')
+        jtl = request.POST.get('form_jtl_d', '')
+        dashboard = request.POST.get('form_dashboard_report_d', '')
+
+        PerformanceResultInfo.objects.filter(id=result_id).delete()
+
+        jtl_path = jtl.replace("media/", "")
+        dashboard_path = dashboard.replace("media/", "")
+        # 去除前面的"media/"
+        jtl_path_absolute = os.path.join(settings.MEDIA_ROOT, jtl_path)
+        dashboard_path_absolute = os.path.join(settings.MEDIA_ROOT, dashboard_path)
+        # 获取jtl与dashboard的绝对路径
+        os.remove(jtl_path_absolute)
+        shutil.rmtree(dashboard_path_absolute)
+        # 删除jtl与dashboard
+        # shutil.rmtree()删除目录，不论目录是否为空
+
+        return redirect('/performance_result/')
 
 
 class IntervalScheduleListView(LoginRequiredMixin, View):
