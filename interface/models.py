@@ -308,8 +308,8 @@ class PerformanceResultInfo(models.Model):
     test_report = models.CharField(
         max_length=100, verbose_name="测试报告",
         blank=True, null=True,
-        help_text="测试报告")
-    # 测试报告
+        help_text="测试报告", db_index=True)
+    # 测试报告，并创建索引
     jtl = models.CharField(
         max_length=100, verbose_name="jtl文件",
         blank=True, null=True,
