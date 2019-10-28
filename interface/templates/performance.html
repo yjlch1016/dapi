@@ -779,13 +779,17 @@
                                     <div id="div_id_sample_number" class="value form-group row">
                                         <div class="control-label">请求数</div>
                                         <div class="controls">
-                                            <p id="sample_number_b" class="form-control-static "></p>
+                                            <input type="number" class="numberinput form-control"
+                                                   id="sample_number_b" name="form_sample_number_b"
+                                                   readonly="readonly" style="width: auto">
                                         </div>
                                     </div>
                                     <div id="div_id_duration" class="value form-group row">
                                         <div class="control-label">持续时间</div>
                                         <div class="controls">
-                                            <p id="duration_b" class="form-control-static "></p>
+                                            <input type="number" class="numberinput form-control"
+                                                   id="duration_b" name="form_duration_b"
+                                                   readonly="readonly" style="width: auto">
                                         </div>
                                     </div>
                                 </div>
@@ -859,8 +863,8 @@
         $('#performance_id_b').val(ID);
         $('#script_introduce_b').html(NAME);
         $('#jmeter_script_b').val(JMX);
-        $('#sample_number_b').html(NUMBER);
-        $('#duration_b').html(TIME);
+        $('#sample_number_b').val(NUMBER);
+        $('#duration_b').val(TIME);
         console.log(ID);
         console.log(NAME);
         console.log(JMX);

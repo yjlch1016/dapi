@@ -786,13 +786,18 @@ class DebugPerformanceView(LoginRequiredMixin, View):
 
     # 当前工程的路径：/Users/yangjianliang/PycharmProjects/dapi
     # shell命令是在这个目录下执行的
-    # 命令：jmeter -n -t jmx脚本 -l jtl文件 -e -o 测试报告目录
+    # 不传递参数的命令：jmeter -n -t jmx脚本 -l jtl文件 -e -o 测试报告目录
+    # 传递参数的命令：jmeter -J线程数变量名=值1 -J持续时间变量名=值2 -n -t jmx脚本 -l jtl文件 -e -o 测试报告目录
 
     def post(self, request):
         performance_id = request.POST.get('form_performance_id_b', '')
         # 脚本id
         jmeter_script = request.POST.get('form_jmeter_script_b', '')
         # 脚本的相对路径
+        sample_number = request.POST.get('form_sample_number_b', '')
+        # 线程数
+        duration = request.POST.get('form_duration_b', '')
+        # 持续时间
 
         prefix = re.findall("(.*).jmx", jmeter_script)[0]
         time = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -800,7 +805,7 @@ class DebugPerformanceView(LoginRequiredMixin, View):
         jtl = "media/" + prefix + time + ".jtl"
         report = "media/" + prefix + time + "report"
 
-        command = "jmeter -n -t " + jmx + " -l " + jtl + " -e -o " + report
+        command = "jmeter" + " -JthreadNumber=" + sample_number + " -JcontinueTime=" + duration + " -n -t " + jmx + " -l " + jtl + " -e -o " + report
 
         subprocess.run(command, shell=True)
 
@@ -810,6 +815,7 @@ class DebugPerformanceView(LoginRequiredMixin, View):
             jtl=jtl,
             dashboard_report=report,
         )
+        # 向压测结果表插入一条数据
 
         return redirect('/performance/')
 
