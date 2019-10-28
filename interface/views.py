@@ -822,6 +822,12 @@ class PerformanceResultListView(LoginRequiredMixin, View):
         performance_result_list = PerformanceResultInfo.objects.all().order_by("id")
         performance_result_count = PerformanceResultInfo.objects.all().count()
 
+        search_performance_result = request.GET.get("form_test_report_s", "")
+        # 搜索压测结果
+        if search_performance_result:
+            performance_result_list = performance_result_list.filter(test_report__icontains=search_performance_result)
+            performance_result_count = performance_result_list.count()
+
         paginator = Paginator(performance_result_list, 10)
         page = request.GET.get('page', 1)
         try:

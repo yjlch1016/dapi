@@ -325,6 +325,26 @@
             </li>
         </ul>
 
+        <div class="navbar content-navbar navbar-default navbar-xs">
+
+            <div class="navbar-collapse collapse">
+
+                <form class="navbar-form navbar-left" method="get">
+                    {% csrf_token %}
+                    <div class="input-group search-group">
+                        <input id="searchbar" class="form-control" type="text"
+                               name="form_test_report_s" value=""
+                               placeholder="测试报告" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search">搜索压测结果</i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="results table-responsive">
 
             <table class="table table-bordered table-striped table-hover">
