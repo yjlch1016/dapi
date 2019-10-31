@@ -61,7 +61,20 @@ def bar_base() -> Bar:
         .add_yaxis("未运行", ["", "", "", not_run])
         .set_colors(["blue", "green", "red", "purple"])
         .set_global_opts(
-            title_opts=opts.TitleOpts(title="测试报告", subtitle="接口测试报告_柱状图"))
+            title_opts=opts.TitleOpts(title="接口测试报告_柱状图"),
+            yaxis_opts=opts.AxisOpts(name="Y轴（数量）"),
+            xaxis_opts=opts.AxisOpts(name="X轴（模块）"),
+            toolbox_opts=opts.ToolboxOpts()
+        )
+        .set_series_opts(
+            markpoint_opts=opts.MarkPointOpts(
+                data=[
+                    opts.MarkPointItem(type_="max", name="最大值"),
+                    opts.MarkPointItem(type_="min", name="最小值"),
+                    opts.MarkPointItem(type_="average", name="平均值"),
+                ]
+            ),
+        )
         .dump_options_with_quotes()
     )
     return c
@@ -79,7 +92,9 @@ def pie_base() -> Pie:
         .add("", [list(z) for z in zip(v1, v2)])
         .set_colors(["green", "red", "purple"])
         .set_global_opts(
-            title_opts=opts.TitleOpts(title="测试报告", subtitle="接口测试报告_饼状图"))
+            title_opts=opts.TitleOpts(title="接口测试报告_饼状图"),
+            toolbox_opts=opts.ToolboxOpts()
+        )
         .set_series_opts(
             label_opts=opts.LabelOpts(formatter="{b}" + "率" + ": {c}%"))
         .dump_options_with_quotes()
