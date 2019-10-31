@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from rest_framework.views import APIView
 
-from pyecharts.charts import Bar
+from pyecharts.charts import Bar, Pie
 from pyecharts import options as opts
 
 from interface.models import ProductInfo, ModuleInfo, CaseGroupInfo, InterfaceInfo
@@ -42,16 +42,16 @@ def json_error(error_string="error", code=500, **kwargs):
 JsonResponse = json_response
 JsonError = json_error
 
+product_count = ProductInfo.objects.all().count()
+module_count = ModuleInfo.objects.all().count()
+case_group_count = CaseGroupInfo.objects.all().count()
+total = InterfaceInfo.objects.all().count()
+success = InterfaceInfo.objects.filter(pass_status=1).count()
+fail = InterfaceInfo.objects.filter(pass_status=0).count()
+not_run = InterfaceInfo.objects.filter(pass_status=None).count()
+
 
 def bar_base() -> Bar:
-    product_count = ProductInfo.objects.all().count()
-    module_count = ModuleInfo.objects.all().count()
-    case_group_count = CaseGroupInfo.objects.all().count()
-    total = InterfaceInfo.objects.all().count()
-    success = InterfaceInfo.objects.filter(pass_status=1).count()
-    fail = InterfaceInfo.objects.filter(pass_status=0).count()
-    not_run = InterfaceInfo.objects.filter(pass_status=None).count()
-
     c = (
         Bar()
         .add_xaxis(["产品线", "模块", "用例组", "用例"])
@@ -59,16 +59,42 @@ def bar_base() -> Bar:
         .add_yaxis("通过", ["", "", "", success])
         .add_yaxis("不通过", ["", "", "", fail])
         .add_yaxis("未运行", ["", "", "", not_run])
+        .set_colors(["blue", "green", "red", "purple"])
         .set_global_opts(
-            title_opts=opts.TitleOpts(title="测试报告", subtitle="接口测试报告"))
+            title_opts=opts.TitleOpts(title="测试报告", subtitle="接口测试报告_柱状图"))
         .dump_options_with_quotes()
     )
     return c
 
 
-class ChartView(APIView):
+def pie_base() -> Pie:
+    success_percentage = "%.2f" % (success / total * 100)
+    fail_percentage = "%.2f" % (fail / total * 100)
+    not_run_percentage = "%.2f" % (not_run / total * 100)
+    v1 = ["通过", "不通过", "未运行"]
+    v2 = [success_percentage, fail_percentage, not_run_percentage]
+
+    c = (
+        Pie()
+        .add("", [list(z) for z in zip(v1, v2)])
+        .set_colors(["green", "red", "purple"])
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="测试报告", subtitle="接口测试报告_饼状图"))
+        .set_series_opts(
+            label_opts=opts.LabelOpts(formatter="{b}" + "率" + ": {c}%"))
+        .dump_options_with_quotes()
+    )
+    return c
+
+
+class BarChartView(APIView):
     def get(self, request, *args, **kwargs):
         return JsonResponse(json.loads(bar_base()))
+
+
+class PieBarChartView(APIView):
+    def get(self, request, *args, **kwargs):
+        return JsonResponse(json.loads(pie_base()))
 
 
 class IndexView(LoginRequiredMixin, APIView):

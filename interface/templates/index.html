@@ -96,7 +96,7 @@
                         <i class="fa-fw fa fa-linux"></i>
                         用例组列表
                     </a>
-                    <a href="/interface/" class="list-group-item">
+                    <a href="/interface" class="list-group-item">
                         <i class="fa-fw fa fa-windows"></i>
                         用例列表
                     </a>
@@ -214,7 +214,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/interface/">
+                        <a href="/interface">
                             <i class="fa-fw fa fa-windows"></i>
                             用例列表
                         </a>
@@ -301,7 +301,10 @@
             <li>接口测试报告</li>
         </ul>
 
-        <div id="bar" style="width:800px; height:400px;">
+        <div id="bar" style="width:900px; height:500px;">
+        </div>
+
+        <div id="pie" style="width:900px; height:500px;">
         </div>
     </div>
 
@@ -315,21 +318,42 @@
 </div>
 
 <script>
-    var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+    var chart_bar = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
 
     $(
         function () {
-            fetchData(chart);
+            fetchDataBar(chart_bar);
         }
     );
 
-    function fetchData() {
+    function fetchDataBar() {
         $.ajax({
             type: "GET",
             url: "/pyecharts/bar/",
             dataType: 'json',
             success: function (result) {
-                chart.setOption(result.data);
+                chart_bar.setOption(result.data);
+            }
+        });
+    }
+</script>
+
+<script>
+    var chart_pie = echarts.init(document.getElementById('pie'), 'white', {renderer: 'canvas'});
+
+    $(
+        function () {
+            fetchDataPie(chart_pie);
+        }
+    );
+
+    function fetchDataPie() {
+        $.ajax({
+            type: "GET",
+            url: "/pyecharts/pie/",
+            dataType: 'json',
+            success: function (result) {
+                chart_pie.setOption(result.data);
             }
         });
     }

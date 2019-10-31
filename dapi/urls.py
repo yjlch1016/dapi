@@ -133,7 +133,7 @@ urlpatterns = [
          name='result_delete'),
     # 任务结果路由
 
-    url('^pyecharts/', include('interface.urls'))
+    url('^pyecharts/', include('interface.urls')),
     # pyecharts路由
 ]
 
