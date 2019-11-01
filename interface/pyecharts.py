@@ -81,22 +81,52 @@ def bar_base() -> Bar:
 
 
 def pie_base() -> Pie:
-    success_percentage = "%.2f" % (success / total * 100)
-    fail_percentage = "%.2f" % (fail / total * 100)
-    not_run_percentage = "%.2f" % (not_run / total * 100)
     v1 = ["通过", "不通过", "未运行"]
-    v2 = [success_percentage, fail_percentage, not_run_percentage]
+    v2 = [success, fail, not_run]
 
     c = (
         Pie()
-        .add("", [list(z) for z in zip(v1, v2)])
+        .add(
+            "",
+            [list(z) for z in zip(v1, v2)],
+            radius=["40%", "60%"],
+            label_opts=opts.LabelOpts(
+                position="outside",
+                formatter="{a|{a}}{abg|}\n{hr|}\n {b|{b}: }{c}  {per|{d}%}  ",
+                background_color="#eee",
+                border_color="#aaa",
+                border_width=1,
+                border_radius=4,
+                rich={
+                    "a": {"color": "#999", "lineHeight": 22, "align": "center"},
+                    "abg": {
+                        "backgroundColor": "#e3e3e3",
+                        "width": "100%",
+                        "align": "right",
+                        "height": 22,
+                        "borderRadius": [4, 4, 0, 0],
+                    },
+                    "hr": {
+                        "borderColor": "#aaa",
+                        "width": "100%",
+                        "borderWidth": 0.5,
+                        "height": 0,
+                    },
+                    "b": {"fontSize": 16, "lineHeight": 33},
+                    "per": {
+                        "color": "#eee",
+                        "backgroundColor": "#334455",
+                        "padding": [2, 4],
+                        "borderRadius": 2,
+                    },
+                },
+            ),
+        )
         .set_colors(["green", "red", "purple"])
         .set_global_opts(
             title_opts=opts.TitleOpts(title="接口测试报告_饼状图"),
             toolbox_opts=opts.ToolboxOpts()
         )
-        .set_series_opts(
-            label_opts=opts.LabelOpts(formatter="{b}" + "率" + ": {c}%"))
         .dump_options_with_quotes()
     )
     return c
