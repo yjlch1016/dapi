@@ -1,6 +1,12 @@
 FROM registry.cn-hangzhou.aliyuncs.com/yangjianliang/django_xadmin:0.0.1
 # 基础镜像
 
+RUN apt-get update && \
+	apt-get install -y \
+	nginx \
+	supervisor
+# 安装nginx与supervisor
+
 COPY deploy_conf/nginx-app.conf /etc/nginx/sites-available/default
 COPY deploy_conf/supervisor-app.conf /etc/supervisor/conf.d/
 # 复制配置文件
