@@ -93,7 +93,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dapi',
-        'HOST': '192.168.1.102',
+        'HOST': '192.168.1.101',
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': 'Abcdef@123456',
@@ -148,24 +148,37 @@ STATICFILES_DIRS = (
 # 静态文件的目录
 
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'level': 'DEBUG',
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django.db.backends': {
-#             'handlers': ['console'],
-#             'propagate': True,
-#             'level': 'DEBUG',
-#         },
-#     }
-# }
-# 打印日志
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    'formatters': {
+        'default': {
+            'level': 'INFO',
+            'format': '[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d]%(message)s',
+            'encoding': 'utf-8',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+        },
+        'default': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['default'],
+            'level': 'INFO',
+            'propagate': True
+        }
+    }
+}
+# 日志配置
 
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
@@ -188,7 +201,7 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 # 使用亚洲/上海时区
 DJANGO_CELERY_BEAT_TZ_AWARE = False
 # 解决时区问题
-CELERY_BROKER_URL = 'redis://:Abcdef@123456@192.168.1.102:6379/0'
+CELERY_BROKER_URL = 'redis://:Abcdef@123456@192.168.1.101:6379/0'
 # redis://:password@hostname:port/db_number
 CELERY_BROKER_TRANSPORT = 'redis'
 # 使用redis作为中间件

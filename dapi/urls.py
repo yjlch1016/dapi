@@ -15,13 +15,12 @@ Including another URLconf
 """
 import xadmin
 from django.conf import settings
-from django.conf.urls import url
 from django.conf.urls.static import static
 
 from django.urls import path, include
 from rest_framework import routers
 
-from interface import views
+from interface import views, pyecharts_views
 from interface.views import ModuleListView, AddModuleView, UpdateModuleView, DeleteModuleView, CaseGroupListView, \
     InterfaceListView, AddCaseGroupView, DeleteCaseGroupView, UpdateCaseGroupView, ProductListView, AddProductView, \
     UpdateProductView, DeleteProductView, AddInterfaceView, DeleteInterfaceView, UpdateInterfaceView, \
@@ -133,7 +132,9 @@ urlpatterns = [
          name='result_delete'),
     # 任务结果路由
 
-    url('^pyecharts/', include('interface.urls')),
+    path('pyecharts/bar/', pyecharts_views.BarChartView.as_view(), name='pyecharts'),
+    path('pyecharts/pie/', pyecharts_views.PieBarChartView.as_view(), name='pyecharts'),
+    path('pyecharts/index/', pyecharts_views.IndexView.as_view(), name='pyecharts'),
     # pyecharts路由
 ]
 

@@ -54,19 +54,19 @@ not_run = InterfaceInfo.objects.filter(pass_status=None).count()
 def bar_base() -> Bar:
     c = (
         Bar()
-        .add_xaxis(["产品线", "模块", "用例组", "用例"])
-        .add_yaxis("总共", [product_count, module_count, case_group_count, total])
-        .add_yaxis("通过", ["", "", "", success])
-        .add_yaxis("不通过", ["", "", "", fail])
-        .add_yaxis("未运行", ["", "", "", not_run])
-        .set_colors(["blue", "green", "red", "purple"])
-        .set_global_opts(
+            .add_xaxis(["产品线", "模块", "用例组", "用例"])
+            .add_yaxis("总共", [product_count, module_count, case_group_count, total])
+            .add_yaxis("通过", ["", "", "", success])
+            .add_yaxis("不通过", ["", "", "", fail])
+            .add_yaxis("未运行", ["", "", "", not_run])
+            .set_colors(["blue", "green", "red", "purple"])
+            .set_global_opts(
             title_opts=opts.TitleOpts(title="接口测试报告_柱状图"),
             yaxis_opts=opts.AxisOpts(name="Y轴（数量）"),
             xaxis_opts=opts.AxisOpts(name="X轴（模块）"),
             toolbox_opts=opts.ToolboxOpts()
         )
-        .set_series_opts(
+            .set_series_opts(
             markpoint_opts=opts.MarkPointOpts(
                 data=[
                     opts.MarkPointItem(type_="max", name="最大值"),
@@ -75,7 +75,7 @@ def bar_base() -> Bar:
                 ]
             ),
         )
-        .dump_options_with_quotes()
+            .dump_options_with_quotes()
     )
     return c
 
@@ -86,7 +86,7 @@ def pie_base() -> Pie:
 
     c = (
         Pie()
-        .add(
+            .add(
             "",
             [list(z) for z in zip(v1, v2)],
             radius=["40%", "60%"],
@@ -122,12 +122,12 @@ def pie_base() -> Pie:
                 },
             ),
         )
-        .set_colors(["green", "red", "purple"])
-        .set_global_opts(
+            .set_colors(["green", "red", "purple"])
+            .set_global_opts(
             title_opts=opts.TitleOpts(title="接口测试报告_饼状图"),
             toolbox_opts=opts.ToolboxOpts()
         )
-        .dump_options_with_quotes()
+            .dump_options_with_quotes()
     )
     return c
 
