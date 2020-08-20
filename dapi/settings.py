@@ -24,6 +24,7 @@ SECRET_KEY = '9mkd&j25j(4fivilcj(po=$6co4r1pv2iwxt1&xnte*vd=uz(9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# 生产环境应该改为False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -42,20 +43,31 @@ INSTALLED_APPS = [
     'crispy_forms',
     # django-xadmin
 
-    'import_export',
-    # django-import-export
-
-    'rest_framework',
-    # django-rest-framework
-
     'django_celery_beat',
     # django-celery-beat
 
     'django_celery_results',
     # django-celery-results
+
+    'rest_framework',
+    # django-rest-framework
+
+    'import_export',
+    # django-import-export
+
+    'drf_yasg',
+    # drf-yasg
+
+    'silk',
+    # django-silk
+
+    'debug_toolbar',
+    # django-debug-toolbar
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -63,6 +75,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'silk.middleware.SilkyMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'dapi.urls'
@@ -141,11 +156,16 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 # 静态文件的目录
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# 媒体文件的目录
 
 
 LOGGING = {
@@ -181,27 +201,13 @@ LOGGING = {
 # 日志配置
 
 
-IMPORT_EXPORT_USE_TRANSACTIONS = True
-# 在导入数据时使用数据库事务，默认False
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
-    # django-rest-framework分页
-}
-
-LOGIN_URL = '/login/'
-# 设置默认的登录路由
-
-
 CELERY_ENABLE_UTC = False
 # 不使用国际标准时间
 CELERY_TIMEZONE = 'Asia/Shanghai'
 # 使用亚洲/上海时区
 DJANGO_CELERY_BEAT_TZ_AWARE = False
 # 解决时区问题
-CELERY_BROKER_URL = 'redis://:Abcdef@123456@192.168.1.101:6379/0'
+CELERY_BROKER_URL = 'redis://:Abcdef@123456@localhost:6379/0'
 # redis://:password@hostname:port/db_number
 CELERY_BROKER_TRANSPORT = 'redis'
 # 使用redis作为中间件
@@ -217,6 +223,39 @@ CELERY_RESULT_SERIALIZER = 'json'
 # 设置结果序列化方式
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# 定义文件存放的目录
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+            "SOCKET_CONNECT_TIMEOUT": 5,
+            "SOCKET_TIMEOUT": 5,
+            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+            "IGNORE_EXCEPTIONS": True,
+        }
+    }
+}
+# django-redis配置
+
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+# 在导入数据时使用数据库事务，默认False
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+# django-rest-framework配置
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+# django-debug-toolbar配置
+
+
+LOGIN_URL = '/login/'
+# 设置默认的登录路由

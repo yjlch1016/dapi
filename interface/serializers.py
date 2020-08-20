@@ -8,16 +8,7 @@ class ProductInfoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = ProductInfo
-        fields = (
-            'id',
-            'product_name',
-            'product_describe',
-            'product_manager',
-            'developer',
-            'tester',
-            'create_time',
-            'update_time',
-        )
+        fields = "__all__"
 
 
 class ModuleInfoSerializer(serializers.HyperlinkedModelSerializer):
@@ -31,7 +22,7 @@ class ModuleInfoSerializer(serializers.HyperlinkedModelSerializer):
         model = ModuleInfo
         fields = (
             'id',
-            'module_group_id',
+            'module_group',
             'product_name',
             'module_name',
             'module_describe',
@@ -45,13 +36,7 @@ class CaseGroupInfoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = CaseGroupInfo
-        fields = (
-            'id',
-            'case_group_name',
-            'case_group_describe',
-            'create_time',
-            'update_time',
-        )
+        fields = "__all__"
 
 
 class InterfaceInfoSerializer(serializers.HyperlinkedModelSerializer):
@@ -65,7 +50,7 @@ class InterfaceInfoSerializer(serializers.HyperlinkedModelSerializer):
         model = InterfaceInfo
         fields = (
             'id',
-            'case_group_id',
+            'case_group',
             'case_group_name',
             'case_name',
             'interface_url',

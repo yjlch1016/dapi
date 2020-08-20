@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import xadmin
+from django.contrib.auth.models import Group, User, Permission
 
 from django.utils.html import format_html
 from django_celery_beat.models import IntervalSchedule, CrontabSchedule, ClockedSchedule, SolarSchedule, PeriodicTask
@@ -9,6 +10,7 @@ from xadmin import views
 from xadmin.layout import Main, Fieldset, Side
 
 from django.apps import apps
+from xadmin.models import Log
 from xadmin.plugins.actions import BaseActionView
 from xadmin.plugins.batch import BatchChangeAction
 
@@ -729,6 +731,33 @@ class GlobalSetting(object):
                         'title': '任务结果列表',
                         'icon': 'fa fa-arrows-alt',
                         'url': self.get_model_url(TaskResult, 'changelist')
+                    },
+                )
+            },
+            {
+                'title': '后台管理',
+                'icon': 'fa fa-user',
+                'perm': self.get_model_perm(Group, 'change'),
+                'menus': (
+                    {
+                        'title': '组',
+                        'icon': 'fa fa-sun-o',
+                        'url': self.get_model_url(Group, 'changelist')
+                    },
+                    {
+                        'title': '用户',
+                        'icon': 'fa fa-moon-o',
+                        'url': self.get_model_url(User, 'changelist')
+                    },
+                    {
+                        'title': '权限',
+                        'icon': 'fa fa-weibo',
+                        'url': self.get_model_url(Permission, 'changelist')
+                    },
+                    {
+                        'title': '日志记录',
+                        'icon': 'fa fa-renren',
+                        'url': self.get_model_url(Log, 'changelist')
                     },
                 )
             },

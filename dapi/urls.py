@@ -15,10 +15,13 @@ Including another URLconf
 """
 import xadmin
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 
 from django.urls import path, include
-from rest_framework import routers
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import routers, permissions
 
 from interface import views, pyecharts_views
 from interface.views import ModuleListView, AddModuleView, UpdateModuleView, DeleteModuleView, CaseGroupListView, \
@@ -37,13 +40,31 @@ router.register('module_info', views.ModuleInfoViewSet)
 router.register('case_group_info', views.CaseGroupInfoViewSet)
 router.register('interface_info', views.InterfaceInfoViewSet)
 
+schema_view = get_schema_view(
+    openapi.Info(
+        title="自动化测试平台API",
+        default_version='v1',
+        description="自动化测试平台接口文档",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@snippets.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
     path('admin/', xadmin.site.urls),
     # 后台路由
 
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # API路由
+    # django-rest-framwork API路由
+
+    url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # drf-yasg路由
 
     path('login/', views.login),
     path('', views.login),
@@ -139,4 +160,13 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# 配置文件url转发
+# 配置媒体文件url转发
+
+urlpatterns += [url(r'^silk/', include('silk.urls', namespace='silk'))]
+# 配置django-silk路由
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [path('__debug__/', include(debug_toolbar.urls)), ] + urlpatterns
+# 配置django-debug-toolbar路由

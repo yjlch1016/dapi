@@ -1,4 +1,9 @@
-djangorestframework==3.10.2
+djangorestframework==3.11.0
+drf-yasg==1.17.1
+django-redis==4.12.1
+django-import-export==2.2.0
+django-silk==4.0.1
+django-debug-toolbar==2.2
 requests==2.23.0
 demjson==2.2.4
 celery==4.3.0

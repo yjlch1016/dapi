@@ -17,7 +17,7 @@ from django.utils.datetime_safe import datetime
 from django.views import View
 from django_celery_beat.models import IntervalSchedule, CrontabSchedule, PeriodicTask, PeriodicTasks
 from django_celery_results.models import TaskResult
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 
 from dapi import settings
 from interface.models import InterfaceInfo, ProductInfo, CaseGroupInfo, ModuleInfo, PerformanceInfo, \
@@ -30,27 +30,39 @@ from interface.serializers import ProductInfoSerializer, ModuleInfoSerializer, C
 
 
 class ProductInfoViewSet(viewsets.ModelViewSet):
-    """产品线表"""
-    queryset = ProductInfo.objects.all()
+    """
+    产品线表
+    """
+    queryset = ProductInfo.objects.all().order_by('id')
     serializer_class = ProductInfoSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ModuleInfoViewSet(viewsets.ModelViewSet):
-    """模块表"""
-    queryset = ModuleInfo.objects.all()
+    """
+    模块表
+    """
+    queryset = ModuleInfo.objects.all().order_by('id')
     serializer_class = ModuleInfoSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class CaseGroupInfoViewSet(viewsets.ModelViewSet):
-    """用例组表"""
-    queryset = CaseGroupInfo.objects.all()
+    """
+    用例组表
+    """
+    queryset = CaseGroupInfo.objects.all().order_by('id')
     serializer_class = CaseGroupInfoSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class InterfaceInfoViewSet(viewsets.ModelViewSet):
-    """用例表"""
-    queryset = InterfaceInfo.objects.all()
+    """
+    用例表
+    """
+    queryset = InterfaceInfo.objects.all().order_by('id')
     serializer_class = InterfaceInfoSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 def login(request):
